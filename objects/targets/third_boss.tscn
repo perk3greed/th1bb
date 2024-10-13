@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://bn0k3cxnn5ay1"]
+
+[ext_resource type="Script" path="res://third_boss.gd" id="1_l2rr8"]
+[ext_resource type="Texture2D" uid="uid://u7w5v0o1kyrr" path="res://textures/random/Anime-Cat-Transparent-Background.png" id="2_7isyk"]
+
+[node name="third_boss" type="Node2D"]
+script = ExtResource("1_l2rr8")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("2_7isyk")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D"]
+polygon = PackedVector2Array(-148, -127, -134, -57, -89, -1, -155, 141, 70, 135, 25, 1, 56, -95, 48, -137)
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

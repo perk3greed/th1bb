@@ -1,0 +1,133 @@
+[gd_scene load_steps=13 format=3 uid="uid://bhh6o2g40ltts"]
+
+[ext_resource type="Texture2D" uid="uid://btr5gh2ibl8t8" path="res://textures/backgrounds/starbackground_clrhft.png" id="1_11tan"]
+[ext_resource type="Script" path="res://game_over.gd" id="1_e0opt"]
+[ext_resource type="PackedScene" uid="uid://7n5hv8bu6tv6" path="res://player.tscn" id="2_xecjr"]
+[ext_resource type="PackedScene" uid="uid://bdkuewmky4lx" path="res://ball.tscn" id="3_5ekim"]
+[ext_resource type="Script" path="res://interfacemain.gd" id="4_hmkse"]
+[ext_resource type="Script" path="res://targets.gd" id="4_q84kf"]
+[ext_resource type="Texture2D" uid="uid://b2sdgvbdf3a5c" path="res://icon.svg" id="8_m144f"]
+[ext_resource type="Texture2D" uid="uid://1lcgh0axkefm" path="res://textures/player/player2d_48x48.png" id="9_rbvk7"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_mnedh"]
+distance = -719.0
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_kxevy"]
+normal = Vector2(-1, 0)
+distance = -960.0
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_jsrea"]
+normal = Vector2(1, 0)
+distance = -148.0
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_jyal0"]
+normal = Vector2(0, 1)
+distance = -5.0
+
+[node name="game" type="Node"]
+script = ExtResource("1_e0opt")
+
+[node name="2dworld" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="2dworld"]
+scale = Vector2(2, 1.13)
+texture = ExtResource("1_11tan")
+centered = false
+
+[node name="Camera2D" type="Camera2D" parent="2dworld"]
+position = Vector2(481, 362)
+
+[node name="player" parent="2dworld" instance=ExtResource("2_xecjr")]
+position = Vector2(550, 658)
+
+[node name="world_boundary" type="Node2D" parent="2dworld"]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="2dworld/world_boundary"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="2dworld/world_boundary/StaticBody2D"]
+shape = SubResource("WorldBoundaryShape2D_mnedh")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="2dworld/world_boundary/StaticBody2D"]
+shape = SubResource("WorldBoundaryShape2D_kxevy")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="2dworld/world_boundary/StaticBody2D"]
+position = Vector2(150, 0)
+shape = SubResource("WorldBoundaryShape2D_jsrea")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="2dworld/world_boundary/StaticBody2D"]
+position = Vector2(-35, 5)
+shape = SubResource("WorldBoundaryShape2D_jyal0")
+
+[node name="RigidBody2D" parent="2dworld" instance=ExtResource("3_5ekim")]
+position = Vector2(575, 475)
+
+[node name="targets" type="Node2D" parent="2dworld"]
+script = ExtResource("4_q84kf")
+
+[node name="interfacemain" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("4_hmkse")
+
+[node name="player_hit_rich" type="RichTextLabel" parent="interfacemain"]
+visible = false
+layout_mode = 0
+offset_left = 459.0
+offset_top = 571.0
+offset_right = 889.0
+offset_bottom = 687.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 9
+theme_override_font_sizes/normal_font_size = 65
+text = "ball hit you!"
+
+[node name="player_health" type="RichTextLabel" parent="interfacemain"]
+layout_mode = 0
+offset_left = 52.0
+offset_top = 565.0
+offset_right = 482.0
+offset_bottom = 681.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 9
+theme_override_font_sizes/normal_font_size = 65
+
+[node name="bossHP" type="RichTextLabel" parent="interfacemain"]
+layout_mode = 0
+offset_left = 839.0
+offset_top = 519.0
+offset_right = 918.0
+offset_bottom = 595.0
+theme_override_colors/font_outline_color = Color(0, 0, 0.960784, 1)
+theme_override_constants/outline_size = 7
+theme_override_font_sizes/normal_font_size = 65
+
+[node name="ItemList" type="ItemList" parent="interfacemain"]
+layout_mode = 0
+offset_left = 210.0
+offset_top = 115.0
+offset_right = 788.0
+offset_bottom = 459.0
+item_count = 2
+max_columns = 3
+item_0/text = "test 1 "
+item_0/icon = ExtResource("8_m144f")
+item_1/text = "test 2 "
+item_1/icon = ExtResource("9_rbvk7")
+
+[node name="CheckButton" type="CheckButton" parent="interfacemain/ItemList"]
+layout_mode = 0
+offset_left = 408.0
+offset_top = 313.0
+offset_right = 577.0
+offset_bottom = 344.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
+text = "immortal mode"
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="item_clicked" from="interfacemain/ItemList" to="interfacemain" method="_on_item_list_item_clicked"]
+[connection signal="timeout" from="Timer" to="interfacemain" method="_on_timer_timeout"]

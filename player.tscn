@@ -1,0 +1,68 @@
+[gd_scene load_steps=9 format=3 uid="uid://7n5hv8bu6tv6"]
+
+[ext_resource type="Script" path="res://player_movement.gd" id="1_3imes"]
+[ext_resource type="Texture2D" uid="uid://1lcgh0axkefm" path="res://textures/player/player2d_48x48.png" id="2_c3q4n"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_46bks"]
+size = Vector2(58, 46)
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_pk137"]
+blend_mode = 1
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_wfxp0"]
+size = Vector2(100, 120)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_h5dpr"]
+radius = 48.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_at4tq"]
+size = Vector2(85, 50)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4o4u0"]
+size = Vector2(85, 50)
+
+[node name="CharacterBody2D" type="CharacterBody2D" groups=["player"]]
+script = ExtResource("1_3imes")
+
+[node name="body" type="CollisionShape2D" parent="."]
+position = Vector2(1, 0)
+shape = SubResource("RectangleShape2D_46bks")
+
+[node name="debugsprite" type="Sprite2D" parent="."]
+visible = false
+self_modulate = Color(4.13924e-06, 0.481206, 0.612778, 1)
+material = SubResource("CanvasItemMaterial_pk137")
+texture = SubResource("PlaceholderTexture2D_wfxp0")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_c3q4n")
+
+[node name="overhead_attack" type="Area2D" parent="."]
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="overhead_attack"]
+visible = false
+position = Vector2(0, -25)
+shape = SubResource("CircleShape2D_h5dpr")
+debug_color = Color(0, 0.635294, 0.207843, 0.521569)
+
+[node name="left_slide_attack" type="Area2D" parent="."]
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="left_slide_attack"]
+visible = false
+position = Vector2(43, -2)
+shape = SubResource("RectangleShape2D_at4tq")
+debug_color = Color(0.956871, 0.119971, 0.43239, 0.42)
+
+[node name="right_slide_attack" type="Area2D" parent="."]
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="right_slide_attack"]
+visible = false
+position = Vector2(-43, -2)
+shape = SubResource("RectangleShape2D_4o4u0")
+
+[connection signal="body_entered" from="overhead_attack" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_entered" from="left_slide_attack" to="." method="_on_lest_slide_attack_body_entered"]
+[connection signal="body_entered" from="right_slide_attack" to="." method="_on_right_slide_attack_body_entered"]
