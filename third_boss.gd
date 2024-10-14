@@ -7,13 +7,9 @@ var health_points : int = 10
 var modulated_timer : float = 0
 var modulated_state : bool = false
 var this_boss_patter : Vector2 
-var combat_timer : int = 15
-var j : float 
 var bullet_counter : float
 
-var bullet_timer : float = 1 
-var bullet_projectile := preload("res://objects/bullet_default.tscn")
-var bullet_timing : float
+
 var rng = RandomNumberGenerator.new()
 
 var boss_movement_grid : Dictionary = {
@@ -33,11 +29,7 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
-	if j < 1:
-		j += 1*delta
-	elif j >= 1:
-		combat_timer += 1
-		j = 0
+
 
 	Events.boss_position = position
 	var player_pos : Vector2 = Events.player_position
@@ -45,8 +37,7 @@ func _process(delta: float) -> void:
 	var distance_to_player : Vector2 = player_pos - position
 	position.x += distance_to_player.x/60
 	
-	Events.current_pattern = (distance_to_player - Vector2(0,100)).normalized()
-	Events.bullet_speed = 5
+	Events.bullet_speed = 7
 	
 	
 	if modulated_state == true:

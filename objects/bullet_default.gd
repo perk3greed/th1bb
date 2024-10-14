@@ -1,18 +1,27 @@
 extends Node2D
 
-var movement_direction : Vector2 
 var life_long : float
 var pattern_snapshot : Vector2
+var pattern_transfered : Vector2
+var boss_snapshot
 
 signal player_hit_by_bullet 
 
 func _ready() -> void:
-	movement_direction = Vector2(0, 3)
+	boss_snapshot = Events.current_boss
 	pattern_snapshot = Events.current_pattern
+	print(Events.current_boss)
 
 func _physics_process(delta: float) -> void:
-	self.position += pattern_snapshot*Events.bullet_speed
 	
+	match Events.current_boss:
+		1:
+			pass
+		2:
+			self.position += pattern_snapshot*Events.bullet_speed
+		3:
+			self.position += pattern_transfered*Events.bullet_speed
+		
 
 func _process(delta: float) -> void:
 	life_long += 1*delta
