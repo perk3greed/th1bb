@@ -23,10 +23,6 @@ signal boss1testkilled
 
 
 
-func _ready() -> void:
-	Events.bullet_speed = 4
-
-
 
 func _process(delta: float) -> void:
 	if j < 1:
@@ -48,7 +44,6 @@ func _process(delta: float) -> void:
 	position.y += distance_to_ex/60 - y_axis_displacement/60
 	
 	Events.current_pattern = (distance_to_player - Vector2(0,100)).normalized()
-	Events.bullet_speed = 5
 	
 	
 	if modulated_state == true:

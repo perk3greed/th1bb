@@ -1,43 +1,40 @@
 extends Node2D
 
 
-var reached_left_border : bool = true
-var reached_right_border : bool = false
 var health_points : int = 10
 var modulated_timer : float = 0
 var modulated_state : bool = false
 var this_boss_patter : Vector2 
-var bullet_counter : float
-
+var current_position : int = 0
 
 var rng = RandomNumberGenerator.new()
 
 var boss_movement_grid : Dictionary = {
 	1 : Vector2(100,200),
-	2 : Vector2(100,200),
-	3 : Vector2(100,200)
+	2 : Vector2(300,400),
+	3 : Vector2(600,300)
 }
 
 signal target_hit
 signal boss1testkilled
 
 
-
 func _ready() -> void:
-	Events.bullet_speed = 4
+	Events.connect("third_boss_attack_finished", change_position)
 
+func change_position():
+	if current_position < 3:
+		current_position += 1
+		position = boss_movement_grid[current_position]
+	else :
+		current_position = 0
 
 
 func _process(delta: float) -> void:
-
-
+	
+	
 	Events.boss_position = position
-	var player_pos : Vector2 = Events.player_position
 	
-	var distance_to_player : Vector2 = player_pos - position
-	position.x += distance_to_player.x/60
-	
-	Events.bullet_speed = 7
 	
 	
 	if modulated_state == true:

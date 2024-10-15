@@ -4,24 +4,30 @@ var life_long : float
 var pattern_snapshot : Vector2
 var pattern_transfered : Vector2
 var boss_snapshot
+var bullet_speed : float
+var patter_real : Vector2
 
 signal player_hit_by_bullet 
 
 func _ready() -> void:
+	
 	boss_snapshot = Events.current_boss
 	pattern_snapshot = Events.current_pattern
-	print(Events.current_boss)
-
-func _physics_process(delta: float) -> void:
 	
 	match Events.current_boss:
 		1:
-			pass
+			print("i am rarted frfr")
 		2:
-			self.position += pattern_snapshot*Events.bullet_speed
+			patter_real = pattern_snapshot
 		3:
-			self.position += pattern_transfered*Events.bullet_speed
+			patter_real = pattern_transfered
+			print(pattern_transfered)
 		
+
+
+func _physics_process(delta: float) -> void:
+	
+	self.position += patter_real*bullet_speed
 
 func _process(delta: float) -> void:
 	life_long += 1*delta
