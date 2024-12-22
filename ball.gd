@@ -2,6 +2,10 @@ extends RigidBody2D
 
 var player_Pos : Vector2
 var boss_Pos : Vector2
+var charge_negative_amount : float
+var rng = RandomNumberGenerator.new()
+
+
 signal player_hit_by_ball
 
 func _ready() -> void:
@@ -17,31 +21,48 @@ func be_moved_by_attack():
 	var impulse_vectorX : float = position.x - player_Pos.x
 	var impulse_vectorY : float = position.y - player_Pos.y
 	apply_impulse(Vector2(impulse_vectorX,impulse_vectorY).normalized()*1300)
+	charge_negative_amount = 1
+	check_charge()
 
 func be_moved_by_boss():
-	print("boss_hit")
 	apply_impulse(-linear_velocity)
 	boss_Pos = Events.boss_position
 	var impulse_vectorX : float = position.x - boss_Pos.x
-	var impulse_vectorY : float = position.y - boss_Pos.y
+	var impulse_vectorY : float = 75
 	apply_impulse(Vector2(impulse_vectorX,impulse_vectorY).normalized()*1000)
+
 
 func be_moved_by_left_attack():
 	apply_impulse(-linear_velocity)
 	var impulse_vectorX : float = 5
-	var impulse_vectorY : float = -3
+	var impulse_vectorY : float = -4
 	apply_impulse(Vector2(impulse_vectorX,impulse_vectorY).normalized()*1500)
-
-
+	charge_negative_amount = 1
+	check_charge()
 
 func be_moved_by_right_attack():
 	apply_impulse(-linear_velocity)
 	var impulse_vectorX : float = -5
-	var impulse_vectorY : float = -3
+	var impulse_vectorY : float = -4
 	apply_impulse(Vector2(impulse_vectorX,impulse_vectorY).normalized()*1500)
-	
+	charge_negative_amount = 1
+	check_charge()
 
 
 func _on_body_entered(body: Node) -> void:
 	if body.is_in_group("player"):
 		Events.emit_signal("player_hit_by_ball")
+	if body.is_in_group("wall"):
+		charge_negative_amount += 1
+		check_charge()
+
+func check_charge():
+	Events.ball_charge = charge_negative_amount
+	self.gravity_scale = 0.1 + charge_negative_amount/3
+	self.set_linear_damp( charge_negative_amount/7)
+	var color_set : Array = [ Color(0,0,0), Color(0.9,0,0),Color(0.1,0.1,0.9), Color(0.9,0.9,0.9) ] 
+	if charge_negative_amount -1 < 3 :
+		$".".set_modulate(color_set[charge_negative_amount]) 
+		print(color_set[charge_negative_amount])
+	elif charge_negative_amount - 1 >= 3:
+		$".".set_modulate(Color(color_set[0]))

@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=3 uid="uid://d058ojrsnbvpq"]
+
+[ext_resource type="Texture2D" uid="uid://clngqykib7r50" path="res://textures/random/compressed_6c6f36ca44f10528334315d40c584f5f.webp" id="1_4xfs8"]
+[ext_resource type="Script" path="res://objects/targets/4_rthboss.gd" id="1_5lfrc"]
+
+[node name="4rthboss" type="Node2D"]
+script = ExtResource("1_5lfrc")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("1_4xfs8")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D"]
+position = Vector2(25.65, -34.9858)
+polygon = PackedVector2Array(-64.65, 17.9858, -42.65, -33.0142, 12.35, -33.0142, 33.35, 14.9858, 10.35, 40.9858, 30.35, 86.9858, 21.35, 118.986, -58.65, 116.986, -68.65, 84.9858, -42.65, 41.9858)
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

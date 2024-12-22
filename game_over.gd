@@ -3,6 +3,7 @@ extends Node
 @onready var boss_test1 = load("res://objects/target_test1.tscn")
 @onready var boss_test2 = load("res://objects/targets/second_target.tscn")
 @onready var boss_test3 = load("res://objects/targets/third_boss.tscn")
+@onready var boss_test4 = load("res://objects/targets/4_rthboss.tscn")
 var boss_inst
 var inst_position : Vector2
 var player_health : int 
@@ -28,6 +29,11 @@ func spawn_boss_func(number):
 			boss_inst = boss_test3.instantiate()
 			inst_position = Vector2(525,250)
 			Events.current_boss = 3
+
+		4:
+			boss_inst = boss_test4.instantiate()
+			inst_position = Vector2(525,100)
+			Events.current_boss = 4
 
 
 	boss_inst.position = inst_position

@@ -50,7 +50,7 @@ position = Vector2(550, 658)
 
 [node name="world_boundary" type="Node2D" parent="2dworld"]
 
-[node name="StaticBody2D" type="StaticBody2D" parent="2dworld/world_boundary"]
+[node name="StaticBody2D" type="StaticBody2D" parent="2dworld/world_boundary" groups=["wall"]]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="2dworld/world_boundary/StaticBody2D"]
 shape = SubResource("WorldBoundaryShape2D_mnedh")
@@ -63,7 +63,7 @@ position = Vector2(150, 0)
 shape = SubResource("WorldBoundaryShape2D_jsrea")
 
 [node name="CollisionShape2D4" type="CollisionShape2D" parent="2dworld/world_boundary/StaticBody2D"]
-position = Vector2(-35, 5)
+position = Vector2(-34, 85)
 shape = SubResource("WorldBoundaryShape2D_jyal0")
 
 [node name="RigidBody2D" parent="2dworld" instance=ExtResource("3_5ekim")]
@@ -105,7 +105,7 @@ theme_override_font_sizes/normal_font_size = 65
 layout_mode = 0
 offset_left = 839.0
 offset_top = 519.0
-offset_right = 918.0
+offset_right = 974.0
 offset_bottom = 595.0
 theme_override_colors/font_outline_color = Color(0, 0, 0.960784, 1)
 theme_override_constants/outline_size = 7
@@ -113,11 +113,11 @@ theme_override_font_sizes/normal_font_size = 65
 
 [node name="ItemList" type="ItemList" parent="interfacemain"]
 layout_mode = 0
-offset_left = 210.0
-offset_top = 115.0
-offset_right = 788.0
-offset_bottom = 459.0
-item_count = 3
+offset_left = 197.0
+offset_top = 118.0
+offset_right = 775.0
+offset_bottom = 462.0
+item_count = 4
 max_columns = 3
 item_0/text = "test 1 "
 item_0/icon = ExtResource("8_m144f")
@@ -125,6 +125,7 @@ item_1/text = "test 2 "
 item_1/icon = ExtResource("9_rbvk7")
 item_2/text = "test 3"
 item_2/icon = SubResource("GradientTexture2D_v0g7m")
+item_3/text = "4RTH BOSS HERE"
 
 [node name="CheckButton" type="CheckButton" parent="interfacemain/ItemList"]
 layout_mode = 0

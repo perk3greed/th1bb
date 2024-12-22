@@ -21,8 +21,9 @@ func _ready() -> void:
 			patter_real = pattern_snapshot
 		3:
 			patter_real = pattern_transfered
-			print(pattern_transfered)
-		
+			
+		4:
+			patter_real = pattern_transfered
 
 
 func _physics_process(delta: float) -> void:
