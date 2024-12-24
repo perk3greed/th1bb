@@ -8,6 +8,10 @@ var player_health : int = 5
 var player_immortal : bool
 var current_boss : int
 var ball_charge : float
+var player_snap_mit : Vector2
+var player_snap : Vector2
+var player_snap_high : Vector2
+
 
 signal attack
 signal left_slide_attack
@@ -21,3 +25,5 @@ signal third_boss_attack_finished
 signal boss_attack
 signal fourth_aoe_finished
 signal power_up_poiman
+
+signal plot_points_on_the_graph

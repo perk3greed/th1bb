@@ -1,83 +1,80 @@
 extends Node2D
 
 
-var health_points : float = 10
+var health_points : float = 7
 var modulated_timer : float = 0
 var modulated_state : bool = false
 var this_boss_patter : Vector2 
 var current_position : int = 0
 var pos_changed : bool = true
 var snapshot_position : Vector2 
-var pos_change_timer : int = 0
+var pos_change_timer : float = 0
 var boss_internal_timer : float = 0
 var amount_of_aoue_attacks : int 
-
+var prea : Vector2
+var preb : Vector2
+var prex : Vector2
+var player_snapshot_pos : Vector2
+var play_snap_mir : Vector2
 var rng = RandomNumberGenerator.new()
 
 
 signal target_hit
 signal boss1testkilled
 signal boss_attack
+signal plot_points_on_the_graph
 
 
 func _ready() -> void:
 	$Timer.start(2)
-
-
-
-			#X		Y
-var boss_movement_grid : Dictionary = {
-	0 : Vector2(700,400),
-	1 : Vector2(501,150),
-	2 : Vector2(200,400),
-	3 : Vector2(499,150),
-	4 : Vector2(700,300),
-	5 : Vector2(501,150),
-	6 : Vector2(200,300)
-}
+	Events.connect("fourth_aoe_finished", change_position)
 
 func change_position():
-		amount_of_aoue_attacks = 0
-		snapshot_position = position
-		pos_changed = false
-		if current_position < 6:
-			current_position += 1
-		else :
-			current_position = 0
-		
+	player_snapshot_pos = Events.player_position + Vector2(0,-450) + Vector2(rng.randi_range(-200,200),rng.randi_range(-110,200))
+	if player_snapshot_pos.x > 900:
+		player_snapshot_pos.x = rng.randi_range(200,1000)
+	elif player_snapshot_pos.x < 300:
+		player_snapshot_pos.x = rng.randi_range(250,900)
+	if player_snapshot_pos.x > 650:
+		play_snap_mir = player_snapshot_pos - Vector2(650,0)
+	elif player_snapshot_pos.x <= 650:
+		play_snap_mir = player_snapshot_pos + Vector2(650,0)
+	
+	
+	amount_of_aoue_attacks = 0
+	snapshot_position = position + Vector2(rng.randi_range(-50,50),rng.randi_range(-50,50))
+	pos_changed = false
 
 
 
 func _on_timer_timeout() -> void:
-	Events.emit_signal("boss_attack", 4)
+	if rng.randi()%2 == 0:
+		Events.emit_signal("boss_attack", 5)
+	else :
+		Events.emit_signal("boss_attack", 6)
 	if amount_of_aoue_attacks < 2:
 		amount_of_aoue_attacks += 1
 		$Timer.start()
 	elif amount_of_aoue_attacks == 2 :
+		
 		change_position()
 	
 
 
 func _process(delta: float) -> void:
-	var pos_change_max : int = 30
+	var pos_change_max : int = 120
 	if pos_changed == false:
 		
-		var new_position = boss_movement_grid[current_position]
-		position += (new_position - snapshot_position)/pos_change_max 
+		position = position.cubic_interpolate(player_snapshot_pos, snapshot_position - Vector2(0,300) ,play_snap_mir, pos_change_timer/120)
 		pos_change_timer += 1
 		if pos_change_timer >= pos_change_max:
 			$Area2D.set_deferred("monitorable", true)
 			$Area2D.set_deferred("monitoring", true)
-			if current_position%2 == 1:
-				$Timer.start()
-				Events.emit_signal("boss_attack",4)
-			else:
-				$Timer.stop()
-				Events.emit_signal("boss_attack",3)
+			
 			
 			pos_changed = true
 			pos_change_timer = 0
-	
+
 	Events.boss_position = position
 	if modulated_state == true:
 		
@@ -104,7 +101,7 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 			Events.emit_signal("target_hit")
 			$Area2D.set_deferred("monitorable", false)
 			$Area2D.set_deferred("monitoring", false)
-			
+			change_position()
 			
 			if health_points <= 0:
 				Events.emit_signal("boss1testkilled")

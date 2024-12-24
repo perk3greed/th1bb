@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://cuubpa1x1edrf"]
+
+[ext_resource type="Texture2D" uid="uid://buec5xlb8gscl" path="res://textures/bosses/bulletwthite16.png" id="1_8i6di"]
+
+[node name="plotpoint" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(1, 0.336508, 0.54032, 1)
+scale = Vector2(6, 6)
+texture = ExtResource("1_8i6di")

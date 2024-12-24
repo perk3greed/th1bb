@@ -58,11 +58,10 @@ func _on_body_entered(body: Node) -> void:
 
 func check_charge():
 	Events.ball_charge = charge_negative_amount
-	self.gravity_scale = 0.1 + charge_negative_amount/3
+	self.gravity_scale = -0.2 + charge_negative_amount/4
 	self.set_linear_damp( charge_negative_amount/7)
 	var color_set : Array = [ Color(0.9,0.9,0.9), Color(0.9,0,0),Color(0.1,0.1,0.9), Color(0,0.6,0.2) ] 
 	if charge_negative_amount -1 < 3 :
 		$".".set_modulate(color_set[charge_negative_amount]) 
-		print(color_set[charge_negative_amount])
 	elif charge_negative_amount - 1 >= 3:
 		$".".set_modulate(Color(color_set[0]))

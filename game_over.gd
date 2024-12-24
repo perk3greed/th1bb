@@ -8,6 +8,9 @@ extends Node
 var boss_inst
 var inst_position : Vector2
 var player_health : int 
+var player_invul_timer : float
+var player_invul : bool
+
 
 func _ready() -> void:
 	Events.connect("spawn_boss", spawn_boss_func)
@@ -47,10 +50,24 @@ func spawn_boss_func(number):
 	
 
 
+
+func _process(delta: float) -> void:
+	if player_invul == true:
+		player_invul_timer += delta*1
+		if player_invul_timer >= 1:
+			player_invul = false
+			player_invul_timer = 0
+	
+	
+
 func calculate_player_health():
 	if Events.player_immortal == true:
 		return
+	if player_invul == true:
+		return
 	player_health -= 1
 	$interfacemain/player_health.text = str(player_health)
+	player_invul = true
+	
 	if player_health < 1:
 		get_tree().reload_current_scene()
