@@ -11,7 +11,7 @@ var jump_counter : int = 0
 var player_stunned : bool = false
 var player_stun_timer : float = 0
 var player_health : int = 5
-
+var coold_down_timer : float 
 signal attack
 signal left_slide_attack
 signal right_slide_attack
@@ -36,7 +36,7 @@ func _physics_process(delta):
 	
 	Events.player_position = position
 
-	
+	coold_down_timer -= delta
 	if left_slide_active == false and right_slide_active == false:
 		velocity.x = 0
 	
@@ -82,18 +82,23 @@ func _physics_process(delta):
 	
 	if Input.is_action_just_pressed("space"):
 		if attack_timer == 0:
-			attack_active = true
+			if coold_down_timer <= 0 :
+				attack_active = true
 		
 
 	if attack_active == true:
 		attack_timer += 1*delta
 		overhead_attack_area.monitoring = true 
 		overhead_attack_collision.visible = true
+		overhead_attack_area.monitorable = true 
+		velocity.x = 0
 		if attack_timer >= 0.4:
 			attack_active = false
 			overhead_attack_area.monitoring = false
 			overhead_attack_collision.visible = false
+			overhead_attack_area.monitorable = false 
 			attack_timer = 0
+			coold_down_timer = 0.4
 
 	if left_slide_active == true:
 		attack_timer += 1*delta

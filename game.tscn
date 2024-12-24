@@ -1,7 +1,7 @@
 [gd_scene load_steps=15 format=3 uid="uid://bhh6o2g40ltts"]
 
-[ext_resource type="Texture2D" uid="uid://btr5gh2ibl8t8" path="res://textures/backgrounds/starbackground_clrhft.png" id="1_11tan"]
 [ext_resource type="Script" path="res://game_over.gd" id="1_e0opt"]
+[ext_resource type="Texture2D" uid="uid://dmpnccadxiiug" path="res://textures/backgrounds/gridround.png" id="2_vk2pg"]
 [ext_resource type="PackedScene" uid="uid://7n5hv8bu6tv6" path="res://player.tscn" id="2_xecjr"]
 [ext_resource type="PackedScene" uid="uid://bdkuewmky4lx" path="res://ball.tscn" id="3_5ekim"]
 [ext_resource type="Script" path="res://interfacemain.gd" id="4_hmkse"]
@@ -14,15 +14,15 @@ distance = -719.0
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_kxevy"]
 normal = Vector2(-1, 0)
-distance = -960.0
+distance = -1122.0
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_jsrea"]
 normal = Vector2(1, 0)
-distance = -148.0
+distance = -180.0
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_jyal0"]
 normal = Vector2(0, 1)
-distance = -5.0
+distance = -85.0
 
 [sub_resource type="Gradient" id="Gradient_dit3l"]
 offsets = PackedFloat32Array(0, 0.478873, 1)
@@ -38,8 +38,9 @@ script = ExtResource("1_e0opt")
 [node name="2dworld" type="Node2D" parent="."]
 
 [node name="Sprite2D" type="Sprite2D" parent="2dworld"]
-scale = Vector2(2, 1.13)
-texture = ExtResource("1_11tan")
+position = Vector2(-164, -32)
+scale = Vector2(0.7, 0.7)
+texture = ExtResource("2_vk2pg")
 centered = false
 
 [node name="Camera2D" type="Camera2D" parent="2dworld"]
@@ -59,7 +60,7 @@ shape = SubResource("WorldBoundaryShape2D_mnedh")
 shape = SubResource("WorldBoundaryShape2D_kxevy")
 
 [node name="CollisionShape2D3" type="CollisionShape2D" parent="2dworld/world_boundary/StaticBody2D"]
-position = Vector2(150, 0)
+position = Vector2(19, 1)
 shape = SubResource("WorldBoundaryShape2D_jsrea")
 
 [node name="CollisionShape2D4" type="CollisionShape2D" parent="2dworld/world_boundary/StaticBody2D"]
@@ -80,12 +81,11 @@ offset_bottom = 40.0
 script = ExtResource("4_hmkse")
 
 [node name="player_hit_rich" type="RichTextLabel" parent="interfacemain"]
-visible = false
 layout_mode = 0
-offset_left = 459.0
-offset_top = 571.0
-offset_right = 889.0
-offset_bottom = 687.0
+offset_left = 394.0
+offset_top = 6.0
+offset_right = 842.0
+offset_bottom = 97.0
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 9
 theme_override_font_sizes/normal_font_size = 65
@@ -93,31 +93,31 @@ text = "ball hit you!"
 
 [node name="player_health" type="RichTextLabel" parent="interfacemain"]
 layout_mode = 0
-offset_left = 52.0
-offset_top = 565.0
-offset_right = 482.0
-offset_bottom = 681.0
+offset_left = 13.0
+offset_top = 67.0
+offset_right = 443.0
+offset_bottom = 183.0
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 9
 theme_override_font_sizes/normal_font_size = 65
 
 [node name="bossHP" type="RichTextLabel" parent="interfacemain"]
 layout_mode = 0
-offset_left = 839.0
-offset_top = 519.0
-offset_right = 974.0
-offset_bottom = 595.0
+offset_left = 933.0
+offset_top = 66.0
+offset_right = 1068.0
+offset_bottom = 142.0
 theme_override_colors/font_outline_color = Color(0, 0, 0.960784, 1)
 theme_override_constants/outline_size = 7
-theme_override_font_sizes/normal_font_size = 65
+theme_override_font_sizes/normal_font_size = 55
 
 [node name="ItemList" type="ItemList" parent="interfacemain"]
 layout_mode = 0
-offset_left = 197.0
-offset_top = 118.0
-offset_right = 775.0
-offset_bottom = 462.0
-item_count = 4
+offset_left = 278.0
+offset_top = 207.0
+offset_right = 856.0
+offset_bottom = 551.0
+item_count = 5
 max_columns = 3
 item_0/text = "test 1 "
 item_0/icon = ExtResource("8_m144f")
@@ -126,6 +126,7 @@ item_1/icon = ExtResource("9_rbvk7")
 item_2/text = "test 3"
 item_2/icon = SubResource("GradientTexture2D_v0g7m")
 item_3/text = "4RTH BOSS HERE"
+item_4/text = "5th boss right now"
 
 [node name="CheckButton" type="CheckButton" parent="interfacemain/ItemList"]
 layout_mode = 0

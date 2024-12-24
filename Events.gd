@@ -20,3 +20,4 @@ signal spawn_boss
 signal third_boss_attack_finished
 signal boss_attack
 signal fourth_aoe_finished
+signal power_up_poiman

@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://1lcgh0axkefm" path="res://textures/player/player2d_48x48.png" id="2_c3q4n"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_46bks"]
-size = Vector2(58, 46)
+size = Vector2(37, 46)
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_pk137"]
 blend_mode = 1
@@ -25,7 +25,7 @@ size = Vector2(85, 50)
 script = ExtResource("1_3imes")
 
 [node name="body" type="CollisionShape2D" parent="."]
-position = Vector2(1, 0)
+position = Vector2(-0.5, 0)
 shape = SubResource("RectangleShape2D_46bks")
 
 [node name="debugsprite" type="Sprite2D" parent="."]
@@ -37,8 +37,9 @@ texture = SubResource("PlaceholderTexture2D_wfxp0")
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_c3q4n")
 
-[node name="overhead_attack" type="Area2D" parent="."]
+[node name="overhead_attack" type="Area2D" parent="." groups=["attack"]]
 monitoring = false
+monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="overhead_attack"]
 visible = false

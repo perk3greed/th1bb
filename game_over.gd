@@ -4,6 +4,7 @@ extends Node
 @onready var boss_test2 = load("res://objects/targets/second_target.tscn")
 @onready var boss_test3 = load("res://objects/targets/third_boss.tscn")
 @onready var boss_test4 = load("res://objects/targets/4_rthboss.tscn")
+@onready var boss_test5 = load("res://objects/targets/petboss.tscn")
 var boss_inst
 var inst_position : Vector2
 var player_health : int 
@@ -35,6 +36,11 @@ func spawn_boss_func(number):
 			inst_position = Vector2(525,100)
 			Events.current_boss = 4
 
+		5:
+			boss_inst = boss_test5.instantiate()
+			inst_position = Vector2(625,400)
+			Events.current_boss = 5
+
 
 	boss_inst.position = inst_position
 	$"2dworld/targets".add_child(boss_inst)
@@ -46,4 +52,5 @@ func calculate_player_health():
 		return
 	player_health -= 1
 	$interfacemain/player_health.text = str(player_health)
-	
+	if player_health < 1:
+		get_tree().reload_current_scene()

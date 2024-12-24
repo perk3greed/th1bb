@@ -52,10 +52,10 @@ func change_position():
 
 func _on_timer_timeout() -> void:
 	Events.emit_signal("boss_attack", 4)
-	if amount_of_aoue_attacks < 4:
+	if amount_of_aoue_attacks < 2:
 		amount_of_aoue_attacks += 1
 		$Timer.start()
-	elif amount_of_aoue_attacks == 4 :
+	elif amount_of_aoue_attacks == 2 :
 		change_position()
 	
 

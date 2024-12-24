@@ -29,5 +29,6 @@ texture = ExtResource("1_2gve6")
 show_behind_parent = true
 amount = 90
 texture = ExtResource("3_6k7pl")
+gravity = Vector2(0, 0)
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

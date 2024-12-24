@@ -17,9 +17,8 @@ position = Vector2(25.65, -34.9858)
 polygon = PackedVector2Array(-64.65, 17.9858, -42.65, -33.0142, 12.35, -33.0142, 33.35, 14.9858, 10.35, 40.9858, 30.35, 86.9858, 21.35, 118.986, -58.65, 116.986, -68.65, 84.9858, -42.65, 41.9858)
 
 [node name="Timer" type="Timer" parent="."]
-wait_time = 2.0
+wait_time = 1.6
 one_shot = true
 
-[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
