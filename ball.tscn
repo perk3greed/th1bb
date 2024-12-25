@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://bdkuewmky4lx"]
+[gd_scene load_steps=7 format=3 uid="uid://bdkuewmky4lx"]
 
 [ext_resource type="Texture2D" uid="uid://og5ymchg46k1" path="res://textures/player/ball.png" id="1_2gve6"]
 [ext_resource type="Script" path="res://ball.gd" id="1_puh4r"]
@@ -9,6 +9,11 @@ bounce = 0.91
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_um4s8"]
 radius = 16.0
+
+[sub_resource type="Curve" id="Curve_c3lnv"]
+min_value = -1.0
+_data = [Vector2(0.192053, -0.076923), 0.0, 0.0, 0, 0, Vector2(0.483444, 0.846154), 0.0, 0.0, 0, 0, Vector2(0.900662, 0.296703), 0.0, 0.0, 0, 0]
+point_count = 3
 
 [node name="ball" type="RigidBody2D" groups=["ball"]]
 physics_material_override = SubResource("PhysicsMaterial_4mvef")
@@ -30,5 +35,23 @@ show_behind_parent = true
 amount = 90
 texture = ExtResource("3_6k7pl")
 gravity = Vector2(0, 0)
+
+[node name="hitparts" type="CPUParticles2D" parent="."]
+emitting = false
+amount = 48
+lifetime = 2.0
+one_shot = true
+explosiveness = 1.0
+emission_shape = 1
+emission_sphere_radius = 24.0
+direction = Vector2(0, -1)
+spread = 102.18
+initial_velocity_min = 117.65
+initial_velocity_max = 200.0
+scale_amount_min = 5.0
+scale_amount_max = 8.0
+hue_variation_min = -0.75
+hue_variation_max = 0.78
+hue_variation_curve = SubResource("Curve_c3lnv")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

@@ -20,7 +20,7 @@ func be_moved_by_attack():
 	player_Pos = Events.player_position
 	var impulse_vectorX : float = position.x - player_Pos.x
 	var impulse_vectorY : float = position.y - player_Pos.y
-	apply_impulse(Vector2(impulse_vectorX,impulse_vectorY).normalized()*1300)
+	apply_impulse(Vector2(impulse_vectorX,impulse_vectorY).normalized()*1600)
 	charge_negative_amount = 1
 	check_charge()
 
@@ -30,6 +30,7 @@ func be_moved_by_boss():
 	var impulse_vectorX : float = position.x - boss_Pos.x
 	var impulse_vectorY : float = 75
 	apply_impulse(Vector2(impulse_vectorX,impulse_vectorY).normalized()*1000)
+	$hitparts.set_emitting(true)
 
 
 func be_moved_by_left_attack():

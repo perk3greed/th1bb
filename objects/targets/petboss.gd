@@ -26,8 +26,8 @@ signal plot_points_on_the_graph
 
 
 func _ready() -> void:
-	$Timer.start(2)
 	Events.connect("fourth_aoe_finished", change_position)
+	$Timer.start()
 
 func change_position():
 	player_snapshot_pos = Events.player_position + Vector2(0,-450) + Vector2(rng.randi_range(-200,200),rng.randi_range(-110,200))

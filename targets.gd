@@ -21,7 +21,7 @@ var boos4_pattern_arrey : Array = [Vector2(-20,5),Vector2(-18,5),Vector2(-16,5),
 
 
 func _ready() -> void:
-	Events.connect("spawn_boss", change_pattern)
+	#Events.connect("spawn_boss", change_pattern)
 	Events.connect("boss_attack", change_pattern)
 	Events.connect("target_hit", react_to_boss_hit)
 
