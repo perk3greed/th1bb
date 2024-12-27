@@ -71,7 +71,6 @@ func _process(delta: float) -> void:
 			$Area2D.set_deferred("monitorable", true)
 			$Area2D.set_deferred("monitoring", true)
 			if current_position%2 == 1:
-				print("even", "curpos =", current_position)
 				$Timer.start()
 				Events.emit_signal("boss_attack",4)
 			else:

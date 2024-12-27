@@ -15,7 +15,7 @@ script = ExtResource("1_1wnrc")
 shape = SubResource("CircleShape2D_palfq")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-self_modulate = Color(0.25098, 0.223529, 0.917647, 1)
+self_modulate = Color(4.81308e-06, 0.632333, 0.826219, 1)
 texture = ExtResource("2_28tsh")
 
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]

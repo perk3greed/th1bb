@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://bhh6o2g40ltts"]
+[gd_scene load_steps=11 format=3 uid="uid://bhh6o2g40ltts"]
 
 [ext_resource type="Script" path="res://game_over.gd" id="1_e0opt"]
 [ext_resource type="Texture2D" uid="uid://dmpnccadxiiug" path="res://textures/backgrounds/gridround.png" id="2_vk2pg"]
@@ -6,8 +6,6 @@
 [ext_resource type="PackedScene" uid="uid://bdkuewmky4lx" path="res://ball.tscn" id="3_5ekim"]
 [ext_resource type="Script" path="res://interfacemain.gd" id="4_hmkse"]
 [ext_resource type="Script" path="res://targets.gd" id="4_q84kf"]
-[ext_resource type="Texture2D" uid="uid://b2sdgvbdf3a5c" path="res://icon.svg" id="8_m144f"]
-[ext_resource type="Texture2D" uid="uid://1lcgh0axkefm" path="res://textures/player/player2d_48x48.png" id="9_rbvk7"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_mnedh"]
 distance = -719.0
@@ -24,16 +22,10 @@ distance = -180.0
 normal = Vector2(0, 1)
 distance = -85.0
 
-[sub_resource type="Gradient" id="Gradient_dit3l"]
-offsets = PackedFloat32Array(0, 0.478873, 1)
-colors = PackedColorArray(0, 0, 0, 1, 0.84507, 0.84507, 0.84507, 1, 1, 0.380392, 1, 1)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_v0g7m"]
-gradient = SubResource("Gradient_dit3l")
-fill_to = Vector2(0.77037, 0.607407)
-
 [node name="game" type="Node"]
 script = ExtResource("1_e0opt")
+metadata/_edit_vertical_guides_ = [-102.0]
+metadata/_edit_horizontal_guides_ = [731.0]
 
 [node name="2dworld" type="Node2D" parent="."]
 
@@ -120,16 +112,20 @@ offset_left = 278.0
 offset_top = 207.0
 offset_right = 856.0
 offset_bottom = 551.0
-item_count = 5
-max_columns = 3
+theme_override_colors/font_outline_color = Color(8.85606e-06, 0.780883, 0.977636, 1)
+theme_override_colors/font_color = Color(0.844032, 0.161139, 0.665315, 1)
+theme_override_constants/outline_size = 4
+theme_override_constants/v_separation = 15
+theme_override_constants/h_separation = 36
+theme_override_font_sizes/font_size = 24
+item_count = 6
+max_columns = 6
 item_0/text = "test 1 "
-item_0/icon = ExtResource("8_m144f")
 item_1/text = "test 2 "
-item_1/icon = ExtResource("9_rbvk7")
 item_2/text = "test 3"
-item_2/icon = SubResource("GradientTexture2D_v0g7m")
 item_3/text = "4RTH BOSS HERE"
 item_4/text = "5th boss right now"
+item_5/text = "sixtboss"
 
 [node name="CheckButton" type="CheckButton" parent="interfacemain/ItemList"]
 layout_mode = 0

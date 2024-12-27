@@ -22,8 +22,6 @@ signal target_hit
 signal boss1testkilled
 
 
-
-
 func _process(delta: float) -> void:
 	if j < 1:
 		j += 1*delta
@@ -40,7 +38,7 @@ func _process(delta: float) -> void:
 	if distance_to_ex < 0:
 		distance_to_ex = -distance_to_ex
 	
-	var y_axis_displacement : float = position.y - 150
+	var y_axis_displacement : float = position.y - 210
 	position.y += distance_to_ex/60 - y_axis_displacement/60
 	
 	Events.current_pattern = (distance_to_player - Vector2(0,100)).normalized()
@@ -73,3 +71,7 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 			Events.emit_signal("boss1testkilled")
 			self.queue_free()
 		
+
+
+func _on_timer_timeout() -> void:
+	Events.emit_signal("boss_attack",3)

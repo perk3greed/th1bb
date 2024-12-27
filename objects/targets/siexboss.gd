@@ -56,24 +56,23 @@ func _on_timer_timeout() -> void:
 	if rng.randi()%2 == 0:
 		if Events.attack_currently_active == true:
 			return
-		Events.emit_signal("boss_attack", 5)
+		Events.emit_signal("boss_attack", 7)
 	else :
 		if Events.attack_currently_active == true:
 			return
-		Events.emit_signal("boss_attack", 6)
+		Events.emit_signal("boss_attack", 7)
 	if amount_of_aoue_attacks < 2:
 		amount_of_aoue_attacks += 1
 		$Timer.start()
 	elif amount_of_aoue_attacks == 2 :
 		
-		change_position()
+		$Timer.start()
 	
 
 
 func _process(delta: float) -> void:
-	if Events.attack_currently_active == false and pos_change_in_que == true:
-		
-		change_position()
+	
+	
 	
 	var pos_change_max : int = 120
 	if pos_changed == false:
@@ -100,10 +99,6 @@ func _process(delta: float) -> void:
 
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
-	if pos_changed == false:
-		return
-		
-	
 	if body.is_in_group("ball"):
 		var ball_charge = Events.ball_charge
 		if ball_charge < 4:
@@ -115,7 +110,6 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 			Events.emit_signal("target_hit")
 			$Area2D.set_deferred("monitorable", false)
 			$Area2D.set_deferred("monitoring", false)
-			change_position()
 			
 			if health_points <= 0:
 				Events.emit_signal("boss1testkilled")

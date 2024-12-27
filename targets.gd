@@ -11,6 +11,8 @@ var boss_position : Vector2
 var bullet_position : Vector2
 var powerup_prld := preload("res://objects/pick ups/power_up.tscn")
 var reflect_bullet := preload("res://objects/bullet_reflective.tscn")
+var tracking_bullet := preload("res://objects/targets/bullet_lookingfor.tscn")
+
 
 signal fourth_aoe_finished
 
@@ -26,6 +28,9 @@ func _ready() -> void:
 	Events.connect("target_hit", react_to_boss_hit)
 
 func _process(delta: float) -> void:
+	
+	if Events.pos_changing == true:
+		return
 	
 	match current_pattern : 
 		
@@ -91,6 +96,8 @@ func _process(delta: float) -> void:
 					patterning_shitty_shit = 0
 
 		5:
+			Events.attack_currently_active = true
+
 			bullet_counter += 25*delta
 			boss_position = Events.boss_position
 			if bullet_counter >= bullet_timer:
@@ -113,10 +120,13 @@ func _process(delta: float) -> void:
 					patterning_shitty_shit = 0
 					change_pattern(0)
 					Events.emit_signal("fourth_aoe_finished")
+					Events.attack_currently_active = false
+
 
 
 
 		6:
+			Events.attack_currently_active = true
 			bullet_counter += 12*delta
 			boss_position = Events.boss_position
 			var player_position = Events.player_position
@@ -135,15 +145,18 @@ func _process(delta: float) -> void:
 					bullet_inst.pattern_transfered = ((player_position-boss_position)-Vector2(-150,0)).normalized()
 					add_child(bullet_inst)
 					patterning_shitty_shit += 1
-				elif patterning_shitty_shit >= 18 and patterning_shitty_shit < 42 :
+				elif patterning_shitty_shit >= 18 and patterning_shitty_shit < 56 :
 					patterning_shitty_shit += 1
-				elif patterning_shitty_shit >= 42:
+				elif patterning_shitty_shit >= 56:
 					patterning_shitty_shit = 0
 					change_pattern(0)
+					Events.attack_currently_active = false
+
 
 
 
 		7:
+			Events.attack_currently_active = true
 			bullet_counter += 12*delta
 			boss_position = Events.boss_position
 			var player_position = Events.player_position
@@ -162,13 +175,37 @@ func _process(delta: float) -> void:
 					bullet_inst.pattern_transfered = (Vector2(-5,2)).normalized()
 					add_child(bullet_inst)
 					patterning_shitty_shit += 1
-				elif patterning_shitty_shit >= 18 and patterning_shitty_shit < 45 :
+				elif patterning_shitty_shit >= 18 and patterning_shitty_shit < 72 :
 					patterning_shitty_shit += 1
-				elif patterning_shitty_shit >= 45:
+				elif patterning_shitty_shit >= 72:
 					patterning_shitty_shit = 0
 					change_pattern(0)
+					Events.attack_currently_active = false
 
 
+		8:
+			Events.attack_currently_active = true
+			bullet_counter += 12*delta
+			boss_position = Events.boss_position
+			var player_position = Events.player_position
+			if bullet_counter >= bullet_timer:
+				var bullet_inst = tracking_bullet.instantiate()
+				bullet_inst.bullet_speed = 4
+				
+				bullet_counter = 0
+				if patterning_shitty_shit < 9:
+					patterning_shitty_shit += 1
+				elif patterning_shitty_shit >= 9 and patterning_shitty_shit < 18 :
+					bullet_inst.position = boss_position 
+					bullet_inst.pattern_transfered = (Vector2(rng.randi_range(-4,4),-8)).normalized()
+					add_child(bullet_inst)
+					patterning_shitty_shit += 1
+				elif patterning_shitty_shit >= 18 and patterning_shitty_shit < 72 :
+					patterning_shitty_shit += 1
+				elif patterning_shitty_shit >= 72:
+					patterning_shitty_shit = 0
+					change_pattern(0)
+					Events.attack_currently_active = false
 
 
 

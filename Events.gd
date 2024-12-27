@@ -11,6 +11,8 @@ var ball_charge : float
 var player_snap_mit : Vector2
 var player_snap : Vector2
 var player_snap_high : Vector2
+var pos_changing : bool 
+var attack_currently_active : bool 
 
 
 signal attack

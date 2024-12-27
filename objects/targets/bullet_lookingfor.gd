@@ -7,7 +7,7 @@ var boss_snapshot
 var bullet_speed : float
 var patter_real : Vector2
 var reflect : bool
-
+var was_hit_by_player : bool
 
 signal player_hit_by_bullet 
 
@@ -23,26 +23,30 @@ func _ready() -> void:
 			patter_real = pattern_snapshot
 		3:
 			patter_real = pattern_transfered
-			
 		4:
 			patter_real = pattern_transfered
 		5:
+			patter_real = pattern_transfered
+		6:
 			patter_real = pattern_transfered
 
 
 func _physics_process(delta: float) -> void:
 	
-	if self.position.x >= 1200 or self.position.x <=0:
-		patter_real.x = -patter_real.x
+	if was_hit_by_player == true:
+		patter_real += (Events.boss_position - position).normalized()/24
 	
+	patter_real += (Events.player_position - position).normalized()/42
 	
 	self.position += patter_real*bullet_speed
 	
+	if position.y > 740 :
+		self.queue_free()
 	
 
 func _process(delta: float) -> void:
 	life_long += 1*delta
-	if life_long >= 4:
+	if life_long >= 12:
 		self.queue_free()
 
 
@@ -51,11 +55,15 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 		Events.emit_signal("player_hit_by_bullet")
 	if body.is_in_group("ball"):
 		self.queue_free()
-
-
+		
 
 
 func _on_area_2d_area_entered(area: Area2D) -> void:
 	if area.is_in_group("attack"):
 		patter_real = (position - Events.player_position).normalized()
 		bullet_speed = bullet_speed*3
+		was_hit_by_player = true
+	if area.is_in_group("boss"):
+		if was_hit_by_player == true:
+			print("boss_hit")
+			self.queue_free()

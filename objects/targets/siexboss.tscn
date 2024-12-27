@@ -1,0 +1,27 @@
+[gd_scene load_steps=4 format=3 uid="uid://us7ne28tg021"]
+
+[ext_resource type="Script" path="res://objects/targets/siexboss.gd" id="1_0n5m0"]
+[ext_resource type="Texture2D" uid="uid://bfblpnivnqugi" path="res://textures/random/58a20c6dc8dd3432c6fa8224.png" id="2_qo1yq"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yfxy4"]
+size = Vector2(130, 233)
+
+[node name="siexboss" type="Node2D"]
+script = ExtResource("1_0n5m0")
+metadata/_edit_horizontal_guides_ = [134.0]
+
+[node name="Area2D" type="Area2D" parent="." groups=["boss"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, -11.5)
+shape = SubResource("RectangleShape2D_yfxy4")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("2_qo1yq")
+
+[node name="Timer" type="Timer" parent="."]
+autostart = true
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

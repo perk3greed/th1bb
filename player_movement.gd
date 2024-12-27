@@ -134,7 +134,6 @@ func _physics_process(delta):
 		velocity = Vector2.ZERO
 		player_stun_timer += 1*delta
 		if player_stun_timer >= 0.5:
-			print("stun ended")
 			player_stunned = false
 	
 	move_and_slide()
