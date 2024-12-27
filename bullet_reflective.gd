@@ -23,12 +23,12 @@ func _ready() -> void:
 			patter_real = pattern_snapshot
 		3:
 			patter_real = pattern_transfered
-			
 		4:
 			patter_real = pattern_transfered
 		5:
 			patter_real = pattern_transfered
-
+		6:
+			patter_real = pattern_transfered
 
 func _physics_process(delta: float) -> void:
 	
@@ -42,7 +42,7 @@ func _physics_process(delta: float) -> void:
 
 func _process(delta: float) -> void:
 	life_long += 1*delta
-	if life_long >= 4:
+	if life_long >= 8:
 		self.queue_free()
 
 

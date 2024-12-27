@@ -28,6 +28,8 @@ func _ready() -> void:
 			patter_real = pattern_transfered
 		5:
 			patter_real = pattern_transfered
+		6:
+			patter_real = pattern_transfered
 
 
 func _physics_process(delta: float) -> void:
