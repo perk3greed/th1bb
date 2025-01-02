@@ -63,6 +63,8 @@ func check_charge():
 	self.set_linear_damp( charge_negative_amount/7)
 	var color_set : Array = [ Color(0.9,0.9,0.9), Color(0.9,0,0),Color(0.1,0.1,0.9), Color(0,0.6,0.2) ] 
 	if charge_negative_amount -1 < 3 :
+		self.physics_material_override.bounce = 0.9
 		$".".set_modulate(color_set[charge_negative_amount]) 
 	elif charge_negative_amount - 1 >= 3:
 		$".".set_modulate(Color(color_set[0]))
+		self.physics_material_override.bounce = 0

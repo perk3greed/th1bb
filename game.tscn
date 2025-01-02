@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://bhh6o2g40ltts"]
+[gd_scene load_steps=12 format=3 uid="uid://bhh6o2g40ltts"]
 
 [ext_resource type="Script" path="res://game_over.gd" id="1_e0opt"]
 [ext_resource type="Texture2D" uid="uid://dmpnccadxiiug" path="res://textures/backgrounds/gridround.png" id="2_vk2pg"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://bdkuewmky4lx" path="res://ball.tscn" id="3_5ekim"]
 [ext_resource type="Script" path="res://interfacemain.gd" id="4_hmkse"]
 [ext_resource type="Script" path="res://targets.gd" id="4_q84kf"]
+[ext_resource type="Script" path="res://targets_dva.gd" id="6_67irx"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_mnedh"]
 distance = -719.0
@@ -61,12 +62,13 @@ position = Vector2(-34, 85)
 shape = SubResource("WorldBoundaryShape2D_jyal0")
 
 [node name="RigidBody2D" parent="2dworld" instance=ExtResource("3_5ekim")]
-position = Vector2(575, 475)
+position = Vector2(179, 666)
 
 [node name="targets" type="Node2D" parent="2dworld"]
 script = ExtResource("4_q84kf")
 
-[node name="plotter" type="Node2D" parent="2dworld"]
+[node name="targets_dva" type="Node2D" parent="2dworld"]
+script = ExtResource("6_67irx")
 
 [node name="interfacemain" type="Control" parent="."]
 layout_mode = 3

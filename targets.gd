@@ -11,10 +11,10 @@ var boss_position : Vector2
 var powerup_prld := preload("res://objects/pick ups/power_up.tscn")
 var reflect_bullet := preload("res://objects/bullet_reflective.tscn")
 var tracking_bullet := preload("res://objects/targets/bullet_lookingfor.tscn")
-
+var circling_bullet := preload("res://objects/targets/bullet_circling.tscn")
 
 signal fourth_aoe_finished
-
+signal attack_finished
 
 var boss3_pattern_arrey : Array = [Vector2(15,5),Vector2(10,5),Vector2(5,5),Vector2(0,5),Vector2(-5,5),Vector2(-10,5),Vector2(-15,5)]
 
@@ -222,63 +222,99 @@ func _process(delta: float) -> void:
 			var patsem : float = 52
 			var patose : float = 60
 			if bullet_counter >= bullet_timer:
-				var bullet_inst = bullet_projectile.instantiate()
+				var bullet_inst = circling_bullet.instantiate()
 				bullet_inst.bullet_speed = 2
-				var bul_dev : Vector2 = Vector2(patterning_shitty_shit%12 - 5.5,0).normalized()* 35
+
 				bullet_counter = 0
 				if patterning_shitty_shit < patone:
 					patterning_shitty_shit += 1
-					bullet_inst.position = boss_position + Vector2(patone-patterning_shitty_shit,patterning_shitty_shit/2 + 3 ).normalized()*75
-					bullet_inst.pattern_transfered = (bullet_inst.position - boss_position +bul_dev).normalized()
+					bullet_inst.position = boss_position + Vector2(patone-patterning_shitty_shit, patterning_shitty_shit/2 + 3).normalized()*75
+					bullet_inst.pattern_transfered = (bullet_inst.position - boss_position).normalized()
+					bullet_inst.rot_angle = 0.003
 					add_child(bullet_inst)
 				elif patterning_shitty_shit >= patone and patterning_shitty_shit < pattwo :
 					patterning_shitty_shit += 1
-					bullet_inst.position = boss_position + Vector2(patterning_shitty_shit - pattwo,patterning_shitty_shit/2 - patone/2 +3 ).normalized()*75
-					bullet_inst.pattern_transfered = (bullet_inst.position - boss_position +bul_dev ).normalized()
+					bullet_inst.position = boss_position + Vector2(patterning_shitty_shit - pattwo, patterning_shitty_shit/2 - patone/2 + 3).normalized()*75
+					bullet_inst.pattern_transfered = (bullet_inst.position - boss_position).normalized()
+					bullet_inst.rot_angle = 0.003
 					add_child(bullet_inst)
 				elif patterning_shitty_shit >= pattwo and patterning_shitty_shit < pattri :
 					patterning_shitty_shit += 1
 				elif patterning_shitty_shit >= pattri and patterning_shitty_shit <patfor:
 					patterning_shitty_shit += 1
-					bullet_inst.position = boss_position + Vector2(patfor-patterning_shitty_shit,patterning_shitty_shit/2 - pattri/2 +2.5 ).normalized()*35
-					bullet_inst.pattern_transfered = (bullet_inst.position - boss_position +bul_dev).normalized()
+					bullet_inst.position = boss_position + Vector2(patfor-patterning_shitty_shit, patterning_shitty_shit/2 - pattri/2 + 3).normalized()*35
+					bullet_inst.pattern_transfered = (bullet_inst.position - boss_position).normalized()
+					bullet_inst.rot_angle = -0.003
 					add_child(bullet_inst)
 				elif patterning_shitty_shit >= patfor and patterning_shitty_shit <patpet:
 					patterning_shitty_shit += 1
-					bullet_inst.position = boss_position + Vector2(patterning_shitty_shit  - patpet,patterning_shitty_shit/2 - patfor/2 +2.5).normalized()*35
-					bullet_inst.pattern_transfered = (bullet_inst.position - boss_position +bul_dev).normalized()
+					bullet_inst.position = boss_position + Vector2(patterning_shitty_shit  - patpet, patterning_shitty_shit/2 - patfor/2 + 3).normalized()*35
+					bullet_inst.pattern_transfered = (bullet_inst.position - boss_position).normalized()
+					bullet_inst.rot_angle = -0.003
 					add_child(bullet_inst)
-					
 				elif patterning_shitty_shit >= patpet and patterning_shitty_shit < patseh:
 					patterning_shitty_shit += 1
 				elif patterning_shitty_shit >= patseh and patterning_shitty_shit < patsem:
 					patterning_shitty_shit += 1
-					bullet_inst.position = boss_position + Vector2(patterning_shitty_shit - patsem,patterning_shitty_shit/2 - patseh/2 +3).normalized()*90
-					bullet_inst.pattern_transfered = (bullet_inst.position - boss_position +bul_dev ).normalized()
+					bullet_inst.position = boss_position + Vector2(patterning_shitty_shit - patsem, patterning_shitty_shit/2 - patseh/2 + 3).normalized()*90
+					bullet_inst.pattern_transfered = (bullet_inst.position - boss_position).normalized()
+					bullet_inst.rot_angle = 0.003
 					add_child(bullet_inst)
 				elif patterning_shitty_shit >= patsem and patterning_shitty_shit < patose:
 					patterning_shitty_shit += 1
-					bullet_inst.position = boss_position + Vector2(patose - patterning_shitty_shit  ,patterning_shitty_shit/2 - patsem/2 +3).normalized()*90
-					bullet_inst.pattern_transfered = (bullet_inst.position - boss_position +bul_dev ).normalized()
+					bullet_inst.position = boss_position + Vector2(patose - patterning_shitty_shit, patterning_shitty_shit/2 - patsem/2 + 3).normalized()*90
+					bullet_inst.pattern_transfered = (bullet_inst.position - boss_position).normalized()
+					bullet_inst.rot_angle = -0.003
 					add_child(bullet_inst)
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
 					
 					
 				elif patterning_shitty_shit >= patose:
 					
-					
+					Events.emit_signal("attack_finished")
 					patterning_shitty_shit = 0
 					change_pattern(0)
 					Events.attack_currently_active = false
+
+		10:
+			Events.attack_currently_active = true
+			bullet_counter += 12*delta
+			boss_position = Events.boss_position
+			var reverse : bool
+			if Events.random_number_of_two == 2:
+				reverse = true
+			else:
+				reverse = false
+			var player_position = Events.player_position
+			if bullet_counter >= bullet_timer:
+				var bullet_inst = tracking_bullet.instantiate()
+				bullet_inst.bullet_speed = 2
+				
+				bullet_counter = 0
+				if patterning_shitty_shit < 28:
+					if reverse == true:
+						bullet_inst.position = Vector2(100 + patterning_shitty_shit * 40, 0) 
+					else:
+						bullet_inst.position = Vector2(1180 - patterning_shitty_shit * 40, 0) 
+					bullet_inst.pattern_transfered = (Vector2(rng.randi_range(-4,4),-8)).normalized()
+					add_child(bullet_inst)
+					patterning_shitty_shit += 1
+				elif patterning_shitty_shit >= 28 and patterning_shitty_shit < 72 :
+					patterning_shitty_shit += 1
+				elif patterning_shitty_shit >= 72:
+					patterning_shitty_shit = 0
+					change_pattern(0)
+					Events.emit_signal("attack_finished")
+					Events.attack_currently_active = false
+
+
+
+
+
+
+
+
+
+
 
 
 

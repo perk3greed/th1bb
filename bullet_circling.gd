@@ -7,11 +7,17 @@ var boss_snapshot
 var bullet_speed : float
 var patter_real : Vector2
 var reflect : bool
-var was_hit_by_player : bool
+var rot_angle : float
 
 signal player_hit_by_bullet 
 
 func _ready() -> void:
+	#var boss_relation : Vector2 = position - Events.boss_position 
+	#if boss_relation.x > 0:
+		#rot_angle = -0.002
+	#else:
+		#rot_angle = 0.002
+	#
 	
 	boss_snapshot = Events.current_boss
 	pattern_snapshot = Events.current_pattern
@@ -23,25 +29,18 @@ func _ready() -> void:
 			patter_real = pattern_snapshot
 
 
-
-
 func _physics_process(delta: float) -> void:
 	
-	if was_hit_by_player == true:
-		pattern_transfered += (Events.boss_position - position).normalized()/24
-	
-	pattern_transfered += (Events.player_position - position).normalized()/38
-	
-	self.position += pattern_transfered*bullet_speed
-	
-	if position.y > 740 :
-		self.queue_free()
+	var rotation_vector = position - Events.boss_position
+	position = rotation_vector.rotated(rot_angle) + Events.boss_position
+	self.position += pattern_transfered*bullet_speed 
 	
 
 func _process(delta: float) -> void:
 	life_long += 1*delta
 	if life_long >= 12:
 		self.queue_free()
+	
 
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
@@ -49,15 +48,11 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 		Events.emit_signal("player_hit_by_bullet")
 	if body.is_in_group("ball"):
 		self.queue_free()
-		
+
+
 
 
 func _on_area_2d_area_entered(area: Area2D) -> void:
 	if area.is_in_group("attack"):
-		patter_real = (position - Events.player_position).normalized()
+		pattern_transfered = (position - Events.player_position).normalized()
 		bullet_speed = bullet_speed*3
-		was_hit_by_player = true
-	if area.is_in_group("boss"):
-		if was_hit_by_player == true:
-			print("boss_hit")
-			self.queue_free()

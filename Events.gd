@@ -13,6 +13,8 @@ var player_snap : Vector2
 var player_snap_high : Vector2
 var pos_changing : bool 
 var attack_currently_active : bool 
+var random_number_of_two : int
+var second_attack_active : bool
 
 
 signal attack
@@ -27,5 +29,9 @@ signal third_boss_attack_finished
 signal boss_attack
 signal fourth_aoe_finished
 signal power_up_poiman
+signal attack_finished
+signal boss_secondary_attack
+signal secondary_attack_finished
+
 
 signal plot_points_on_the_graph
