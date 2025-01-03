@@ -32,6 +32,6 @@ signal power_up_poiman
 signal attack_finished
 signal boss_secondary_attack
 signal secondary_attack_finished
-
+signal update_noflor_signal
 
 signal plot_points_on_the_graph

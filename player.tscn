@@ -1,10 +1,10 @@
 [gd_scene load_steps=9 format=3 uid="uid://7n5hv8bu6tv6"]
 
 [ext_resource type="Script" path="res://player_movement.gd" id="1_3imes"]
-[ext_resource type="Texture2D" uid="uid://1lcgh0axkefm" path="res://textures/player/player2d_48x48.png" id="2_c3q4n"]
+[ext_resource type="Texture2D" uid="uid://b6ct0ykr0joe2" path="res://textures/random/trail16.png" id="2_eocyw"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_46bks"]
-size = Vector2(37, 46)
+[sub_resource type="CircleShape2D" id="CircleShape2D_8reia"]
+radius = 6.0
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_pk137"]
 blend_mode = 1
@@ -25,8 +25,7 @@ size = Vector2(85, 50)
 script = ExtResource("1_3imes")
 
 [node name="body" type="CollisionShape2D" parent="."]
-position = Vector2(-0.5, 0)
-shape = SubResource("RectangleShape2D_46bks")
+shape = SubResource("CircleShape2D_8reia")
 
 [node name="debugsprite" type="Sprite2D" parent="."]
 visible = false
@@ -35,7 +34,7 @@ material = SubResource("CanvasItemMaterial_pk137")
 texture = SubResource("PlaceholderTexture2D_wfxp0")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("2_c3q4n")
+texture = ExtResource("2_eocyw")
 
 [node name="overhead_attack" type="Area2D" parent="." groups=["attack"]]
 monitoring = false

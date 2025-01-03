@@ -47,7 +47,7 @@ func spawn_boss_func(number):
 
 		6:
 			boss_inst = boss_test6.instantiate()
-			inst_position = Vector2(625,300)
+			inst_position = Vector2(625,240)
 			Events.current_boss = 6
 
 	boss_inst.position = inst_position

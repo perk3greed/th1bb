@@ -108,7 +108,7 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 		var ball_charge = Events.ball_charge
 		if ball_charge < 4:
 			health_points -= 1/ball_charge
-			$Sprite2D.modulate = Color(15,225,55)
+			$Sprite2D.modulate = Color(0.1,0.1,0.8)
 			modulated_state = true
 			modulated_timer = 0
 			Events.boss_hp = health_points

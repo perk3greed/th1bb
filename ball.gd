@@ -4,16 +4,20 @@ var player_Pos : Vector2
 var boss_Pos : Vector2
 var charge_negative_amount : float
 var rng = RandomNumberGenerator.new()
-
+var antiflor_charge : int 
 
 signal player_hit_by_ball
+signal update_noflor_signal
+
+
 
 func _ready() -> void:
 	Events.connect("attack", be_moved_by_attack)
 	Events.connect("left_slide_attack", be_moved_by_left_attack)
 	Events.connect("right_slide_attack", be_moved_by_right_attack)
 	Events.connect("target_hit", be_moved_by_boss)
-
+	charge_negative_amount = 3
+	check_charge()
 
 func be_moved_by_attack():
 	apply_impulse(-linear_velocity)
@@ -22,14 +26,15 @@ func be_moved_by_attack():
 	var impulse_vectorY : float = position.y - player_Pos.y
 	apply_impulse(Vector2(impulse_vectorX,impulse_vectorY).normalized()*1600)
 	charge_negative_amount = 1
+	antiflor_charge += 1
 	check_charge()
 
 func be_moved_by_boss():
-	apply_impulse(-linear_velocity)
+	#apply_impulse(-linear_velocity)
 	boss_Pos = Events.boss_position
 	var impulse_vectorX : float = position.x - boss_Pos.x
-	var impulse_vectorY : float = 75
-	apply_impulse(Vector2(impulse_vectorX,impulse_vectorY).normalized()*1000)
+	var impulse_vectorY : float = 150
+	apply_impulse(Vector2(impulse_vectorX/1.5, impulse_vectorY))
 	$hitparts.set_emitting(true)
 
 
@@ -39,6 +44,7 @@ func be_moved_by_left_attack():
 	var impulse_vectorY : float = -4
 	apply_impulse(Vector2(impulse_vectorX,impulse_vectorY).normalized()*1500)
 	charge_negative_amount = 1
+	antiflor_charge += 1
 	check_charge()
 
 func be_moved_by_right_attack():
@@ -47,6 +53,7 @@ func be_moved_by_right_attack():
 	var impulse_vectorY : float = -4
 	apply_impulse(Vector2(impulse_vectorX,impulse_vectorY).normalized()*1500)
 	charge_negative_amount = 1
+	antiflor_charge += 1
 	check_charge()
 
 
@@ -55,6 +62,9 @@ func _on_body_entered(body: Node) -> void:
 		Events.emit_signal("player_hit_by_ball")
 	if body.is_in_group("wall"):
 		charge_negative_amount += 1
+		check_charge()
+	if body.is_in_group("floor"):
+		antiflor_charge = 0
 		check_charge()
 
 func check_charge():
@@ -68,3 +78,7 @@ func check_charge():
 	elif charge_negative_amount - 1 >= 3:
 		$".".set_modulate(Color(color_set[0]))
 		self.physics_material_override.bounce = 0
+	
+	Events.emit_signal("update_noflor_signal",antiflor_charge)
+	
+		

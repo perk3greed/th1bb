@@ -28,6 +28,7 @@ signal boss_secondary_attack
 func _ready() -> void:
 	$Timer.start()
 	Events.connect("attack_finished", react_to_finished_attack)
+	Events.boss_position = position
 
 func react_to_finished_attack():
 	$Timer.start()
@@ -63,25 +64,10 @@ func _process(delta: float) -> void:
 	
 	
 	
-	var pos_change_max : int = 120
-	if pos_changed == false:
-		Events.pos_changing = true
-		position = position.cubic_interpolate(player_snapshot_pos, snapshot_position - Vector2(0,300) ,play_snap_mir, pos_change_timer/120)
-		pos_change_timer += 1
-		if pos_change_timer >= pos_change_max:
-			$Area2D.set_deferred("monitorable", true)
-			$Area2D.set_deferred("monitoring", true)
-			
-			
-			pos_changed = true
-			Events.pos_changing = false
-			pos_change_timer = 0
-
-	Events.boss_position = position
 	if modulated_state == true:
 		
 		modulated_timer += 1*delta
-		if modulated_timer >= 0.3:
+		if modulated_timer >= 0.6:
 			modulated_state == false
 			$Sprite2D.modulate = Color(1,1,1)
 			$Area2D.set_deferred("monitorable", true)
@@ -93,7 +79,7 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 		var ball_charge = Events.ball_charge
 		if ball_charge < 4:
 			health_points -= 1/ball_charge
-			$Sprite2D.modulate = Color(15,225,55)
+			$Sprite2D.modulate = Color(0.1,0.1,0.1)
 			modulated_state = true
 			modulated_timer = 0
 			Events.boss_hp = health_points
