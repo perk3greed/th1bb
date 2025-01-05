@@ -15,6 +15,9 @@ var pos_changing : bool
 var attack_currently_active : bool 
 var random_number_of_two : int
 var second_attack_active : bool
+var ball_killing_bullets : bool = false
+var boss_left_position : Vector2 
+var boss_righ_position : Vector2
 
 
 signal attack

@@ -28,9 +28,9 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	
 	if was_hit_by_player == true:
-		pattern_transfered += (Events.boss_position - position).normalized()/24
-	
-	pattern_transfered += (Events.player_position - position).normalized()/38
+		pattern_transfered = ( Events.boss_position - position).normalized()
+	else:
+		pattern_transfered += (Events.player_position - position).normalized()/38
 	
 	self.position += pattern_transfered*bullet_speed
 	
@@ -48,16 +48,15 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):
 		Events.emit_signal("player_hit_by_bullet")
 	if body.is_in_group("ball"):
-		self.queue_free()
-		
+		if Events.ball_killing_bullets == true:
+			self.queue_free()
 
 
 func _on_area_2d_area_entered(area: Area2D) -> void:
 	if area.is_in_group("attack"):
-		patter_real = (position - Events.player_position).normalized()
+		patter_real = (position - Events.player_position ).normalized()
 		bullet_speed = bullet_speed*3
 		was_hit_by_player = true
 	if area.is_in_group("boss"):
 		if was_hit_by_player == true:
-			print("boss_hit")
 			self.queue_free()

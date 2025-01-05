@@ -7,6 +7,8 @@ func _ready() -> void:
 	Events.connect("target_hit", update_boss_health)
 	Events.connect("boss1testkilled", show_boss_selection)
 	Events.connect("update_noflor_signal", update_noflor)
+	
+
 
 func show_text():
 	$player_hit_rich.visible = true
@@ -27,7 +29,8 @@ func _on_item_list_item_clicked(index: int, at_position: Vector2, mouse_button_i
 	Events.player_immortal = $ItemList/CheckButton.button_pressed
 	$ItemList.visible = false
 	Events.emit_signal("spawn_boss", index)
-	
+	if $ItemList/ballkiller.button_pressed == true:
+		Events.ball_killing_bullets = true
 
 func update_noflor(amount):
 	if amount > 0:

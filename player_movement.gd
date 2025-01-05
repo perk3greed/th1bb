@@ -12,6 +12,8 @@ var player_stunned : bool = false
 var player_stun_timer : float = 0
 var player_health : int = 5
 var coold_down_timer : float 
+
+
 signal attack
 signal left_slide_attack
 signal right_slide_attack
@@ -25,7 +27,7 @@ signal right_slide_attack
 
 func _ready() -> void:
 	Events.connect("player_hit_by_ball", stun_player)
-	
+	Events.connect("player_hit_by_bullet", emit_hit)
 
 
 func stun_player():
@@ -48,16 +50,13 @@ func _physics_process(delta):
 	
 	if Input.is_action_pressed("a"):
 		velocity.x = -300
-		#if velocity.x > 0:
-			#velocity -= Vector2(speed*10, 0)
-		#elif velocity.x <= 0:
-			#velocity -= Vector2(speed, 0)
+		if left_slide_active == true:
+			attack_timer = 0.4
 	if Input.is_action_pressed("d"):
 		velocity.x = 300
-		#if velocity.x > 0:
-			#velocity += Vector2(speed, 0)
-		#elif velocity.x <= 0:
-			#velocity += Vector2(speed*10, 0)
+		if right_slide_active == true:
+			attack_timer = 0.4
+			
 	if Input.is_action_just_pressed("w"):
 		if jump_counter > 0:
 			return
@@ -68,10 +67,8 @@ func _physics_process(delta):
 	if Input.is_action_just_pressed("shift"):
 		if attack_timer == 0:
 			if velocity.x > 0:
-				#velocity.x = 800
 				left_slide_active = true
 			else:
-				#velocity.x = -800
 				right_slide_active = true
 				
 	
@@ -89,13 +86,13 @@ func _physics_process(delta):
 	if attack_active == true:
 		attack_timer += 1*delta
 		overhead_attack_area.monitoring = true 
-		overhead_attack_collision.visible = true
+		$top_sprite.visible = true
 		overhead_attack_area.monitorable = true 
 		velocity.x = 0
 		if attack_timer >= 0.4:
 			attack_active = false
 			overhead_attack_area.monitoring = false
-			overhead_attack_collision.visible = false
+			$top_sprite.visible = false
 			overhead_attack_area.monitorable = false 
 			attack_timer = 0
 			coold_down_timer = 0.4
@@ -103,11 +100,11 @@ func _physics_process(delta):
 	if left_slide_active == true:
 		attack_timer += 1*delta
 		left_slide_area.monitoring = true 
-		left_slide_collision.visible = true
+		$left.visible = true
 		if attack_timer >= 0.4:
 			left_slide_active = false
 			left_slide_area.monitoring = false
-			left_slide_collision.visible = false
+			$left.visible = false
 			attack_timer = 0
 
 
@@ -115,21 +112,14 @@ func _physics_process(delta):
 	if right_slide_active == true:
 		attack_timer += 1*delta
 		right_slide_area.monitoring = true 
-		right_slide_collision.visible = true
+		$right.visible = true
 		if attack_timer >= 0.4:
 			right_slide_active = false
 			right_slide_area.monitoring = false
-			right_slide_collision.visible = false
+			$right.visible = false
 			attack_timer = 0
+			
 
-
-	#
-	#
-	#if velocity.x > 185:
-		#velocity.x = velocity.x - 21 - velocity.x/21
-	#elif velocity.x < -185:
-		#velocity.x = velocity.x + 21 - velocity.x/21
-	
 	if player_stunned == true:
 		velocity = Vector2.ZERO
 		player_stun_timer += 1*delta
@@ -137,10 +127,6 @@ func _physics_process(delta):
 			player_stunned = false
 	
 	move_and_slide()
-#
-#
-
-
 
 
 
@@ -162,3 +148,6 @@ func _on_right_slide_attack_body_entered(body: Node2D) -> void:
 		Events.player_position = position
 		Events.emit_signal("right_slide_attack")
 		
+
+func emit_hit():
+	$CPUParticles2D.emitting = true

@@ -6,6 +6,7 @@ extends Node
 @onready var boss_test4 = load("res://objects/targets/4_rthboss.tscn")
 @onready var boss_test5 = load("res://objects/targets/petboss.tscn")
 @onready var boss_test6 = load("res://objects/targets/siexboss.tscn")
+@onready var boss_test7 = load("res://objects/targets/seventhbosss.tscn")
 var boss_inst
 var inst_position : Vector2
 var player_health : int 
@@ -49,6 +50,15 @@ func spawn_boss_func(number):
 			boss_inst = boss_test6.instantiate()
 			inst_position = Vector2(625,240)
 			Events.current_boss = 6
+
+		7: 
+			boss_inst = boss_test7.instantiate()
+			inst_position = Vector2(600,200)
+			Events.current_boss = 7 
+
+
+
+
 
 	boss_inst.position = inst_position
 	$"2dworld/targets".add_child(boss_inst)

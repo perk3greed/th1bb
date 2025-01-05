@@ -1,7 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://7n5hv8bu6tv6"]
+[gd_scene load_steps=11 format=3 uid="uid://7n5hv8bu6tv6"]
 
 [ext_resource type="Script" path="res://player_movement.gd" id="1_3imes"]
 [ext_resource type="Texture2D" uid="uid://b6ct0ykr0joe2" path="res://textures/random/trail16.png" id="2_eocyw"]
+[ext_resource type="Texture2D" uid="uid://bauelcl7afrak" path="res://textures/random/square_attack.png" id="3_j54h2"]
+[ext_resource type="Texture2D" uid="uid://c6og6ukbls6h4" path="res://textures/random/circle_attack.png" id="4_p6jpj"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_8reia"]
 radius = 6.0
@@ -62,6 +64,43 @@ monitoring = false
 visible = false
 position = Vector2(-43, -2)
 shape = SubResource("RectangleShape2D_4o4u0")
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+emitting = false
+amount = 12
+one_shot = true
+explosiveness = 1.0
+emission_shape = 1
+emission_sphere_radius = 16.0
+direction = Vector2(0, -1)
+initial_velocity_min = 161.62
+initial_velocity_max = 250.0
+scale_amount_min = 12.0
+scale_amount_max = 16.0
+color = Color(0.752085, 0.112797, 0.27438, 1)
+hue_variation_min = -0.65
+hue_variation_max = 0.67
+
+[node name="right" type="Sprite2D" parent="."]
+visible = false
+self_modulate = Color(0.376471, 1, 1, 0.345098)
+position = Vector2(-43, -2)
+scale = Vector2(1.43333, 1.04167)
+texture = ExtResource("3_j54h2")
+
+[node name="left" type="Sprite2D" parent="."]
+visible = false
+self_modulate = Color(0.376471, 1, 1, 0.345098)
+position = Vector2(43, -2)
+scale = Vector2(1.43333, 1.04167)
+texture = ExtResource("3_j54h2")
+
+[node name="top_sprite" type="Sprite2D" parent="."]
+visible = false
+modulate = Color(0.87451, 0.380392, 0.913725, 0.478431)
+position = Vector2(-2.35438e-06, -24.5)
+scale = Vector2(1.56667, 1.97917)
+texture = ExtResource("4_p6jpj")
 
 [connection signal="body_entered" from="overhead_attack" to="." method="_on_area_2d_body_entered"]
 [connection signal="body_entered" from="left_slide_attack" to="." method="_on_lest_slide_attack_body_entered"]

@@ -123,7 +123,7 @@ theme_override_constants/outline_size = 4
 theme_override_constants/v_separation = 15
 theme_override_constants/h_separation = 36
 theme_override_font_sizes/font_size = 24
-item_count = 6
+item_count = 7
 max_columns = 6
 item_0/text = "test 1 "
 item_1/text = "test 2 "
@@ -131,6 +131,7 @@ item_2/text = "test 3"
 item_3/text = "4RTH BOSS HERE"
 item_4/text = "5th boss right now"
 item_5/text = "sixtboss"
+item_6/text = "seventhbss"
 
 [node name="CheckButton" type="CheckButton" parent="interfacemain/ItemList"]
 layout_mode = 0
@@ -142,10 +143,25 @@ theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 8
 text = "immortal mode"
 
+[node name="ballkiller" type="CheckButton" parent="interfacemain/ItemList"]
+layout_mode = 0
+offset_left = 452.0
+offset_top = 284.0
+offset_right = 567.0
+offset_bottom = 315.0
+text = "ballkiller
+"
+
 [node name="ball_noflor" type="RichTextLabel" parent="interfacemain"]
 layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+offset_left = 1106.0
+offset_top = 245.0
+offset_right = 1226.0
+offset_bottom = 365.0
+theme_override_colors/default_color = Color(0.0975142, 0.0101037, 0.00777023, 1)
+theme_override_colors/font_outline_color = Color(0.945098, 0, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/normal_font_size = 56
 
 [node name="Timer" type="Timer" parent="."]
 one_shot = true

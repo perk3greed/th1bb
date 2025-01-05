@@ -47,7 +47,8 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):
 		Events.emit_signal("player_hit_by_bullet")
 	if body.is_in_group("ball"):
-		self.queue_free()
+		if Events.ball_killing_bullets == true:
+			self.queue_free()
 
 
 

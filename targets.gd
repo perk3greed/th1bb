@@ -12,6 +12,8 @@ var powerup_prld := preload("res://objects/pick ups/power_up.tscn")
 var reflect_bullet := preload("res://objects/bullet_reflective.tscn")
 var tracking_bullet := preload("res://objects/targets/bullet_lookingfor.tscn")
 var circling_bullet := preload("res://objects/targets/bullet_circling.tscn")
+var bullet_spinned := preload("res://objects/bullet_spinned.tscn")
+
 
 signal fourth_aoe_finished
 signal attack_finished
@@ -307,12 +309,35 @@ func _process(delta: float) -> void:
 					Events.attack_currently_active = false
 
 
-
-
-
-
-
-
+		11:
+			bullet_counter += 12*delta
+			var boss_position_left = Events.boss_left_position
+			var boss_position_righ = Events.boss_righ_position
+			Events.attack_currently_active = true
+			boss_position = Events.boss_position
+			var player_position = Events.player_position
+			if bullet_counter >= bullet_timer:
+				var bullet_inst = bullet_spinned.instantiate()
+				bullet_inst.bullet_speed = 4
+				
+				bullet_counter = 0
+				if patterning_shitty_shit < 9:
+					patterning_shitty_shit += 1
+				elif patterning_shitty_shit >= 9 and patterning_shitty_shit < 18 :
+					bullet_inst.position = Events.boss_position 
+					add_child(bullet_inst)
+					patterning_shitty_shit += 1
+				elif patterning_shitty_shit >= 18 and patterning_shitty_shit < 36 :
+					patterning_shitty_shit += 1
+					bullet_inst.position = Events.boss_position 
+					add_child(bullet_inst)
+				elif patterning_shitty_shit >= 18 and patterning_shitty_shit < 72 :
+					patterning_shitty_shit += 1
+				elif patterning_shitty_shit >= 72:
+					patterning_shitty_shit = 0
+					change_pattern(0)
+					Events.attack_currently_active = false
+					Events.emit_signal("attack_finished")
 
 
 
