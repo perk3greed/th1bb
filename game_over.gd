@@ -19,6 +19,8 @@ func _ready() -> void:
 	Events.connect("player_hit_by_bullet", calculate_player_health)
 	$interfacemain/player_health.text = str(player_health)
 	player_health = Events.player_health
+	Events.attack_currently_active = false
+
 
 func spawn_boss_func(number):
 	match number+1:

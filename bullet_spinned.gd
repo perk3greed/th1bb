@@ -27,13 +27,13 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
-##
-	#position = position.cubic_interpolate(Events.player_position, Events.boss_left_position ,Events.player_position + Vector2(0,200), pos_change_timer/12)
-	#pos_change_timer += 1
-	var heads_comparative_positions : Vector2 
-
-	position = position.cubic_interpolate(Events.player_position, Events.boss_position - Events.boss_righ_position , Events.player_position, pos_change_timer/1800)
-	pos_change_timer += 1
+	
+	if was_hit_by_player == true:
+		pattern_transfered = (position - Events.player_position).normalized()
+		position += pattern_transfered*bullet_speed
+	
+	pattern_transfered += (Events.player_position - position).normalized()/20
+	position += pattern_transfered*bullet_speed
 	
 	if position.y > 740 :
 		self.queue_free()

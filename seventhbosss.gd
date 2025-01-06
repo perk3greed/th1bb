@@ -18,9 +18,12 @@ var player_snapshot_pos : Vector2
 var play_snap_mir : Vector2
 var rng = RandomNumberGenerator.new()
 var pos_change_in_que : bool
-var rot_angle_one : float = 0.01
+var rot_angle_one : float = 0.017
 var rot_angle_two : float = -0.01
-
+var reverse_up : bool
+var reverse_side : bool
+var direction : Vector2
+var boss_speed : float
 
 signal target_hit
 signal boss1testkilled
@@ -33,24 +36,10 @@ func _ready() -> void:
 	$Timer.start()
 
 func change_position():
-	if Events.attack_currently_active == true:
-		pos_change_in_que = true
-		return
-	
-	player_snapshot_pos = Events.player_position + Vector2(0,-450) + Vector2(rng.randi_range(-200,200),rng.randi_range(-110,200))
-	if player_snapshot_pos.x > 900:
-		player_snapshot_pos.x = rng.randi_range(200,1000)
-	elif player_snapshot_pos.x < 300:
-		player_snapshot_pos.x = rng.randi_range(250,900)
-	if player_snapshot_pos.x > 650:
-		play_snap_mir = player_snapshot_pos - Vector2(650,0)
-	elif player_snapshot_pos.x <= 650:
-		play_snap_mir = player_snapshot_pos + Vector2(650,0)
-	
-	
-	amount_of_aoue_attacks = 0
-	snapshot_position = position + Vector2(rng.randi_range(-50,50),rng.randi_range(-50,50))
-	pos_change_in_que = false
+	#if Events.attack_currently_active == true:
+		#pos_change_in_que = true
+		#return
+	#pos_change_in_que = false
 	pos_changed = false
 
 
@@ -60,16 +49,13 @@ func _on_timer_timeout() -> void:
 		if Events.attack_currently_active == true:
 			return
 		Events.emit_signal("boss_attack", 10)
+		print("timer_is_working")
 	else :
 		if Events.attack_currently_active == true:
 			return
 		Events.emit_signal("boss_attack", 10)
-	if amount_of_aoue_attacks < 2:
-		amount_of_aoue_attacks += 1
-		$Timer.start()
-	elif amount_of_aoue_attacks == 2 :
-		
-		change_position()
+		print("timer_is_working")
+
 	
 
 
@@ -88,18 +74,52 @@ func _process(delta: float) -> void:
 	
 	
 	var pos_change_max : int = 120
-	if pos_changed == false:
-		Events.pos_changing = true
-		position = position.cubic_interpolate(player_snapshot_pos, snapshot_position - Vector2(0,300) ,play_snap_mir, pos_change_timer/240)
-		pos_change_timer += 1
-		if pos_change_timer >= pos_change_max:
-			$Area2D.set_deferred("monitorable", true)
-			$Area2D.set_deferred("monitoring", true)
+	#if pos_changed == false:
+		#if pos_change_timer < 60 :
+			#boss_speed = pos_change_timer/10 
+		#elif pos_change_timer >= 60:
+			#boss_speed = (120 - pos_change_timer)/10
+		#var bos_right : Vector2 = Events.boss_righ_position
+		#var bos_left : Vector2 = Events.boss_left_position
+		#if reverse_side == true:
+			#direction = Vector2(bos_right.x - bos_left.x, bos_left.y - bos_right.y)
+			#position += direction.normalized()*boss_speed
+		#if reverse_up == true:
+			#direction = Vector2(bos_left.x - bos_right.x, bos_right.y - bos_left.y)
+			#position += direction.normalized()*boss_speed
+		#else:
+			#position += (Events.boss_left_position - Events.boss_righ_position).normalized()*boss_speed
+		#
+		#if position.x > 800:
+			#reverse_side = true
+		#if position.x < 400:
+			#reverse_side = true
+		#if position.y > 350:
+			#reverse_up = true
+		#if position.y < 200:
+			#reverse_up = true
+	position += (Events.boss_left_position - Events.boss_righ_position)/180
+	
+	if position.y < 150:
+		position.y += (150 - position.y)/10
+	if position.y > 400:
+		position.y += (400 - position.y)/10
+	if position.x < 350:
+		position.x += (350 - position.x)/10
+	if position.y > 450:
+		position.x += (450 - position.x)/10
 			
 			
-			pos_changed = true
-			Events.pos_changing = false
-			pos_change_timer = 0
+		
+	pos_change_timer += 1
+	if pos_change_timer >= pos_change_max:
+		
+		reverse_up = false
+		reverse_up = false
+		
+		pos_changed = true
+		Events.pos_changing = false
+		pos_change_timer = 0
 
 	Events.boss_position = position
 	if modulated_state == true:
@@ -108,14 +128,12 @@ func _process(delta: float) -> void:
 		if modulated_timer >= 0.3:
 			modulated_state == false
 			$Sprite2D.modulate = Color(1,1,1)
-			
+			$Area2D.set_deferred("monitorable", true)
+			$Area2D.set_deferred("monitoring", true)
 
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
-	if pos_changed == false:
-		return
-		
-	
+
 	if body.is_in_group("ball"):
 		var ball_charge = Events.ball_charge
 		if ball_charge < 4:

@@ -40,7 +40,7 @@ func _on_timer_timeout() -> void:
 	if rng.randi()%2 == 0:
 		if Events.attack_currently_active == true:
 			return
-		Events.emit_signal("boss_attack", 9)
+		Events.emit_signal("boss_attack", 8)
 		var random_place = rng.randi()%2
 		if random_place == 1:
 			Events.random_number_of_two = 1

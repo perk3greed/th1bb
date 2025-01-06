@@ -49,18 +49,18 @@ func change_position():
 	snapshot_position = position + Vector2(rng.randi_range(-50,50),rng.randi_range(-50,50))
 	pos_change_in_que = false
 	pos_changed = false
-
+	
 
 
 func _on_timer_timeout() -> void:
 	if rng.randi()%2 == 0:
 		if Events.attack_currently_active == true:
 			return
-		Events.emit_signal("boss_attack", 5)
+		Events.emit_signal("boss_attack", 11)
 	else :
 		if Events.attack_currently_active == true:
 			return
-		Events.emit_signal("boss_attack", 6)
+		Events.emit_signal("boss_attack", 11)
 	if amount_of_aoue_attacks < 2:
 		amount_of_aoue_attacks += 1
 		$Timer.start()
@@ -77,6 +77,8 @@ func _process(delta: float) -> void:
 	
 	var pos_change_max : int = 120
 	if pos_changed == false:
+		modulate = Color(0.8,0.8,1,0.5)
+
 		Events.pos_changing = true
 		position = position.cubic_interpolate(player_snapshot_pos, snapshot_position - Vector2(0,300) ,play_snap_mir, pos_change_timer/120)
 		pos_change_timer += 1
@@ -84,19 +86,13 @@ func _process(delta: float) -> void:
 			$Area2D.set_deferred("monitorable", true)
 			$Area2D.set_deferred("monitoring", true)
 			
-			
+			modulate = Color(1,1,1,1)
 			pos_changed = true
 			Events.pos_changing = false
 			pos_change_timer = 0
 
 	Events.boss_position = position
-	if modulated_state == true:
-		
-		modulated_timer += 1*delta
-		if modulated_timer >= 0.3:
-			modulated_state == false
-			$Sprite2D.modulate = Color(1,1,1)
-			
+	
 
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
@@ -108,9 +104,8 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 		var ball_charge = Events.ball_charge
 		if ball_charge < 4:
 			health_points -= 1/ball_charge
-			$Sprite2D.modulate = Color(0.1,0.1,0.8)
-			modulated_state = true
-			modulated_timer = 0
+			modulate = Color(0.1,0.1,0.8,0.8)
+			$modulator.start()
 			Events.boss_hp = health_points
 			Events.emit_signal("target_hit")
 			$Area2D.set_deferred("monitorable", false)
@@ -120,4 +115,11 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 			if health_points <= 0:
 				Events.emit_signal("boss1testkilled")
 				self.queue_free()
+			
+
+
+func _on_modulator_timeout() -> void:
+	modulate = Color(1,1,1,1)
+	$Area2D.set_deferred("monitorable", true)
+	$Area2D.set_deferred("monitoring", true)
 			
