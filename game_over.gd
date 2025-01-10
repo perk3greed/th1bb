@@ -63,7 +63,7 @@ func spawn_boss_func(number):
 
 
 	boss_inst.position = inst_position
-	$"2dworld/targets".add_child(boss_inst)
+	$"SubViewportContainer/SubViewport/2dworld/targets".add_child(boss_inst)
 	
 
 

@@ -49,11 +49,11 @@ func _physics_process(delta):
 		jump_counter = 0
 	
 	if Input.is_action_pressed("a"):
-		velocity.x = -300
+		velocity.x = -350
 		if left_slide_active == true:
 			attack_timer = 0.4
 	if Input.is_action_pressed("d"):
-		velocity.x = 300
+		velocity.x = 350
 		if right_slide_active == true:
 			attack_timer = 0.4
 			
@@ -73,9 +73,9 @@ func _physics_process(delta):
 				
 	
 	if left_slide_active: 
-		velocity.x = 700
+		velocity.x = 850
 	elif right_slide_active:
-		velocity.x = -700
+		velocity.x = -850
 	
 	if Input.is_action_just_pressed("space"):
 		if attack_timer == 0:
