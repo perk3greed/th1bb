@@ -10,28 +10,27 @@ var reflect : bool
 var rot_angle : float
 var bouncecount : int
 signal player_hit_by_bullet 
+var wrld_boundarie_left : int
+var wrld_boundarie_right : int
+var wrld_boundarie_top : int
 
 func _ready() -> void:
 	
 	boss_snapshot = Events.current_boss
 	pattern_snapshot = Events.current_pattern
 	
-	match Events.current_boss:
-		1:
-			print("i am rarted frfr")
-		2:
-			patter_real = pattern_snapshot
-	
 	patter_real = pattern_transfered
-
+	wrld_boundarie_left = Events.world_boundaries[0]
+	wrld_boundarie_right = Events.world_boundaries[1]
+	wrld_boundarie_top = Events.world_boundaries[2]
 
 func _physics_process(delta: float) -> void:
 	
-	if self.position.x >= 1280 or self.position.x <=0:
+	if self.position.x >= wrld_boundarie_right or self.position.x <=wrld_boundarie_left:
 		patter_real.x = -patter_real.x
 		bouncecount += 1
 		check_bounce()
-	if position.y <= 0:
+	if position.y <= wrld_boundarie_top:
 		patter_real.y = -patter_real.y
 		bouncecount += 1
 		check_bounce()

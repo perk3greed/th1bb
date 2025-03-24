@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://bn0k3cxnn5ay1"]
 
-[ext_resource type="Script" path="res://third_boss.gd" id="1_l2rr8"]
+[ext_resource type="Script" uid="uid://uj8jxadai8m5" path="res://third_boss.gd" id="1_l2rr8"]
 [ext_resource type="Texture2D" uid="uid://u7w5v0o1kyrr" path="res://textures/random/Anime-Cat-Transparent-Background.png" id="2_7isyk"]
 
 [node name="third_boss" type="Node2D"]

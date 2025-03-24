@@ -1,13 +1,13 @@
 [gd_scene load_steps=5 format=3 uid="uid://bseb62hpj036v"]
 
-[ext_resource type="Script" path="res://power_up.gd" id="1_py4fo"]
+[ext_resource type="Script" uid="uid://bnpfkqyog07k1" path="res://power_up.gd" id="1_py4fo"]
 [ext_resource type="Texture2D" uid="uid://buec5xlb8gscl" path="res://textures/bosses/bulletwthite16.png" id="2_kjoji"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_cbkrb"]
 radius = 24.0
 
 [sub_resource type="Curve" id="Curve_4wccc"]
-min_value = -1.0
+_limits = [-1.0, 1.0, 0.0, 1.0]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.445205, -0.406593), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
 point_count = 3
 

@@ -20,6 +20,7 @@ func _ready() -> void:
 	$interfacemain/player_health.text = str(player_health)
 	player_health = Events.player_health
 	Events.attack_currently_active = false
+	
 
 
 func spawn_boss_func(number):
@@ -59,12 +60,13 @@ func spawn_boss_func(number):
 			Events.current_boss = 7 
 
 
-
-
-
 	boss_inst.position = inst_position
 	$"SubViewportContainer/SubViewport/2dworld/targets".add_child(boss_inst)
-	
+	Events.world_boundaries[0] = $"SubViewportContainer/SubViewport/2dworld/world_boundary/StaticBody2D/left_collision".position.x
+	Events.world_boundaries[1] = $"SubViewportContainer/SubViewport/2dworld/world_boundary/StaticBody2D/right_collision".position.x
+	Events.world_boundaries[2] = $"SubViewportContainer/SubViewport/2dworld/world_boundary/StaticBody2D/top_collision".position.y
+	Events.world_boundaries[3] = $"SubViewportContainer/SubViewport/2dworld/world_boundary/StaticBody2D2/bottom_collision".position.y
+
 
 
 

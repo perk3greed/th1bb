@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://bdkuewmky4lx"]
 
 [ext_resource type="Texture2D" uid="uid://og5ymchg46k1" path="res://textures/player/ball.png" id="1_2gve6"]
-[ext_resource type="Script" path="res://ball.gd" id="1_puh4r"]
+[ext_resource type="Script" uid="uid://dyuwsrn38dy81" path="res://ball.gd" id="1_puh4r"]
 [ext_resource type="Texture2D" uid="uid://b6ct0ykr0joe2" path="res://textures/random/trail16.png" id="3_6k7pl"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_4mvef"]
@@ -11,7 +11,7 @@ bounce = 0.91
 radius = 16.0
 
 [sub_resource type="Curve" id="Curve_c3lnv"]
-min_value = -1.0
+_limits = [-1.0, 1.0, 0.0, 1.0]
 _data = [Vector2(0.192053, -0.076923), 0.0, 0.0, 0, 0, Vector2(0.483444, 0.846154), 0.0, 0.0, 0, 0, Vector2(0.900662, 0.296703), 0.0, 0.0, 0, 0]
 point_count = 3
 

@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://bwmytanambgl2"]
 
-[ext_resource type="Script" path="res://objects/targets/second_target.gd" id="1_h41ih"]
+[ext_resource type="Script" uid="uid://1n16rqfxxy26" path="res://objects/targets/second_target.gd" id="1_h41ih"]
 [ext_resource type="Texture2D" uid="uid://bd5hhr0rtphtw" path="res://textures/random/pngtree-cute-anime-japanese-school-girl-png-image_4017477.png" id="2_nea30"]
 
 [node name="second_target" type="Node2D"]

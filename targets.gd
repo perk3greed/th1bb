@@ -157,6 +157,7 @@ func _process(delta: float) -> void:
 
 
 		7:
+			
 			Events.attack_currently_active = true
 			bullet_counter += 10*delta
 			boss_position = Events.boss_position
@@ -173,28 +174,26 @@ func _process(delta: float) -> void:
 				if patterning_shitty_shit < 9:
 					patterning_shitty_shit += 1
 					bullet_inst.position = boss_position 
-					var bos_mir : float = 1280 
-					bullet_inst.pattern_transfered = (plm_true + Vector2(0, - patterning_shitty_shit*10)).normalized()
+					bullet_inst.pattern_transfered = (plm_true + Vector2(0, - patterning_shitty_shit*25)).normalized()
 					add_child(bullet_inst)
 				elif patterning_shitty_shit >= 9 and patterning_shitty_shit < 18 :
 					bullet_inst.position = boss_position 
-					bullet_inst.pattern_transfered = (plm_false + Vector2(0,(- 18 + patterning_shitty_shit )*10)).normalized()
+					bullet_inst.pattern_transfered = (plm_false + Vector2(0,(- 18 + patterning_shitty_shit )*25)).normalized()
 					add_child(bullet_inst)
 					patterning_shitty_shit += 1
 				elif patterning_shitty_shit >= 18 and patterning_shitty_shit < 36 :
 					patterning_shitty_shit += 1
 					bullet_inst.position = boss_position 
-					var bos_mir : float = 1280 
-					bullet_inst.pattern_transfered = (plm_true + Vector2(0,(- patterning_shitty_shit + 18)*12)).normalized()
+					bullet_inst.pattern_transfered = (plm_true + Vector2(0,(- patterning_shitty_shit + 18)*16)).normalized()
 					add_child(bullet_inst)
 				elif patterning_shitty_shit >= 36 and patterning_shitty_shit < 54 :
 					bullet_inst.position = boss_position 
-					bullet_inst.pattern_transfered = (plm_false + Vector2(0,(- 54 + patterning_shitty_shit )*12)).normalized()
+					bullet_inst.pattern_transfered = (plm_false + Vector2(0,(- 54 + patterning_shitty_shit )*16)).normalized()
 					add_child(bullet_inst)
 					patterning_shitty_shit += 1
 				elif patterning_shitty_shit >= 54 and patterning_shitty_shit < 98 :
 					patterning_shitty_shit += 1
-				elif patterning_shitty_shit >= 98:
+				elif patterning_shitty_shit >= 86:
 					patterning_shitty_shit = 0
 					change_pattern(0)
 					Events.attack_currently_active = false

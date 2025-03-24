@@ -1,13 +1,13 @@
 [gd_scene load_steps=14 format=3 uid="uid://bhh6o2g40ltts"]
 
-[ext_resource type="Script" path="res://game_over.gd" id="1_e0opt"]
-[ext_resource type="Texture2D" uid="uid://dmpnccadxiiug" path="res://textures/backgrounds/gridround.png" id="2_vk2pg"]
+[ext_resource type="Script" uid="uid://boawe77ud03lg" path="res://game_over.gd" id="1_e0opt"]
 [ext_resource type="PackedScene" uid="uid://7n5hv8bu6tv6" path="res://player.tscn" id="2_xecjr"]
-[ext_resource type="Shader" path="res://textures/shader/ps1_camera_dither.gdshader" id="3_5b2c6"]
+[ext_resource type="Shader" uid="uid://cv8ri3rvsgxu3" path="res://textures/shader/ps1_camera_dither.gdshader" id="3_5b2c6"]
 [ext_resource type="PackedScene" uid="uid://bdkuewmky4lx" path="res://ball.tscn" id="3_5ekim"]
-[ext_resource type="Script" path="res://interfacemain.gd" id="4_hmkse"]
-[ext_resource type="Script" path="res://targets.gd" id="4_q84kf"]
-[ext_resource type="Script" path="res://targets_dva.gd" id="6_67irx"]
+[ext_resource type="Texture2D" uid="uid://fp4gtik7bicr" path="res://textures/random/skyground.png" id="3_j5wjh"]
+[ext_resource type="Script" uid="uid://bikvdtjmypa4h" path="res://interfacemain.gd" id="4_hmkse"]
+[ext_resource type="Script" uid="uid://jo0dvgquyjd2" path="res://targets.gd" id="4_q84kf"]
+[ext_resource type="Script" uid="uid://be8cvda7lf52j" path="res://targets_dva.gd" id="6_67irx"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_cxch1"]
 shader = ExtResource("3_5b2c6")
@@ -17,22 +17,18 @@ shader_parameter/resolution_scale = 4
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_kxevy"]
 normal = Vector2(-1, 0)
-distance = -65.0
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_jsrea"]
 normal = Vector2(1, 0)
-distance = -73.0
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_jyal0"]
 normal = Vector2(0, 1)
-distance = -85.0
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_ju2vw"]
-distance = -715.0
 
 [node name="game" type="Node"]
 script = ExtResource("1_e0opt")
-metadata/_edit_vertical_guides_ = [1120.0]
+metadata/_edit_vertical_guides_ = [1120.0, 141.0, 141.0, 141.0, 1118.0]
 
 [node name="Timer" type="Timer" parent="."]
 one_shot = true
@@ -46,14 +42,16 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+handle_input_locally = false
 snap_2d_transforms_to_pixel = true
 snap_2d_vertices_to_pixel = true
 size = Vector2i(1280, 720)
+render_target_update_mode = 4
 
 [node name="2dworld" type="Node2D" parent="SubViewportContainer/SubViewport"]
 
 [node name="Sprite2D" type="Sprite2D" parent="SubViewportContainer/SubViewport/2dworld"]
-texture = ExtResource("2_vk2pg")
+texture = ExtResource("3_j5wjh")
 centered = false
 
 [node name="Camera2D" type="Camera2D" parent="SubViewportContainer/SubViewport/2dworld"]
@@ -63,32 +61,43 @@ position = Vector2(640, 370)
 position = Vector2(550, 658)
 
 [node name="world_boundary" type="Node2D" parent="SubViewportContainer/SubViewport/2dworld"]
-position = Vector2(165, 2)
 
 [node name="StaticBody2D" type="StaticBody2D" parent="SubViewportContainer/SubViewport/2dworld/world_boundary" groups=["wall"]]
 
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="SubViewportContainer/SubViewport/2dworld/world_boundary/StaticBody2D"]
-position = Vector2(889, 233)
+[node name="right_collision" type="CollisionShape2D" parent="SubViewportContainer/SubViewport/2dworld/world_boundary/StaticBody2D"]
+position = Vector2(1120, 0)
 shape = SubResource("WorldBoundaryShape2D_kxevy")
 
-[node name="CollisionShape2D3" type="CollisionShape2D" parent="SubViewportContainer/SubViewport/2dworld/world_boundary/StaticBody2D"]
-position = Vector2(49, 243)
+[node name="Line2D" type="Line2D" parent="SubViewportContainer/SubViewport/2dworld/world_boundary/StaticBody2D/right_collision"]
+points = PackedVector2Array(0, -400, 0, 1200)
+width = 4.0
+
+[node name="left_collision" type="CollisionShape2D" parent="SubViewportContainer/SubViewport/2dworld/world_boundary/StaticBody2D"]
+position = Vector2(125, 0)
 shape = SubResource("WorldBoundaryShape2D_jsrea")
 
-[node name="CollisionShape2D4" type="CollisionShape2D" parent="SubViewportContainer/SubViewport/2dworld/world_boundary/StaticBody2D"]
-position = Vector2(50, 225)
+[node name="Line2D" type="Line2D" parent="SubViewportContainer/SubViewport/2dworld/world_boundary/StaticBody2D/left_collision"]
+points = PackedVector2Array(0, -400, 0, 1400)
+width = 4.0
+
+[node name="top_collision" type="CollisionShape2D" parent="SubViewportContainer/SubViewport/2dworld/world_boundary/StaticBody2D"]
+position = Vector2(0, 145)
 shape = SubResource("WorldBoundaryShape2D_jyal0")
 
-[node name="Line2D" type="Line2D" parent="SubViewportContainer/SubViewport/2dworld/world_boundary/StaticBody2D"]
-position = Vector2(-50, 139)
-points = PackedVector2Array(940, 0, 100, 0, 100, 570, 940, 570, 940, 0)
-width = 6.0
-default_color = Color(0.229, 0.181, 0.717, 0.887)
+[node name="Line2D" type="Line2D" parent="SubViewportContainer/SubViewport/2dworld/world_boundary/StaticBody2D/top_collision"]
+points = PackedVector2Array(-400, 0, 1600, 0)
+width = 4.0
 
 [node name="StaticBody2D2" type="StaticBody2D" parent="SubViewportContainer/SubViewport/2dworld/world_boundary" groups=["floor"]]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="SubViewportContainer/SubViewport/2dworld/world_boundary/StaticBody2D2"]
+[node name="bottom_collision" type="CollisionShape2D" parent="SubViewportContainer/SubViewport/2dworld/world_boundary/StaticBody2D2"]
+position = Vector2(0, 715)
 shape = SubResource("WorldBoundaryShape2D_ju2vw")
+
+[node name="Line2D" type="Line2D" parent="SubViewportContainer/SubViewport/2dworld/world_boundary/StaticBody2D2"]
+position = Vector2(0, 715)
+points = PackedVector2Array(-400, 0, 1400, 0)
+width = 4.0
 
 [node name="RigidBody2D" parent="SubViewportContainer/SubViewport/2dworld" instance=ExtResource("3_5ekim")]
 position = Vector2(421, 663)

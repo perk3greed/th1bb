@@ -151,3 +151,9 @@ func _on_right_slide_attack_body_entered(body: Node2D) -> void:
 
 func emit_hit():
 	$CPUParticles2D.emitting = true
+	$debugsprite.modulate = (Color(1,0.3,0.3,0.7))
+	
+	
+
+func _on_cpu_particles_2d_finished() -> void:
+	$debugsprite.modulate = (Color(0.1,0.3,0.6,0.5))

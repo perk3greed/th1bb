@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://us7ne28tg021"]
 
-[ext_resource type="Script" path="res://objects/targets/siexboss.gd" id="1_0n5m0"]
+[ext_resource type="Script" uid="uid://bvdnl4rhnqobs" path="res://objects/targets/siexboss.gd" id="1_0n5m0"]
 [ext_resource type="Texture2D" uid="uid://bfblpnivnqugi" path="res://textures/random/58a20c6dc8dd3432c6fa8224.png" id="2_qo1yq"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yfxy4"]

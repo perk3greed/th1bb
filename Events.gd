@@ -20,6 +20,10 @@ var boss_left_position : Vector2
 var boss_righ_position : Vector2
 
 
+#world boundaries left-right-top-bottom
+var world_boundaries : Array = [0,0,0,0]
+
+
 signal attack
 signal left_slide_attack
 signal right_slide_attack

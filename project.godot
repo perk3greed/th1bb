@@ -12,7 +12,7 @@ config_version=5
 
 config/name="touhou1_but_better"
 run/main_scene="res://game.tscn"
-config/features=PackedStringArray("4.3", "GL Compatibility")
+config/features=PackedStringArray("4.4", "GL Compatibility")
 boot_splash/image="res://textures/backgrounds/starbackground_black_clrhft.png"
 config/icon="res://icon.svg"
 
@@ -22,16 +22,13 @@ Events="*res://Events.gd"
 
 [display]
 
-window/size/viewport_width=1920
-window/size/viewport_height=1080
-window/size/mode=2
-window/stretch/mode="viewport"
-window/stretch/scale=2.0
-window/stretch/scale_mode="integer"
+window/size/viewport_width=1280
+window/size/viewport_height=720
 
 [editor]
 
-movie_writer/movie_file="C:/Users/418/perk3greed/touhou_videos/thbb.avi"
+movie_writer/mjpeg_quality=1.0
+movie_writer/movie_file="C:/Users/418/perk3greed/touhou_videos/thb.avi"
 
 [global_group]
 
