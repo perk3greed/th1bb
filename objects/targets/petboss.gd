@@ -34,11 +34,11 @@ func change_position():
 		pos_change_in_que = true
 		return
 	
-	player_snapshot_pos = Events.player_position + Vector2(0,-450) + Vector2(rng.randi_range(-200,200),rng.randi_range(-110,200))
+	player_snapshot_pos = Events.player_position + Vector2(0,-450) + Vector2(rng.randi_range(-200,200),rng.randi_range(0,150))
 	if player_snapshot_pos.x > 900:
-		player_snapshot_pos.x = rng.randi_range(200,1000)
+		player_snapshot_pos.x = rng.randi_range(300,700)
 	elif player_snapshot_pos.x < 300:
-		player_snapshot_pos.x = rng.randi_range(250,900)
+		player_snapshot_pos.x = rng.randi_range(300,700)
 	if player_snapshot_pos.x > 650:
 		play_snap_mir = player_snapshot_pos - Vector2(650,0)
 	elif player_snapshot_pos.x <= 650:
@@ -46,7 +46,7 @@ func change_position():
 	
 	
 	amount_of_aoue_attacks = 0
-	snapshot_position = position + Vector2(rng.randi_range(-50,50),rng.randi_range(-50,50))
+	snapshot_position = position + Vector2(rng.randi_range(-50,50),rng.randi_range(0,100))
 	pos_change_in_que = false
 	pos_changed = false
 	
@@ -80,7 +80,7 @@ func _process(delta: float) -> void:
 		modulate = Color(0.8,0.8,1,0.5)
 
 		Events.pos_changing = true
-		position = position.cubic_interpolate(player_snapshot_pos, snapshot_position - Vector2(0,300) ,play_snap_mir, pos_change_timer/120)
+		position = position.cubic_interpolate(player_snapshot_pos, snapshot_position - Vector2(0,300) ,play_snap_mir, pos_change_timer/150)
 		pos_change_timer += 1
 		if pos_change_timer >= pos_change_max:
 			$Area2D.set_deferred("monitorable", true)

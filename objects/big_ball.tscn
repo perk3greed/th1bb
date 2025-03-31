@@ -1,0 +1,29 @@
+[gd_scene load_steps=4 format=3 uid="uid://cev21t67bvp38"]
+
+[ext_resource type="Script" uid="uid://b6lf4p27j17qi" path="res://objects/big_ball.gd" id="1_3lasp"]
+[ext_resource type="Texture2D" uid="uid://c6og6ukbls6h4" path="res://textures/random/circle_attack.png" id="1_t3ogy"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_3lasp"]
+radius = 44.0454
+
+[node name="big_ball" type="Node2D"]
+script = ExtResource("1_3lasp")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_3lasp")
+
+[node name="Sprite2D2" type="Sprite2D" parent="."]
+modulate = Color(0.683212, 0.861605, 0.871592, 1)
+position = Vector2(0, -0.499997)
+scale = Vector2(1.8, 1.8)
+texture = ExtResource("1_t3ogy")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(0.193756, 0.527364, 0.571529, 1)
+scale = Vector2(1.6, 1.6)
+texture = ExtResource("1_t3ogy")
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

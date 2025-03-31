@@ -58,6 +58,6 @@ func check_bounce():
 
 
 func _on_area_2d_area_entered(area: Area2D) -> void:
-	if area.is_in_group("attack"):
+	if area.is_in_group("reflector"):
 		patter_real = (position - Events.player_position).normalized()
 		bullet_speed = bullet_speed*3

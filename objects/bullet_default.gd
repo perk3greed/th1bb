@@ -47,6 +47,6 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 
 
 func _on_area_2d_area_entered(area: Area2D) -> void:
-	if area.is_in_group("attack"):
+	if area.is_in_group("reflector"):
 		pattern_transfered = (position - Events.player_position).normalized()
 		bullet_speed = bullet_speed*3

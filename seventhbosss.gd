@@ -49,12 +49,10 @@ func _on_timer_timeout() -> void:
 		if Events.attack_currently_active == true:
 			return
 		Events.emit_signal("boss_attack", 10)
-		print("timer_is_working")
 	else :
 		if Events.attack_currently_active == true:
 			return
-		Events.emit_signal("boss_attack", 10)
-		print("timer_is_working")
+		Events.emit_signal("boss_attack", 12)
 
 	
 
@@ -74,30 +72,7 @@ func _process(delta: float) -> void:
 	
 	
 	var pos_change_max : int = 120
-	#if pos_changed == false:
-		#if pos_change_timer < 60 :
-			#boss_speed = pos_change_timer/10 
-		#elif pos_change_timer >= 60:
-			#boss_speed = (120 - pos_change_timer)/10
-		#var bos_right : Vector2 = Events.boss_righ_position
-		#var bos_left : Vector2 = Events.boss_left_position
-		#if reverse_side == true:
-			#direction = Vector2(bos_right.x - bos_left.x, bos_left.y - bos_right.y)
-			#position += direction.normalized()*boss_speed
-		#if reverse_up == true:
-			#direction = Vector2(bos_left.x - bos_right.x, bos_right.y - bos_left.y)
-			#position += direction.normalized()*boss_speed
-		#else:
-			#position += (Events.boss_left_position - Events.boss_righ_position).normalized()*boss_speed
-		#
-		#if position.x > 800:
-			#reverse_side = true
-		#if position.x < 400:
-			#reverse_side = true
-		#if position.y > 350:
-			#reverse_up = true
-		#if position.y < 200:
-			#reverse_up = true
+	
 	position += (Events.boss_left_position - Events.boss_righ_position)/180
 	
 	if position.y < 150:

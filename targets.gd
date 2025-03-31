@@ -13,7 +13,10 @@ var reflect_bullet := preload("res://objects/bullet_reflective.tscn")
 var tracking_bullet := preload("res://objects/targets/bullet_lookingfor.tscn")
 var circling_bullet := preload("res://objects/targets/bullet_circling.tscn")
 var bullet_spinned := preload("res://objects/bullet_spinned.tscn")
-
+var big_ball := preload("res://objects/big_ball.tscn")
+var wrld_boundaries_x_right : int
+var wrld_boundaries_x_left : int
+var wrld_boundaries_x_top : int
 
 signal fourth_aoe_finished
 signal attack_finished
@@ -27,6 +30,8 @@ func _ready() -> void:
 	#Events.connect("spawn_boss", change_pattern)
 	Events.connect("boss_attack", change_pattern)
 	Events.connect("target_hit", react_to_boss_hit)
+	
+
 
 func _process(delta: float) -> void:
 	
@@ -35,10 +40,12 @@ func _process(delta: float) -> void:
 	
 	match current_pattern : 
 		
-		1:
-			pass
+		0:
+			wrld_boundaries_x_right = Events.world_boundaries[1] 
+			wrld_boundaries_x_left = Events.world_boundaries[0]
+			wrld_boundaries_x_top = Events.world_boundaries[2]
 		
-		2:
+		1:
 
 			if patterning_shitty_shit < 36:
 				patterning_shitty_shit += 1
@@ -52,7 +59,7 @@ func _process(delta: float) -> void:
 			elif patterning_shitty_shit >= 180:
 				patterning_shitty_shit = 0
 
-		3:
+		2:
 			bullet_counter += 10*delta
 			if bullet_counter >= bullet_timer:
 				var bullet_inst = bullet_projectile.instantiate()
@@ -72,7 +79,7 @@ func _process(delta: float) -> void:
 					patterning_shitty_shit = 0
 				
 
-		4:
+		3:
 			bullet_counter += 10*delta
 			boss_position = Events.boss_position
 			if bullet_counter >= bullet_timer:
@@ -96,7 +103,7 @@ func _process(delta: float) -> void:
 					#Events.emit_signal("third_boss_attack_finished")
 					patterning_shitty_shit = 0
 
-		5:
+		4:
 			Events.attack_currently_active = true
 
 			bullet_counter += 25*delta
@@ -126,7 +133,7 @@ func _process(delta: float) -> void:
 
 
 
-		6:
+		5:
 			Events.attack_currently_active = true
 			bullet_counter += 12*delta
 			boss_position = Events.boss_position
@@ -156,14 +163,14 @@ func _process(delta: float) -> void:
 
 
 
-		7:
-			
+		6:
+#			reflective straight simple attack boss 5
 			Events.attack_currently_active = true
 			bullet_counter += 10*delta
 			boss_position = Events.boss_position
 			var player_position = Events.player_position
-			var player_mirrored =  2560 - player_position.x
-			var player_mira = -player_position.x 
+			var player_mirrored =  (wrld_boundaries_x_right - wrld_boundaries_x_left)*2 - player_position.x
+			var player_mira = -player_position.x + wrld_boundaries_x_left
 			var plm_false = Vector2(player_mira,player_position.y) - boss_position
 			var plm_true = Vector2(player_mirrored,player_position.y) - boss_position
 			if bullet_counter >= bullet_timer:
@@ -199,7 +206,7 @@ func _process(delta: float) -> void:
 					Events.attack_currently_active = false
 
 
-		8:
+		7:
 			Events.attack_currently_active = true
 			bullet_counter += 12*delta
 			boss_position = Events.boss_position
@@ -225,7 +232,8 @@ func _process(delta: float) -> void:
 
 
 
-		9:
+		8:
+#			sans_crcling_attack
 			Events.attack_currently_active = true
 			bullet_counter += 24*delta
 			boss_position = Events.boss_position
@@ -292,7 +300,7 @@ func _process(delta: float) -> void:
 					change_pattern(9)
 					Events.attack_currently_active = false
 
-		10:
+		9:
 			Events.attack_currently_active = true
 			bullet_counter += 12*delta
 			boss_position = Events.boss_position
@@ -324,7 +332,8 @@ func _process(delta: float) -> void:
 					Events.attack_currently_active = false
 
 
-		11:
+		10:
+#			robux two headed attack
 			bullet_counter += 25*delta
 			var boss_position_left = Events.boss_left_position
 			var boss_position_righ = Events.boss_righ_position
@@ -368,7 +377,8 @@ func _process(delta: float) -> void:
 
 
 
-		12:
+		11:
+			#boss pet rotatinal allaround attack
 			Events.attack_currently_active = true
 			bullet_counter += 24*delta
 			boss_position = Events.boss_position
@@ -435,6 +445,34 @@ func _process(delta: float) -> void:
 					change_pattern(6)
 					Events.attack_currently_active = false
 
+		12:
+#			robux big ball send
+			Events.attack_currently_active = true
+			bullet_counter += 12*delta
+			boss_position = Events.boss_position
+			var player_position = Events.player_position
+			if bullet_counter >= bullet_timer:
+				var bullet_inst = big_ball.instantiate()
+				bullet_inst.bullet_speed = 5
+				
+				bullet_counter = 0
+				if patterning_shitty_shit < 60:
+					patterning_shitty_shit += 1
+					if patterning_shitty_shit%10 == 0:
+						bullet_inst.position = boss_position + Vector2(120,0)
+						bullet_inst.pattern_transfered = ((player_position-boss_position)-Vector2(190,0)).normalized()
+						add_child(bullet_inst)
+				elif patterning_shitty_shit >= 60 and patterning_shitty_shit < 180 :
+					patterning_shitty_shit += 1
+					if patterning_shitty_shit%10 == 0:
+						bullet_inst.position = boss_position + Vector2(-120,0)
+						bullet_inst.pattern_transfered = ((player_position-boss_position)-Vector2(+100,0)).normalized()
+						add_child(bullet_inst)
+				elif patterning_shitty_shit >= 180:
+					patterning_shitty_shit = 0
+					change_pattern(0)
+					Events.attack_currently_active = false
+
 
 
 
@@ -443,7 +481,7 @@ func _process(delta: float) -> void:
 
 
 func change_pattern(pattern):
-	current_pattern = pattern + 1
+	current_pattern = pattern
 
 
 

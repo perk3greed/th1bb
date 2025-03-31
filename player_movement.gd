@@ -88,12 +88,17 @@ func _physics_process(delta):
 		overhead_attack_area.monitoring = true 
 		$top_sprite.visible = true
 		overhead_attack_area.monitorable = true 
+		$bullet_reflector.monitorable = true
+		$bullet_reflector.monitoring = true
+
 		velocity.x = 0
 		if attack_timer >= 0.4:
 			attack_active = false
 			overhead_attack_area.monitoring = false
 			$top_sprite.visible = false
 			overhead_attack_area.monitorable = false 
+			$bullet_reflector.monitorable = false
+			$bullet_reflector.monitoring = false
 			attack_timer = 0
 			coold_down_timer = 0.4
 
