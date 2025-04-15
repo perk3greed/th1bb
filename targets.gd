@@ -20,6 +20,7 @@ var wrld_boundaries_x_top : int
 
 signal fourth_aoe_finished
 signal attack_finished
+signal big_ball_sent
 
 var boss3_pattern_arrey : Array = [Vector2(15,5),Vector2(10,5),Vector2(5,5),Vector2(0,5),Vector2(-5,5),Vector2(-10,5),Vector2(-15,5)]
 
@@ -451,24 +452,34 @@ func _process(delta: float) -> void:
 			bullet_counter += 12*delta
 			boss_position = Events.boss_position
 			var player_position = Events.player_position
+			var boss_position_left = Events.boss_left_position
+			var boss_position_righ = Events.boss_righ_position
 			if bullet_counter >= bullet_timer:
 				var bullet_inst = big_ball.instantiate()
-				bullet_inst.bullet_speed = 5
+				bullet_inst.bullet_speed = 7
 				
 				bullet_counter = 0
-				if patterning_shitty_shit < 60:
+				if patterning_shitty_shit < 30:
 					patterning_shitty_shit += 1
 					if patterning_shitty_shit%10 == 0:
-						bullet_inst.position = boss_position + Vector2(120,0)
-						bullet_inst.pattern_transfered = ((player_position-boss_position)-Vector2(190,0)).normalized()
+						bullet_inst.position = boss_position_left
+						bullet_inst.pattern_transfered = ((player_position-boss_position)+ Vector2(patterning_shitty_shit*3,0)).normalized()
+						bullet_inst.slow_down_start = true
 						add_child(bullet_inst)
-				elif patterning_shitty_shit >= 60 and patterning_shitty_shit < 180 :
+					if patterning_shitty_shit%10 == 5:
+						bullet_inst.position = boss_position_righ
+						bullet_inst.pattern_transfered = ((player_position-boss_position)-Vector2(patterning_shitty_shit*3,0)).normalized()
+						bullet_inst.slow_down_start = true
+						add_child(bullet_inst)
+				elif patterning_shitty_shit >= 30 and patterning_shitty_shit < 90 :
 					patterning_shitty_shit += 1
-					if patterning_shitty_shit%10 == 0:
-						bullet_inst.position = boss_position + Vector2(-120,0)
-						bullet_inst.pattern_transfered = ((player_position-boss_position)-Vector2(+100,0)).normalized()
-						add_child(bullet_inst)
-				elif patterning_shitty_shit >= 180:
+					Events.emit_signal("big_ball_sent")
+					#if patterning_shitty_shit%10 == 0:
+						#bullet_inst.position = boss_position + Vector2(-120,0)
+						#bullet_inst.pattern_transfered = ((player_position-boss_position)-Vector2(+100,0)).normalized()
+						#bullet_inst.slow_down_start = true
+						#add_child(bullet_inst)
+				elif patterning_shitty_shit >= 90:
 					patterning_shitty_shit = 0
 					change_pattern(0)
 					Events.attack_currently_active = false

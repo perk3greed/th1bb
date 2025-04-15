@@ -9,11 +9,14 @@ var patter_real : Vector2
 var reflect : bool
 var was_hit_by_player : bool
 var pos_change_timer :float = 0
+var slow_down_start : bool = false
+var slow_counter : float 
 
 signal player_hit_by_bullet 
 
 func _ready() -> void:
 	
+	Events.connect("big_ball_sent",send_the_balls)
 	boss_snapshot = Events.current_boss
 	pattern_snapshot = Events.current_pattern
 	
@@ -28,6 +31,14 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	
+	if slow_down_start == true:
+		#slow_counter += delta
+		#if slow_counter < 0.7:
+		look_at(Events.player_position)
+		return
+		#if slow_counter >= 0.7:
+	
+	
 	pattern_transfered += (Events.player_position - position).normalized()/20
 	position += pattern_transfered*bullet_speed
 	
@@ -37,8 +48,13 @@ func _physics_process(delta: float) -> void:
 
 func _process(delta: float) -> void:
 	life_long += 1*delta
-	if life_long >= 12:
+	if life_long >= 16:
 		self.queue_free()
+
+func send_the_balls():
+	slow_down_start = false
+
+
 
 
 func _on_area_2d_body_entered(body: Node2D) -> void:

@@ -48,7 +48,7 @@ func _on_timer_timeout() -> void:
 	if rng.randi()%2 == 0:
 		if Events.attack_currently_active == true:
 			return
-		Events.emit_signal("boss_attack", 10)
+		Events.emit_signal("boss_attack", 12)
 	else :
 		if Events.attack_currently_active == true:
 			return
