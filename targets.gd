@@ -17,6 +17,8 @@ var big_ball := preload("res://objects/big_ball.tscn")
 var wrld_boundaries_x_right : int
 var wrld_boundaries_x_left : int
 var wrld_boundaries_x_top : int
+var attack_cycle : int = 0
+
 
 signal fourth_aoe_finished
 signal attack_finished
@@ -379,7 +381,7 @@ func _process(delta: float) -> void:
 
 
 		11:
-			#boss pet rotatinal allaround attack
+			#boss pet rotatinal allaround attack 
 			Events.attack_currently_active = true
 			bullet_counter += 24*delta
 			boss_position = Events.boss_position
@@ -471,7 +473,7 @@ func _process(delta: float) -> void:
 						bullet_inst.pattern_transfered = ((player_position-boss_position)-Vector2(patterning_shitty_shit*3,0)).normalized()
 						bullet_inst.slow_down_start = true
 						add_child(bullet_inst)
-				elif patterning_shitty_shit >= 30 and patterning_shitty_shit < 90 :
+				elif patterning_shitty_shit >= 30 and patterning_shitty_shit < 60 :
 					patterning_shitty_shit += 1
 					Events.emit_signal("big_ball_sent")
 					#if patterning_shitty_shit%10 == 0:
@@ -479,12 +481,66 @@ func _process(delta: float) -> void:
 						#bullet_inst.pattern_transfered = ((player_position-boss_position)-Vector2(+100,0)).normalized()
 						#bullet_inst.slow_down_start = true
 						#add_child(bullet_inst)
-				elif patterning_shitty_shit >= 90:
+				elif patterning_shitty_shit >= 60:
 					patterning_shitty_shit = 0
-					change_pattern(0)
+					change_pattern(13)
 					Events.attack_currently_active = false
 
 
+
+
+		13:
+#			robux two headed circles attack
+			Events.attack_currently_active = true
+			bullet_counter += 24*delta
+			var boss_position_cent = Events.boss_position
+			var boss_position_left = Events.boss_left_position
+			var boss_position_righ = Events.boss_righ_position
+			var player_position = Events.player_position
+			
+			var patone : float = 8
+			var pattwo : float = 16
+			var pattri : float = 20
+			var patfor : float = 28
+			var patpet : float = 36
+			var patseh : float = 44
+			var patsem : float = 52
+			var patose : float = 60
+
+			if bullet_counter >= bullet_timer:
+				var bullet_inst = bullet_projectile.instantiate()
+				bullet_inst.bullet_speed = 4
+				bullet_counter = 0
+				if patterning_shitty_shit < patone:
+					for i in range(9):
+						bullet_inst = bullet_projectile.instantiate()
+						bullet_inst.position = boss_position_righ + Vector2(patone-patterning_shitty_shit - i, (patterning_shitty_shit+i)/2 + 3).normalized()*75
+						bullet_inst.pattern_transfered = (bullet_inst.position - boss_position_righ).normalized()
+						bullet_inst.rot_angle = 0.003
+						bullet_inst.bullet_speed = 4
+						add_child(bullet_inst)
+						if i == 8:
+							patterning_shitty_shit = patone
+							i = 0
+				elif patterning_shitty_shit >= patone and patterning_shitty_shit < pattwo :
+					for g in range(9):
+						bullet_inst = bullet_projectile.instantiate()
+						bullet_inst.position = boss_position_left + Vector2((patterning_shitty_shit+g) - pattwo, (patterning_shitty_shit+g)/2 - patone/2 + 3).normalized()*75
+						bullet_inst.pattern_transfered = (bullet_inst.position - boss_position_left).normalized()
+						bullet_inst.rot_angle = 0.003
+						bullet_inst.bullet_speed = 4
+						add_child(bullet_inst)
+						if g == 8:
+							patterning_shitty_shit = 0
+							g = 0
+							attack_cycle += 1
+							if attack_cycle >= 8:
+								print("finished")
+								Events.emit_signal("attack_finished")
+								patterning_shitty_shit = 0
+								attack_cycle = 0
+								Events.attack_currently_active = false
+								change_pattern(12)
 
 
 

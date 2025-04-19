@@ -32,7 +32,7 @@ signal plot_points_on_the_graph
 
 
 func _ready() -> void:
-	Events.connect("fourth_aoe_finished", change_position)
+	Events.connect("attack_finished",react)
 	$Timer.start()
 
 func change_position():
@@ -42,7 +42,8 @@ func change_position():
 	#pos_change_in_que = false
 	pos_changed = false
 
-
+func react():
+	pass
 
 func _on_timer_timeout() -> void:
 	if rng.randi()%2 == 0:
@@ -52,7 +53,7 @@ func _on_timer_timeout() -> void:
 	else :
 		if Events.attack_currently_active == true:
 			return
-		Events.emit_signal("boss_attack", 12)
+		Events.emit_signal("boss_attack", 13)
 
 	
 

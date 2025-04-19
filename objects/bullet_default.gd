@@ -16,22 +16,18 @@ func _ready() -> void:
 	
 	boss_snapshot = Events.current_boss
 	pattern_snapshot = Events.current_pattern
-	
-	match Events.current_boss:
-		1:
-			print("i am rarted frfr")
-		2:
-			patter_real = pattern_snapshot
+
+
+
 
 func _physics_process(delta: float) -> void:
-	
 	
 	self.position += pattern_transfered*bullet_speed 
 	
 
 func _process(delta: float) -> void:
 	life_long += 1*delta
-	if life_long >= 12:
+	if life_long >= 6:
 		self.queue_free()
 	
 
