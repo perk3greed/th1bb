@@ -18,7 +18,7 @@ var wrld_boundaries_x_right : int
 var wrld_boundaries_x_left : int
 var wrld_boundaries_x_top : int
 var attack_cycle : int = 0
-
+var attack_giga_cycle : int = 0
 
 signal fourth_aoe_finished
 signal attack_finished
@@ -451,6 +451,7 @@ func _process(delta: float) -> void:
 		12:
 #			robux big ball send
 			Events.attack_currently_active = true
+			var boss_faze = Events.boss_fight_faze
 			bullet_counter += 12*delta
 			boss_position = Events.boss_position
 			var player_position = Events.player_position
@@ -458,8 +459,7 @@ func _process(delta: float) -> void:
 			var boss_position_righ = Events.boss_righ_position
 			if bullet_counter >= bullet_timer:
 				var bullet_inst = big_ball.instantiate()
-				bullet_inst.bullet_speed = 7
-				
+				bullet_inst.bullet_speed = 3+boss_faze
 				bullet_counter = 0
 				if patterning_shitty_shit < 30:
 					patterning_shitty_shit += 1
@@ -476,16 +476,15 @@ func _process(delta: float) -> void:
 				elif patterning_shitty_shit >= 30 and patterning_shitty_shit < 60 :
 					patterning_shitty_shit += 1
 					Events.emit_signal("big_ball_sent")
-					#if patterning_shitty_shit%10 == 0:
-						#bullet_inst.position = boss_position + Vector2(-120,0)
-						#bullet_inst.pattern_transfered = ((player_position-boss_position)-Vector2(+100,0)).normalized()
-						#bullet_inst.slow_down_start = true
-						#add_child(bullet_inst)
 				elif patterning_shitty_shit >= 60:
 					patterning_shitty_shit = 0
-					change_pattern(13)
-					Events.attack_currently_active = false
-
+					if attack_giga_cycle == 0:
+						attack_giga_cycle += 1
+						change_pattern(13)
+					else :
+						change_pattern(0)
+						attack_giga_cycle = 0
+						Events.emit_signal("attack_finished")
 
 
 
@@ -500,47 +499,45 @@ func _process(delta: float) -> void:
 			
 			var patone : float = 8
 			var pattwo : float = 16
-			var pattri : float = 20
-			var patfor : float = 28
-			var patpet : float = 36
-			var patseh : float = 44
-			var patsem : float = 52
-			var patose : float = 60
 
+			var boss_faze = Events.boss_fight_faze
 			if bullet_counter >= bullet_timer:
 				var bullet_inst = bullet_projectile.instantiate()
 				bullet_inst.bullet_speed = 4
 				bullet_counter = 0
 				if patterning_shitty_shit < patone:
-					for i in range(9):
+					for i in range(5+boss_faze*2):
 						bullet_inst = bullet_projectile.instantiate()
 						bullet_inst.position = boss_position_righ + Vector2(patone-patterning_shitty_shit - i, (patterning_shitty_shit+i)/2 + 3).normalized()*75
 						bullet_inst.pattern_transfered = (bullet_inst.position - boss_position_righ).normalized()
-						bullet_inst.rot_angle = 0.003
-						bullet_inst.bullet_speed = 4
+						bullet_inst.bullet_speed = 2 + boss_faze/2
 						add_child(bullet_inst)
-						if i == 8:
+						if i == 4+boss_faze*2:
 							patterning_shitty_shit = patone
 							i = 0
 				elif patterning_shitty_shit >= patone and patterning_shitty_shit < pattwo :
-					for g in range(9):
+					for g in range(5+boss_faze*2):
 						bullet_inst = bullet_projectile.instantiate()
 						bullet_inst.position = boss_position_left + Vector2((patterning_shitty_shit+g) - pattwo, (patterning_shitty_shit+g)/2 - patone/2 + 3).normalized()*75
 						bullet_inst.pattern_transfered = (bullet_inst.position - boss_position_left).normalized()
-						bullet_inst.rot_angle = 0.003
-						bullet_inst.bullet_speed = 4
+						bullet_inst.bullet_speed = 2 + boss_faze/2
 						add_child(bullet_inst)
-						if g == 8:
+						if g == 4+boss_faze*2:
 							patterning_shitty_shit = 0
 							g = 0
 							attack_cycle += 1
-							if attack_cycle >= 8:
-								print("finished")
-								Events.emit_signal("attack_finished")
+							if attack_cycle >= boss_faze*3:
+								print(attack_cycle)
 								patterning_shitty_shit = 0
 								attack_cycle = 0
-								Events.attack_currently_active = false
-								change_pattern(12)
+								if attack_giga_cycle == 0:
+									attack_giga_cycle += 1
+									change_pattern(12)
+								else :
+									Events.emit_signal("attack_finished")
+									change_pattern(0)
+									attack_giga_cycle = 0
+									Events.attack_currently_active = false
 
 
 

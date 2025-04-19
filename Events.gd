@@ -18,7 +18,7 @@ var second_attack_active : bool
 var ball_killing_bullets : bool = false
 var boss_left_position : Vector2 
 var boss_righ_position : Vector2
-
+var boss_fight_faze : int 
 
 #world boundaries left-right-top-bottom
 var world_boundaries : Array = [0,0,0,0]
