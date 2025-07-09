@@ -12,7 +12,9 @@ var player_stunned : bool = false
 var player_stun_timer : float = 0
 var player_health : int = 5
 var coold_down_timer : float 
-
+var block_counter : int = 1
+var block_active : bool = false
+var reflect_happened : bool = false
 
 signal attack
 signal left_slide_attack
@@ -25,10 +27,19 @@ signal right_slide_attack
 @onready var overhead_attack_area : Area2D = $overhead_attack
 @onready var overhead_attack_collision : CollisionShape2D = $overhead_attack/CollisionShape2D
 
+
 func _ready() -> void:
 	Events.connect("player_hit_by_ball", stun_player)
 	Events.connect("player_hit_by_bullet", emit_hit)
+	Events.connect("bullet_reflected", react_to_reflect)
+	Events.connect("power_up_poiman", add_blocks)
+	Events.connect("add_block",add_additional_block)
+	Events.connect("player_touched_right_col", move_to_the_left)
+	Events.connect("player_touched_left_col", move_to_the_right)
 
+
+func add_blocks():
+	block_counter += 1
 
 func stun_player():
 	player_stun_timer = 0
@@ -58,6 +69,7 @@ func _physics_process(delta):
 			attack_timer = 0.4
 			
 	if Input.is_action_just_pressed("w"):
+		#print(Events.world_boundaries)
 		if jump_counter > 0:
 			return
 		else:
@@ -81,17 +93,25 @@ func _physics_process(delta):
 		if attack_timer == 0:
 			if coold_down_timer <= 0 :
 				attack_active = true
-		
+				if block_counter > 0:
+					block_active = true
+					print(block_counter)
+
+	if block_active == true:
+		$bullet_reflector.monitorable = true
+		$bullet_reflector.monitoring = true
+		$bullet_reflector/CollisionPolygon2D.visible = true
+
 
 	if attack_active == true:
 		attack_timer += 1*delta
 		overhead_attack_area.monitoring = true 
 		$top_sprite.visible = true
 		overhead_attack_area.monitorable = true 
-		$bullet_reflector.monitorable = true
-		$bullet_reflector.monitoring = true
-
 		velocity.x = 0
+		
+		
+		
 		if attack_timer >= 0.4:
 			attack_active = false
 			overhead_attack_area.monitoring = false
@@ -101,6 +121,13 @@ func _physics_process(delta):
 			$bullet_reflector.monitoring = false
 			attack_timer = 0
 			coold_down_timer = 0.4
+			block_active = false
+			$bullet_reflector/CollisionPolygon2D.visible = false
+			if reflect_happened == true:
+				block_counter -= 1
+			
+			reflect_happened = false
+
 
 	if left_slide_active == true:
 		attack_timer += 1*delta
@@ -162,3 +189,21 @@ func emit_hit():
 
 func _on_cpu_particles_2d_finished() -> void:
 	$debugsprite.modulate = (Color(0.1,0.3,0.6,0.5))
+
+
+func react_to_reflect():
+	reflect_happened = true
+
+
+
+func add_additional_block():
+	block_counter += 9999
+
+
+
+func move_to_the_left():
+	position.x = Events.world_boundaries[0] + 20
+
+
+func move_to_the_right():
+	position.x = Events.world_boundaries[1] - 20

@@ -46,7 +46,7 @@ func _ready() -> void:
 
 
 func react():
-	if health_points < 12 and boss_fight_faze < 2:
+	if health_points < 10 and boss_fight_faze < 2:
 		boss_fight_faze = 2
 		change_faze(boss_fight_faze)
 	elif health_points < 7 and boss_fight_faze < 3: 
@@ -85,7 +85,6 @@ func _on_timer_timeout() -> void:
 
 
 func _process(delta: float) -> void:
-	
 	distance_from_center = (position.x - screen_center.x)**2 + (position.y - screen_center.y)**2
 	
 	
@@ -109,8 +108,9 @@ func _process(delta: float) -> void:
 			modulated_state == false
 			modulated_timer = 0
 			$Sprite2D.modulate = Color(1,1,1)
-			$Area2D.set_deferred("monitorable", true)
-			$Area2D.set_deferred("monitoring", true)
+			if faze_changing == false:
+				$Area2D.set_deferred("monitorable", true)
+				$Area2D.set_deferred("monitoring", true)
 	
 	if faze_changing == true:
 		faze_changing_timer += 1*delta

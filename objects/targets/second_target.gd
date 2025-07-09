@@ -49,7 +49,7 @@ func _process(delta: float) -> void:
 		modulated_timer += 1*delta
 		if modulated_timer >= 0.5:
 			modulated_state == false
-			$Sprite2D.modulate = Color(125,0,90)
+			$Sprite2D.modulate = Color(1,1,1,1)
 			$Area2D.monitorable = true
 			$Area2D.monitoring = true
 
@@ -57,7 +57,7 @@ func _process(delta: float) -> void:
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.is_in_group("ball"):
 		health_points -= 1
-		$Sprite2D.modulate = Color(15,225,55)
+		$Sprite2D.modulate = Color(0.3,0.2,0.8,0.4)
 		modulated_state = true
 		modulated_timer = 0
 		Events.boss_hp = health_points

@@ -58,6 +58,7 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
 		patter_real = (position - Events.player_position ).normalized()
 		bullet_speed = bullet_speed*3
 		was_hit_by_player = true
+		Events.emit_signal("bullet_reflected")
 	if area.is_in_group("boss"):
 		if was_hit_by_player == true:
 			self.queue_free()

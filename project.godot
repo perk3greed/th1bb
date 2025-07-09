@@ -30,6 +30,10 @@ window/size/viewport_height=720
 movie_writer/mjpeg_quality=1.0
 movie_writer/movie_file="C:/Users/418/perk3greed/touhou_videos/thb.avi"
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/todo_4/plugin.cfg")
+
 [global_group]
 
 ball="ball "

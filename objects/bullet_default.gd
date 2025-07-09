@@ -10,6 +10,8 @@ var reflect : bool
 var rot_angle : float
 
 signal player_hit_by_bullet 
+signal bullet_reflected 
+
 
 func _ready() -> void:
 
@@ -46,3 +48,4 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
 	if area.is_in_group("reflector"):
 		pattern_transfered = (position - Events.player_position).normalized()
 		bullet_speed = bullet_speed*3
+		Events.emit_signal("bullet_reflected")

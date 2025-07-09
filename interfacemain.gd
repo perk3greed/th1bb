@@ -1,6 +1,7 @@
 extends Control
 
 signal spawn_boss
+signal add_block
 
 func _ready() -> void:
 	Events.connect("player_hit_by_ball", show_text)
@@ -25,12 +26,19 @@ func update_boss_health():
 func show_boss_selection():
 	$ItemList.visible = true
 
+
+
+
 func _on_item_list_item_clicked(index: int, at_position: Vector2, mouse_button_index: int) -> void:
 	Events.player_immortal = $ItemList/CheckButton.button_pressed
 	$ItemList.visible = false
 	Events.emit_signal("spawn_boss", index)
+	
 	if $ItemList/ballkiller.button_pressed == true:
 		Events.ball_killing_bullets = true
+
+
+
 
 func update_noflor(amount):
 	if amount > 0:
@@ -38,3 +46,8 @@ func update_noflor(amount):
 		$ball_noflor.text = str(amount)
 	if amount == 0:
 		$ball_noflor.visible = false
+
+
+func _on_inf_block_toggled(toggled_on: bool) -> void:
+	if toggled_on == true:
+		Events.emit_signal("add_block")

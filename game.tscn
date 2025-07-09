@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://bhh6o2g40ltts"]
+[gd_scene load_steps=16 format=3 uid="uid://bhh6o2g40ltts"]
 
 [ext_resource type="Script" uid="uid://boawe77ud03lg" path="res://game_over.gd" id="1_e0opt"]
 [ext_resource type="PackedScene" uid="uid://7n5hv8bu6tv6" path="res://player.tscn" id="2_xecjr"]
@@ -18,13 +18,20 @@ shader_parameter/resolution_scale = 4
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_kxevy"]
 normal = Vector2(-1, 0)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_j5wjh"]
+size = Vector2(10, 900)
+
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_jsrea"]
 normal = Vector2(1, 0)
 
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_ju2vw"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_j5wjh"]
+bounce = 0.5
+absorbent = true
+
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_jyal0"]
 normal = Vector2(0, 1)
-
-[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_ju2vw"]
 
 [node name="game" type="Node"]
 script = ExtResource("1_e0opt")
@@ -73,6 +80,12 @@ shape = SubResource("WorldBoundaryShape2D_kxevy")
 points = PackedVector2Array(0, -400, 0, 1200)
 width = 4.0
 
+[node name="right_colis_area" type="Area2D" parent="SubViewportContainer/SubViewport/2dworld/world_boundary/StaticBody2D/right_collision"]
+position = Vector2(0, 350)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SubViewportContainer/SubViewport/2dworld/world_boundary/StaticBody2D/right_collision/right_colis_area"]
+shape = SubResource("RectangleShape2D_j5wjh")
+
 [node name="left_collision" type="CollisionShape2D" parent="SubViewportContainer/SubViewport/2dworld/world_boundary/StaticBody2D"]
 position = Vector2(125, 0)
 shape = SubResource("WorldBoundaryShape2D_jsrea")
@@ -81,13 +94,11 @@ shape = SubResource("WorldBoundaryShape2D_jsrea")
 points = PackedVector2Array(0, -400, 0, 1400)
 width = 4.0
 
-[node name="top_collision" type="CollisionShape2D" parent="SubViewportContainer/SubViewport/2dworld/world_boundary/StaticBody2D"]
-position = Vector2(0, 145)
-shape = SubResource("WorldBoundaryShape2D_jyal0")
+[node name="left_colis_area" type="Area2D" parent="SubViewportContainer/SubViewport/2dworld/world_boundary/StaticBody2D/left_collision"]
+position = Vector2(0, 350)
 
-[node name="Line2D" type="Line2D" parent="SubViewportContainer/SubViewport/2dworld/world_boundary/StaticBody2D/top_collision"]
-points = PackedVector2Array(-400, 0, 1600, 0)
-width = 4.0
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SubViewportContainer/SubViewport/2dworld/world_boundary/StaticBody2D/left_collision/left_colis_area"]
+shape = SubResource("RectangleShape2D_j5wjh")
 
 [node name="StaticBody2D2" type="StaticBody2D" parent="SubViewportContainer/SubViewport/2dworld/world_boundary" groups=["floor"]]
 
@@ -98,6 +109,17 @@ shape = SubResource("WorldBoundaryShape2D_ju2vw")
 [node name="Line2D" type="Line2D" parent="SubViewportContainer/SubViewport/2dworld/world_boundary/StaticBody2D2"]
 position = Vector2(0, 715)
 points = PackedVector2Array(-400, 0, 1400, 0)
+width = 4.0
+
+[node name="StaticBody2D3" type="StaticBody2D" parent="SubViewportContainer/SubViewport/2dworld/world_boundary" groups=["wall"]]
+physics_material_override = SubResource("PhysicsMaterial_j5wjh")
+
+[node name="top_collision" type="CollisionShape2D" parent="SubViewportContainer/SubViewport/2dworld/world_boundary/StaticBody2D3"]
+position = Vector2(0, 145)
+shape = SubResource("WorldBoundaryShape2D_jyal0")
+
+[node name="Line2D" type="Line2D" parent="SubViewportContainer/SubViewport/2dworld/world_boundary/StaticBody2D3/top_collision"]
+points = PackedVector2Array(-400, 0, 1600, 0)
 width = 4.0
 
 [node name="RigidBody2D" parent="SubViewportContainer/SubViewport/2dworld" instance=ExtResource("3_5ekim")]
@@ -190,6 +212,14 @@ offset_bottom = 315.0
 text = "ballkiller
 "
 
+[node name="inf_block" type="CheckButton" parent="interfacemain/ItemList"]
+layout_mode = 0
+offset_left = 418.0
+offset_top = 250.0
+offset_right = 567.0
+offset_bottom = 282.0
+text = "infinite block"
+
 [node name="ball_noflor" type="RichTextLabel" parent="interfacemain"]
 layout_mode = 0
 offset_left = 1106.0
@@ -202,4 +232,7 @@ theme_override_constants/outline_size = 8
 theme_override_font_sizes/normal_font_size = 56
 
 [connection signal="timeout" from="Timer" to="interfacemain" method="_on_timer_timeout"]
+[connection signal="body_entered" from="SubViewportContainer/SubViewport/2dworld/world_boundary/StaticBody2D/right_collision/right_colis_area" to="." method="_on_right_colis_area_body_entered"]
+[connection signal="body_entered" from="SubViewportContainer/SubViewport/2dworld/world_boundary/StaticBody2D/left_collision/left_colis_area" to="." method="_on_left_colis_area_body_entered"]
 [connection signal="item_clicked" from="interfacemain/ItemList" to="interfacemain" method="_on_item_list_item_clicked"]
+[connection signal="toggled" from="interfacemain/ItemList/inf_block" to="interfacemain" method="_on_inf_block_toggled"]

@@ -13,6 +13,9 @@ var player_health : int
 var player_invul_timer : float
 var player_invul : bool
 
+signal player_touched_right_col
+signal player_touched_left_col
+
 
 func _ready() -> void:
 	Events.connect("spawn_boss", spawn_boss_func)
@@ -64,7 +67,7 @@ func spawn_boss_func(number):
 	$"SubViewportContainer/SubViewport/2dworld/targets".add_child(boss_inst)
 	Events.world_boundaries[0] = $"SubViewportContainer/SubViewport/2dworld/world_boundary/StaticBody2D/left_collision".position.x
 	Events.world_boundaries[1] = $"SubViewportContainer/SubViewport/2dworld/world_boundary/StaticBody2D/right_collision".position.x
-	Events.world_boundaries[2] = $"SubViewportContainer/SubViewport/2dworld/world_boundary/StaticBody2D/top_collision".position.y
+	Events.world_boundaries[2] = $"SubViewportContainer/SubViewport/2dworld/world_boundary/StaticBody2D3/top_collision".position.y
 	Events.world_boundaries[3] = $"SubViewportContainer/SubViewport/2dworld/world_boundary/StaticBody2D2/bottom_collision".position.y
 
 
@@ -90,3 +93,15 @@ func calculate_player_health():
 	
 	if player_health < 1:
 		get_tree().reload_current_scene()
+
+
+func _on_right_colis_area_body_entered(body: Node2D) -> void:
+	if body.is_in_group("player"):
+		Events.emit_signal("player_touched_right_col")
+
+
+
+
+func _on_left_colis_area_body_entered(body: Node2D) -> void:
+	if body.is_in_group("player"):
+		Events.emit_signal("player_touched_left_col")

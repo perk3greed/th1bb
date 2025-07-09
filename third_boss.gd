@@ -40,6 +40,7 @@ func change_position():
 
 
 func _process(delta: float) -> void:
+	print($Area2D.monitorable)
 	var pos_change_max : int = 30
 	if pos_changed == false:
 		
@@ -59,29 +60,31 @@ func _process(delta: float) -> void:
 		
 		modulated_timer += 1*delta
 		if modulated_timer >= 1.3:
-			modulated_state == false
-			$Sprite2D.modulate = Color(125,0,90)
-			$Area2D.monitorable = true
-			$Area2D.monitoring = true
-
+			modulated_state = false
+			$Sprite2D.modulate = Color(1,1,1,1)
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
-	if pos_changed == false:
+	if  pos_changed == false:
 		return
 		
 	
 	if body.is_in_group("ball"):
-		health_points -= 1
-		$Sprite2D.modulate = Color(15,225,55)
-		modulated_state = true
-		modulated_timer = 0
-		Events.boss_hp = health_points
-		Events.emit_signal("target_hit")
-		change_position()
-		$Area2D.monitorable = false
-		$Area2D.monitoring = false
+		if modulated_state == false:
+			health_points -= 1
+			$Sprite2D.modulate = Color(0.9,0.3,0.1,0.4)
+			modulated_state = true
+			modulated_timer = 0
+			Events.boss_hp = health_points
+			Events.emit_signal("target_hit")
+			change_position()
 		
 		if health_points <= 0:
 			Events.emit_signal("boss1testkilled")
 			self.queue_free()
 		
+
+
+func _on_timer_timeout() -> void:
+	if pos_changed == true:
+		if Events.attack_currently_active == false:
+			Events.emit_signal("boss_attack",2)

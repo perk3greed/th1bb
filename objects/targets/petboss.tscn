@@ -4,12 +4,14 @@
 [ext_resource type="Texture2D" uid="uid://dhtd4r7f17n2q" path="res://textures/random/Th01Kikuri.png" id="1_xdbb0"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_nh7o7"]
-radius = 93.0
+radius = 75.0
 
 [node name="petboss" type="Node2D"]
 script = ExtResource("1_u5gj2")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(1, 2)
+scale = Vector2(0.792, 0.827441)
 texture = ExtResource("1_xdbb0")
 
 [node name="Area2D" type="Area2D" parent="."]
