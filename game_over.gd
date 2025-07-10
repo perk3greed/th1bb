@@ -44,8 +44,16 @@ func spawn_boss_func(number):
 
 		4:
 			boss_inst = boss_test4.instantiate()
-			inst_position = Vector2(525,100)
+			inst_position = Vector2(600,150)
 			Events.current_boss = 4
+			$"SubViewportContainer/SubViewport/2dworld/world_boundary/StaticBody2D/left_collision".position.x = 350
+			$"SubViewportContainer/SubViewport/2dworld/world_boundary/StaticBody2D/right_collision".position.x = 850
+			$"SubViewportContainer/SubViewport/2dworld/world_boundary/StaticBody2D3/top_collision".position.y = 50
+			
+			
+			
+			
+			
 
 		5:
 			boss_inst = boss_test5.instantiate()

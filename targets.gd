@@ -14,11 +14,14 @@ var tracking_bullet := preload("res://objects/targets/bullet_lookingfor.tscn")
 var circling_bullet := preload("res://objects/targets/bullet_circling.tscn")
 var bullet_spinned := preload("res://objects/bullet_spinned.tscn")
 var big_ball := preload("res://objects/big_ball.tscn")
+var lazer_atk := preload("res://objects/lazer.tscn")
 var wrld_boundaries_x_right : int
 var wrld_boundaries_x_left : int
 var wrld_boundaries_x_top : int
 var attack_cycle : int = 0
 var attack_giga_cycle : int = 0
+
+
 
 signal fourth_aoe_finished
 signal attack_finished
@@ -85,6 +88,7 @@ func _process(delta: float) -> void:
 				
 
 		3:
+			#boss 4 after attack
 			Events.attack_currently_active = true
 			bullet_counter += 10*delta
 			boss_position = Events.boss_position
@@ -106,36 +110,32 @@ func _process(delta: float) -> void:
 				elif patterning_shitty_shit >= 11 and patterning_shitty_shit < 35 :
 					patterning_shitty_shit += 1
 				elif patterning_shitty_shit >= 35:
-					Events.attack_currently_active = false
-					patterning_shitty_shit = 0
-
-		4:
-			Events.attack_currently_active = true
-
-			bullet_counter += 25*delta
-			boss_position = Events.boss_position
-			if bullet_counter >= bullet_timer:
-				var bullet_inst = bullet_projectile.instantiate()
-				bullet_inst.bullet_speed = 5
-				
-				bullet_counter = 0
-				if patterning_shitty_shit < 9:
-					patterning_shitty_shit += 1
-					if boss_position.x < 500:
-						bullet_inst.position = Vector2(1100,100) - Vector2(patterning_shitty_shit*75,0)
-						bullet_inst.pattern_transfered = Vector2(-patterning_shitty_shit,15).normalized()
-					elif boss_position.x > 500: 
-						bullet_inst.position = Vector2(-200,100) + Vector2(patterning_shitty_shit*75,0)
-						bullet_inst.pattern_transfered = Vector2(patterning_shitty_shit,15).normalized()
-					add_child(bullet_inst)
-				elif patterning_shitty_shit >= 9 and patterning_shitty_shit < 27 :
-					patterning_shitty_shit += 1
-				elif patterning_shitty_shit >= 27:
 					patterning_shitty_shit = 0
 					change_pattern(0)
-					Events.emit_signal("fourth_aoe_finished")
-					Events.attack_currently_active = false
 
+		4:
+			#boss 4 attack 
+			var lazer_arrays : Array = [50,100,150,5,425,370,345,250,125,350,375,400]
+			var lazer_spread : int = 75
+			Events.attack_currently_active = true
+			
+			
+			for i in range(2):
+				var lazer = lazer_atk.instantiate()
+				lazer.bullet_speed = 5
+				lazer.pattern_transfered = Vector2(0,1).normalized()
+				if attack_cycle >= lazer_arrays.size():
+					attack_cycle = 0
+				if i == 0:
+					lazer.position = Vector2(350 + lazer_arrays[attack_cycle],0)
+					lazer.rotate(PI/2)
+					add_child(lazer)
+				elif i == 1:
+					lazer.position = Vector2(2350 + lazer_arrays[attack_cycle] + lazer_spread,0)
+					lazer.rotate(PI/2)
+					add_child(lazer)
+					attack_cycle += 1
+			change_pattern(3)
 
 
 

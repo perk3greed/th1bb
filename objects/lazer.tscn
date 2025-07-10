@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://cakbn2sxwfgwi"]
+
+[ext_resource type="Script" uid="uid://dsxi7ku8e5q5p" path="res://objects/lazer.gd" id="1_2gxyl"]
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_xkewd"]
+b = Vector2(0, 2000)
+
+[node name="lazer" type="Node2D"]
+script = ExtResource("1_2gxyl")
+
+[node name="Line2D" type="Line2D" parent="."]
+points = PackedVector2Array(0, 0, 0, 2000)
+width = 12.0
+default_color = Color(0.756557, 0.26961, 0.182874, 1)
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("SegmentShape2D_xkewd")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
