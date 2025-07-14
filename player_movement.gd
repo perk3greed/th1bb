@@ -95,7 +95,6 @@ func _physics_process(delta):
 				attack_active = true
 				if block_counter > 0:
 					block_active = true
-					print(block_counter)
 
 	if block_active == true:
 		$bullet_reflector.monitorable = true

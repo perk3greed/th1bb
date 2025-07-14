@@ -92,26 +92,19 @@ func _process(delta: float) -> void:
 			Events.attack_currently_active = true
 			bullet_counter += 10*delta
 			boss_position = Events.boss_position
-			if bullet_counter >= bullet_timer:
-				var bullet_inst = bullet_projectile.instantiate()
-				var random_deviation = rng.randi_range(1,3)
+			var start_angle = PI
+			var real_angle 
+			for i in range(12):
+				var bullet_inst = reflect_bullet.instantiate()
+				real_angle = i*start_angle/24
+				bullet_inst.bullet_speed = 3
+				bullet_inst.pattern_transfered = Vector2(1,1).rotated(real_angle).normalized()
+				bullet_inst.position = Events.boss_position
+				add_child(bullet_inst)
 				
-				bullet_inst.bullet_speed = 5
-				bullet_inst.position = boss_position
-				
-				bullet_counter = 0
-				if patterning_shitty_shit < 11:
-					patterning_shitty_shit += 1
-					if boss_position.x > 500:
-						bullet_inst.pattern_transfered = boos4_pattern_arrey[patterning_shitty_shit].normalized()
-					elif boss_position.x < 500: 
-						bullet_inst.pattern_transfered = (boos4_pattern_arrey[patterning_shitty_shit]*Vector2(-1,1)).normalized()
-					add_child(bullet_inst)
-				elif patterning_shitty_shit >= 11 and patterning_shitty_shit < 35 :
-					patterning_shitty_shit += 1
-				elif patterning_shitty_shit >= 35:
-					patterning_shitty_shit = 0
-					change_pattern(0)
+			Events.attack_currently_active = false
+			change_pattern(0)
+
 
 		4:
 			#boss 4 attack 
