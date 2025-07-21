@@ -183,7 +183,7 @@ theme_override_constants/outline_size = 4
 theme_override_constants/v_separation = 15
 theme_override_constants/h_separation = 36
 theme_override_font_sizes/font_size = 24
-item_count = 7
+item_count = 8
 max_columns = 6
 item_0/text = "test 1 "
 item_1/text = "test 2 "
@@ -192,6 +192,7 @@ item_3/text = "4RTH BOSS HERE"
 item_4/text = "5th boss"
 item_5/text = "sixtboss 6"
 item_6/text = "seventhbs7"
+item_7/text = "eightsboss"
 
 [node name="CheckButton" type="CheckButton" parent="interfacemain/ItemList"]
 layout_mode = 0

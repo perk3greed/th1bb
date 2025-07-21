@@ -15,6 +15,7 @@ var circling_bullet := preload("res://objects/targets/bullet_circling.tscn")
 var bullet_spinned := preload("res://objects/bullet_spinned.tscn")
 var big_ball := preload("res://objects/big_ball.tscn")
 var lazer_atk := preload("res://objects/lazer.tscn")
+var small_lazer := preload("res://objects/small_lazer.tscn")
 var wrld_boundaries_x_right : int
 var wrld_boundaries_x_left : int
 var wrld_boundaries_x_top : int
@@ -553,6 +554,29 @@ func _process(delta: float) -> void:
 			Events.attack_currently_active = false
 			change_pattern(0)
 
+
+
+		15:
+			#8th boss spinning lazer attack 
+			Events.attack_currently_active = true
+			attack_cycle += 1
+			var start_angle = 2*PI
+			var real_angle 
+			for i in range(6):
+				
+				var bullet_inst = small_lazer.instantiate()
+				real_angle = i*start_angle/18
+				bullet_inst.bullet_speed = 3
+				bullet_inst.pattern_transfered = Vector2(1,1).rotated(real_angle).normalized()
+				bullet_inst.position = Events.boss_position
+				if attack_cycle % 2 == 0:
+					bullet_inst.rot_angle = 1
+				else:
+					bullet_inst.rot_angle = -1
+				add_child(bullet_inst)
+				
+			Events.attack_currently_active = false
+			change_pattern(0)
 
 
 func change_pattern(pattern):
