@@ -46,6 +46,6 @@ signal bullet_reflected
 signal add_block
 signal player_touched_right_col
 signal player_touched_left_col
-
+signal clear_attack
 
 signal plot_points_on_the_graph

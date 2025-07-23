@@ -128,8 +128,13 @@ position = Vector2(421, 663)
 [node name="targets" type="Node2D" parent="SubViewportContainer/SubViewport/2dworld"]
 script = ExtResource("4_q84kf")
 
+[node name="attack_timerLength" type="Timer" parent="SubViewportContainer/SubViewport/2dworld/targets"]
+wait_time = 3.0
+
 [node name="targets_dva" type="Node2D" parent="SubViewportContainer/SubViewport/2dworld"]
 script = ExtResource("6_67irx")
+
+[node name="boss_holder" type="Node2D" parent="SubViewportContainer/SubViewport/2dworld"]
 
 [node name="interfacemain" type="Control" parent="."]
 layout_mode = 3
@@ -235,5 +240,6 @@ theme_override_font_sizes/normal_font_size = 56
 [connection signal="timeout" from="Timer" to="interfacemain" method="_on_timer_timeout"]
 [connection signal="body_entered" from="SubViewportContainer/SubViewport/2dworld/world_boundary/StaticBody2D/right_collision/right_colis_area" to="." method="_on_right_colis_area_body_entered"]
 [connection signal="body_entered" from="SubViewportContainer/SubViewport/2dworld/world_boundary/StaticBody2D/left_collision/left_colis_area" to="." method="_on_left_colis_area_body_entered"]
+[connection signal="timeout" from="SubViewportContainer/SubViewport/2dworld/targets/attack_timerLength" to="SubViewportContainer/SubViewport/2dworld/targets" method="_on_attack_timer_length_timeout"]
 [connection signal="item_clicked" from="interfacemain/ItemList" to="interfacemain" method="_on_item_list_item_clicked"]
 [connection signal="toggled" from="interfacemain/ItemList/inf_block" to="interfacemain" method="_on_inf_block_toggled"]

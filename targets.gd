@@ -21,7 +21,8 @@ var wrld_boundaries_x_left : int
 var wrld_boundaries_x_top : int
 var attack_cycle : int = 0
 var attack_giga_cycle : int = 0
-
+var player_snapshot : bool = false
+var player_position = Vector2(0,0)
 
 
 signal fourth_aoe_finished
@@ -37,7 +38,7 @@ func _ready() -> void:
 	#Events.connect("spawn_boss", change_pattern)
 	Events.connect("boss_attack", change_pattern)
 	Events.connect("target_hit", react_to_boss_hit)
-	
+	Events.connect("clear_attack", clear_the_scene)
 
 
 func _process(delta: float) -> void:
@@ -137,7 +138,7 @@ func _process(delta: float) -> void:
 			Events.attack_currently_active = true
 			bullet_counter += 12*delta
 			boss_position = Events.boss_position
-			var player_position = Events.player_position
+			player_position = Events.player_position
 			if bullet_counter >= bullet_timer:
 				var bullet_inst = bullet_projectile.instantiate()
 				bullet_inst.bullet_speed = 6
@@ -168,7 +169,7 @@ func _process(delta: float) -> void:
 			Events.attack_currently_active = true
 			bullet_counter += 10*delta
 			boss_position = Events.boss_position
-			var player_position = Events.player_position
+			player_position = Events.player_position
 			var player_mirrored =  (wrld_boundaries_x_right - wrld_boundaries_x_left)*2 - player_position.x
 			var player_mira = -player_position.x + wrld_boundaries_x_left
 			var plm_false = Vector2(player_mira,player_position.y) - boss_position
@@ -210,7 +211,7 @@ func _process(delta: float) -> void:
 			Events.attack_currently_active = true
 			bullet_counter += 12*delta
 			boss_position = Events.boss_position
-			var player_position = Events.player_position
+			player_position = Events.player_position
 			if bullet_counter >= bullet_timer:
 				var bullet_inst = tracking_bullet.instantiate()
 				bullet_inst.bullet_speed = 4
@@ -237,7 +238,7 @@ func _process(delta: float) -> void:
 			Events.attack_currently_active = true
 			bullet_counter += 24*delta
 			boss_position = Events.boss_position
-			var player_position = Events.player_position
+			player_position = Events.player_position
 			var patone : float = 8
 			var pattwo : float = 16
 			var pattri : float = 20
@@ -309,7 +310,7 @@ func _process(delta: float) -> void:
 				reverse = true
 			else:
 				reverse = false
-			var player_position = Events.player_position
+			player_position = Events.player_position
 			if bullet_counter >= bullet_timer:
 				var bullet_inst = tracking_bullet.instantiate()
 				bullet_inst.bullet_speed = 2
@@ -339,7 +340,7 @@ func _process(delta: float) -> void:
 			var boss_position_righ = Events.boss_righ_position
 			Events.attack_currently_active = true
 			boss_position = Events.boss_position
-			var player_position = Events.player_position
+			player_position = Events.player_position
 			if bullet_counter >= bullet_timer:
 				var bullet_inst = bullet_spinned.instantiate()
 				bullet_inst.bullet_speed = 1
@@ -382,7 +383,7 @@ func _process(delta: float) -> void:
 			Events.attack_currently_active = true
 			bullet_counter += 24*delta
 			boss_position = Events.boss_position
-			var player_position = Events.player_position
+			player_position = Events.player_position
 			var patone : float = 8
 			var pattwo : float = 16
 			var pattri : float = 20
@@ -451,7 +452,7 @@ func _process(delta: float) -> void:
 			var boss_faze = Events.boss_fight_faze
 			bullet_counter += 12*delta
 			boss_position = Events.boss_position
-			var player_position = Events.player_position
+			player_position = Events.player_position
 			var boss_position_left = Events.boss_left_position
 			var boss_position_righ = Events.boss_righ_position
 			if bullet_counter >= bullet_timer:
@@ -493,7 +494,7 @@ func _process(delta: float) -> void:
 			var boss_position_cent = Events.boss_position
 			var boss_position_left = Events.boss_left_position
 			var boss_position_righ = Events.boss_righ_position
-			var player_position = Events.player_position
+			player_position = Events.player_position
 			
 			var patone : float = 8
 			var pattwo : float = 16
@@ -576,9 +577,91 @@ func _process(delta: float) -> void:
 				add_child(bullet_inst)
 				
 			Events.attack_currently_active = false
+			if Events.boss_fight_faze == 1:
+				change_pattern(0)
+			else:
+				change_pattern(16)
+
+
+		16:
+			#8th boss spinning lazer attack additional
+			
+			Events.attack_currently_active = true
+			attack_cycle += 1
+			var start_angle = 2*PI
+			var real_angle 
+			for i in range(3):
+				
+				var bullet_inst = small_lazer.instantiate()
+				bullet_inst.bullet_speed = 4
+				bullet_inst.pattern_transfered = Vector2(1,0).normalized()
+				bullet_inst.position = Vector2(-i*240,640)
+				if attack_cycle % 2 == 0:
+					bullet_inst.rot_angle = 1
+				else:
+					bullet_inst.rot_angle = -1
+				add_child(bullet_inst)
+				
+			Events.attack_currently_active = false
 			change_pattern(0)
+		
 
+		17:
+			#8th boss spinning lazer attack topdown
+			Events.attack_currently_active = true
+			bullet_counter += 12*delta
+			boss_position = Events.boss_position
+			if player_snapshot == false:
+				player_position = Events.player_position
+				player_snapshot = true
+			if bullet_counter >= bullet_timer:
+				var bullet_inst = small_lazer.instantiate()
+				bullet_inst.bullet_speed = 4
+				
+				bullet_counter = 0
+				if patterning_shitty_shit < 9:
+					patterning_shitty_shit += 1
+				elif patterning_shitty_shit >= 9 and patterning_shitty_shit < 27 :
+					if patterning_shitty_shit %2 == 0:
+						bullet_inst.position = boss_position 
+						bullet_inst.pattern_transfered = (player_position - 	boss_position).normalized()
+						bullet_inst.rot_angle = 1
+						add_child(bullet_inst)
+					else :
+						pass
+					
+					patterning_shitty_shit += 1
+				elif patterning_shitty_shit >= 18 and patterning_shitty_shit < 72 :
+					patterning_shitty_shit += 1
+				elif patterning_shitty_shit >= 72:
+					patterning_shitty_shit = 0
+					player_snapshot = false
 
+					change_pattern(0)
+					Events.attack_currently_active = false
+
+		18:
+			#8thboss_rotatuing in the middle attack
+			Events.attack_currently_active = true
+			
+			var bullet_inst = small_lazer.instantiate()
+			bullet_inst.bullet_speed = 0
+			bullet_inst.pattern_transfered = Vector2(0,0).normalized()
+			var posittionelle : Vector2 = Vector2((Events.world_boundaries[1] - Events.world_boundaries[0])/2 + Events.world_boundaries[0 ], (Events.world_boundaries[3] - Events.world_boundaries[2])/2 + Events.world_boundaries[2])
+			bullet_inst.position = Vector2(posittionelle)
+			if attack_cycle % 2 == 0:
+				bullet_inst.rot_angle = 0.3
+			else:
+				bullet_inst.rot_angle = -0.3
+			bullet_inst.set_scale(Vector2(8,2))
+			add_child(bullet_inst)
+
+			Events.attack_currently_active = false
+			change_pattern(0)
+			Events.emit_signal("attack_finished")
+			
+
+		
 func change_pattern(pattern):
 	current_pattern = pattern
 
@@ -587,3 +670,13 @@ func react_to_boss_hit():
 	var power_up_inst = powerup_prld.instantiate()
 	power_up_inst.position = Events.boss_position
 	add_child(power_up_inst)
+
+func clear_the_scene():
+	for i in self.get_child_count():
+		var child_delited = self.get_child(i)
+		child_delited.queue_free()
+
+
+
+func _on_attack_timer_length_timeout() -> void:
+	pass # Replace with function body.

@@ -29,7 +29,7 @@ func _physics_process(delta: float) -> void:
 
 func _process(delta: float) -> void:
 	life_long += 1*delta
-	if life_long >= 6:
+	if life_long >= 24:
 		self.queue_free()
 	
 

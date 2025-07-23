@@ -60,7 +60,8 @@ func be_moved_by_right_attack():
 
 func _on_body_entered(body: Node) -> void:
 	if body.is_in_group("player"):
-		Events.emit_signal("player_hit_by_ball")
+		if charge_negative_amount < 5: 
+			Events.emit_signal("player_hit_by_ball")
 	if body.is_in_group("wall"):
 		charge_negative_amount += 1
 		check_charge()
