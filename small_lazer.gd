@@ -8,6 +8,7 @@ var bullet_speed : float
 var patter_real : Vector2
 var reflect : bool
 var rot_angle : float
+var max_life : int
 
 signal player_hit_by_bullet 
 signal bullet_reflected 
@@ -29,7 +30,7 @@ func _physics_process(delta: float) -> void:
 
 func _process(delta: float) -> void:
 	life_long += 1*delta
-	if life_long >= 24:
+	if life_long >= max_life:
 		self.queue_free()
 	
 

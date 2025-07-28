@@ -1,7 +1,7 @@
 extends Node2D
 
 
-var health_points : float = 12
+var health_points : float = 36
 var modulated_timer : float = 0
 var modulated_state : bool = false
 var this_boss_patter : Vector2 
@@ -46,13 +46,13 @@ func _ready() -> void:
 
 
 func react():
-	if health_points < 10 and boss_fight_faze < 2:
+	if health_points < 21 and boss_fight_faze < 2:
 		boss_fight_faze = 2
 		change_faze(boss_fight_faze)
-	elif health_points < 7 and boss_fight_faze < 3: 
+	elif health_points < 14 and boss_fight_faze < 3: 
 		boss_fight_faze = 3
 		change_faze(boss_fight_faze)
-	elif health_points < 4 and boss_fight_faze < 4:
+	elif health_points < 7 and boss_fight_faze < 4:
 		boss_fight_faze = 4
 		change_faze(boss_fight_faze)
 
@@ -105,7 +105,7 @@ func _process(delta: float) -> void:
 		
 		modulated_timer += 1*delta
 		if modulated_timer >= 1:
-			modulated_state == false
+			modulated_state = false
 			modulated_timer = 0
 			$Sprite2D.modulate = Color(1,1,1)
 			if faze_changing == false:
@@ -154,12 +154,13 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.is_in_group("ball"):
 		var ball_charge = Events.ball_charge
 		if ball_charge < 4:
-			health_points -= 1/ball_charge
-			$Sprite2D.modulate = Color(0.1,0.1,0.8)
-			modulated_state = true
-			modulated_timer = 0
-			Events.boss_hp = health_points
-			Events.emit_signal("target_hit")
+			if modulated_state == false:
+				health_points -= 4-ball_charge
+				$Sprite2D.modulate = Color(0.7,0.3,0.5,0.3)
+				modulated_state = true
+				modulated_timer = 0
+				Events.boss_hp = health_points
+				Events.emit_signal("target_hit")
 			$Area2D.set_deferred("monitorable", false)
 			$Area2D.set_deferred("monitoring", false)
 			if health_points <= 0:

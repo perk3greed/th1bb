@@ -19,6 +19,7 @@ var reflect_happened : bool = false
 signal attack
 signal left_slide_attack
 signal right_slide_attack
+signal move_ball_a_little
 
 @onready var left_slide_area : Area2D = $left_slide_attack
 @onready var right_slide_area : Area2D = $right_slide_attack
@@ -206,3 +207,9 @@ func move_to_the_left():
 
 func move_to_the_right():
 	position.x = Events.world_boundaries[1] - 20
+
+
+func _on_antiballfield_body_entered(body: Node2D) -> void:
+	if body.is_in_group("ball"):
+		Events.player_position = position
+		Events.emit_signal("move_ball_a_little")

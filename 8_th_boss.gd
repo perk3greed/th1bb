@@ -10,7 +10,8 @@ var amount_attacks : int
 var current_attack : String
 var current_phaze : int = 1 
 var phaze_changed : bool = true
-var health_threshlod : int = 29
+var health_threshlod : int = 25
+var invul_state : bool = false
 
 var rng = RandomNumberGenerator.new()
 
@@ -28,12 +29,14 @@ func _process(delta: float) -> void:
 	
 	Events.boss_position = position
 	if modulated_state == true:
-		
-		modulated_timer += 1*delta
-		if modulated_timer >= 0.8:
-			modulated_state = false
-			$Sprite2D.modulate = Color(1,1,1,1)
-			
+		if invul_state == true:
+			return
+		else:
+			modulated_timer += 1*delta
+			if modulated_timer >= 0.8:
+				modulated_state = false
+				$Sprite2D.modulate = Color(1,1,1,1)
+
 
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
@@ -59,9 +62,13 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 
 
 func phaze_change():
-	$atack_start_timer.stop()
-	$"rotating attack timer".start()
-	modulated_state = true
+	if Events.attack_currently_active == true:
+		$phaze_await.start()
+		print("await")
+	if Events.attack_currently_active == false:
+		$atack_start_timer.stop()
+		$"rotating attack timer".start()
+		invul_state = true
 
 func close_phase_change():
 	$atack_start_timer.start()
@@ -71,8 +78,10 @@ func close_phase_change():
 	Events.boss_fight_faze = current_phaze
 	amount_attacks = 0
 	Events.emit_signal("clear_attack")
-	modulated_state = false
+	invul_state = false
 	health_threshlod -= 5
+
+
 
 func _on_atack_start_timer_timeout() -> void:
 	if rng.randi()%2 == 0:
@@ -82,9 +91,14 @@ func _on_atack_start_timer_timeout() -> void:
 
 
 func _on_rotating_attack_timer_timeout() -> void:
+	print("bossemitting")
 	amount_attacks += 1
 	if amount_attacks < 7:
 		Events.emit_signal("boss_attack",18)
 	if amount_attacks > 7:
 		close_phase_change()
 	
+
+
+func _on_phaze_await_timeout() -> void:
+	phaze_change()

@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://7n5hv8bu6tv6"]
+[gd_scene load_steps=11 format=3 uid="uid://7n5hv8bu6tv6"]
 
 [ext_resource type="Script" uid="uid://23vspudwiy46" path="res://player_movement.gd" id="1_3imes"]
 [ext_resource type="Texture2D" uid="uid://b6ct0ykr0joe2" path="res://textures/random/trail16.png" id="2_eocyw"]
@@ -20,6 +20,9 @@ size = Vector2(85, 50)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4o4u0"]
 size = Vector2(85, 50)
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_hqtel"]
+radius = 9.0
+
 [node name="CharacterBody2D" type="CharacterBody2D" groups=["player"]]
 script = ExtResource("1_3imes")
 
@@ -27,7 +30,7 @@ script = ExtResource("1_3imes")
 shape = SubResource("CircleShape2D_8reia")
 
 [node name="debugsprite" type="Sprite2D" parent="."]
-modulate = Color(0.121, 0.372, 0.633, 0.663)
+modulate = Color(2.59906e-06, 0.529133, 0.134348, 0.663)
 material = SubResource("CanvasItemMaterial_pk137")
 scale = Vector2(4, 4)
 texture = ExtResource("2_eocyw")
@@ -107,7 +110,13 @@ monitorable = false
 visible = false
 polygon = PackedVector2Array(-40, 0, -48, -24, -42, -48, -12, -72, 12, -72, 42, -48, 48, -24, 40, 0, 38, -41, 0, -66, -38, -41)
 
+[node name="antiballfield" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="antiballfield"]
+shape = SubResource("CircleShape2D_hqtel")
+
 [connection signal="body_entered" from="overhead_attack" to="." method="_on_area_2d_body_entered"]
 [connection signal="body_entered" from="left_slide_attack" to="." method="_on_lest_slide_attack_body_entered"]
 [connection signal="body_entered" from="right_slide_attack" to="." method="_on_right_slide_attack_body_entered"]
 [connection signal="finished" from="CPUParticles2D" to="." method="_on_cpu_particles_2d_finished"]
+[connection signal="body_entered" from="antiballfield" to="." method="_on_antiballfield_body_entered"]

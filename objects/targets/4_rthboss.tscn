@@ -27,13 +27,19 @@ position = Vector2(-0.5, -0.5)
 shape = SubResource("RectangleShape2D_0637u")
 
 [node name="big_attak_timer" type="Timer" parent="."]
-wait_time = 12.0
-autostart = true
+wait_time = 9.0
 
 [node name="small_attak_timer" type="Timer" parent="."]
 wait_time = 1.5
+
+[node name="phaze_await" type="Timer" parent="."]
+
+[node name="random_attak" type="Timer" parent="."]
+wait_time = 9.0
 autostart = true
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
 [connection signal="timeout" from="big_attak_timer" to="." method="_on_big_attak_timer_timeout"]
 [connection signal="timeout" from="small_attak_timer" to="." method="_on_small_attak_timer_timeout"]
+[connection signal="timeout" from="phaze_await" to="." method="_on_phaze_await_timeout"]
+[connection signal="timeout" from="random_attak" to="." method="_on_random_attak_timeout"]

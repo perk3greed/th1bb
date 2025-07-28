@@ -3,7 +3,7 @@ extends Node2D
 
 var reached_left_border : bool = true
 var reached_right_border : bool = false
-var health_points : int = 10
+var health_points : int = 28
 var modulated_timer : float = 0
 var modulated_state : bool = false
 var this_boss_patter : Vector2 
@@ -48,22 +48,21 @@ func _process(delta: float) -> void:
 		
 		modulated_timer += 1*delta
 		if modulated_timer >= 0.5:
-			modulated_state == false
+			modulated_state = false
 			$Sprite2D.modulate = Color(1,1,1,1)
-			$Area2D.monitorable = true
-			$Area2D.monitoring = true
 
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.is_in_group("ball"):
-		health_points -= 1
-		$Sprite2D.modulate = Color(0.3,0.2,0.8,0.4)
-		modulated_state = true
-		modulated_timer = 0
-		Events.boss_hp = health_points
-		Events.emit_signal("target_hit")
-		$Area2D.monitorable = false
-		$Area2D.monitoring = false
+		var ball_charge = Events.ball_charge
+		if ball_charge < 4:
+			if modulated_state == false:
+				health_points -= 4-ball_charge
+				$Sprite2D.modulate = Color(0.7,0.3,0.5,0.3)
+				modulated_state = true
+				modulated_timer = 0
+				Events.boss_hp = health_points
+				Events.emit_signal("target_hit")
 		
 		
 		

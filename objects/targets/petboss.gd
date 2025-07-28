@@ -1,7 +1,7 @@
 extends Node2D
 
 
-var health_points : float = 7
+var health_points : float = 26
 var modulated_timer : float = 0
 var modulated_state : bool = false
 var this_boss_patter : Vector2 
@@ -103,7 +103,7 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.is_in_group("ball"):
 		var ball_charge = Events.ball_charge
 		if ball_charge < 4:
-			health_points -= 1/ball_charge
+			health_points -= 4-ball_charge
 			modulate = Color(0.1,0.1,0.8,0.8)
 			$modulator.start()
 			Events.boss_hp = health_points

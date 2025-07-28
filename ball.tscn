@@ -21,7 +21,7 @@ physics_material_override = SubResource("PhysicsMaterial_4mvef")
 gravity_scale = 0.8
 continuous_cd = 2
 contact_monitor = true
-max_contacts_reported = 5
+max_contacts_reported = 12
 linear_damp = 0.01
 script = ExtResource("1_puh4r")
 

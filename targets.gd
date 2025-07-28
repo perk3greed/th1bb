@@ -23,6 +23,7 @@ var attack_cycle : int = 0
 var attack_giga_cycle : int = 0
 var player_snapshot : bool = false
 var player_position = Vector2(0,0)
+var amount_of_bullets : int = 0 
 
 
 signal fourth_aoe_finished
@@ -90,22 +91,27 @@ func _process(delta: float) -> void:
 				
 
 		3:
-			#boss 4 after attack
+			#boss 4 rotating poles
 			Events.attack_currently_active = true
-			bullet_counter += 10*delta
 			boss_position = Events.boss_position
-			var start_angle = PI
-			var real_angle 
-			for i in range(12):
-				var bullet_inst = reflect_bullet.instantiate()
-				real_angle = i*start_angle/24
-				bullet_inst.bullet_speed = 3
-				bullet_inst.pattern_transfered = Vector2(1,1).rotated(real_angle).normalized()
-				bullet_inst.position = Events.boss_position
-				add_child(bullet_inst)
-				
-			Events.attack_currently_active = false
+			var bullet_inst = small_lazer.instantiate()
+			bullet_inst.pattern_transfered = Vector2(1,0).normalized()
+			bullet_inst.scale = Vector2(7,1)
+			bullet_inst.max_life = 5
+			if attack_cycle % 2 == 0:
+				bullet_inst.rot_angle = 0.4
+				bullet_inst.position = Vector2(240,360)
+			else:
+				bullet_inst.position = Vector2(1040,360)
+				bullet_inst.rot_angle = -0.4
+			add_child(bullet_inst)
+			
 			change_pattern(0)
+			attack_cycle += 1
+			patterning_shitty_shit += 1*delta
+			if patterning_shitty_shit > 2:
+				Events.attack_currently_active = false
+
 
 
 		4:
@@ -117,7 +123,7 @@ func _process(delta: float) -> void:
 			
 			for i in range(2):
 				var lazer = lazer_atk.instantiate()
-				lazer.bullet_speed = 5
+				lazer.bullet_speed = 2.5 + Events.boss_fight_faze/2
 				lazer.pattern_transfered = Vector2(0,1).normalized()
 				if attack_cycle >= lazer_arrays.size():
 					attack_cycle = 0
@@ -130,7 +136,7 @@ func _process(delta: float) -> void:
 					lazer.rotate(PI/2)
 					add_child(lazer)
 					attack_cycle += 1
-			change_pattern(3)
+			change_pattern(0)
 
 
 
@@ -636,7 +642,6 @@ func _process(delta: float) -> void:
 				elif patterning_shitty_shit >= 72:
 					patterning_shitty_shit = 0
 					player_snapshot = false
-
 					change_pattern(0)
 					Events.attack_currently_active = false
 
@@ -650,9 +655,9 @@ func _process(delta: float) -> void:
 			var posittionelle : Vector2 = Vector2((Events.world_boundaries[1] - Events.world_boundaries[0])/2 + Events.world_boundaries[0 ], (Events.world_boundaries[3] - Events.world_boundaries[2])/2 + Events.world_boundaries[2])
 			bullet_inst.position = Vector2(posittionelle)
 			if attack_cycle % 2 == 0:
-				bullet_inst.rot_angle = 0.3
+				bullet_inst.rot_angle = Events.boss_fight_faze*0.1
 			else:
-				bullet_inst.rot_angle = -0.3
+				bullet_inst.rot_angle = -Events.boss_fight_faze*0.1
 			bullet_inst.set_scale(Vector2(8,2))
 			add_child(bullet_inst)
 
@@ -660,6 +665,41 @@ func _process(delta: float) -> void:
 			change_pattern(0)
 			Events.emit_signal("attack_finished")
 			
+
+
+		19:
+			
+			#4rthboss_spiral 
+			Events.attack_currently_active = true
+			var boss_stage = Events.boss_fight_faze
+			var start_angle = PI
+			var real_angle 
+			var angles_array : Array = [1,24,60,30,240,120,45,90,21,60,30,120]
+			if patterning_shitty_shit % 3 == 0 and patterning_shitty_shit < 90*boss_stage :
+				var bullet_inst = reflect_bullet.instantiate()
+				real_angle = patterning_shitty_shit*start_angle/angles_array[boss_stage]
+				bullet_inst.bullet_speed = 2.5
+				bullet_inst.pattern_transfered = Vector2(1,1).rotated(real_angle).normalized()
+				bullet_inst.position = Events.boss_position
+				add_child(bullet_inst)
+				amount_of_bullets += 1 
+
+			patterning_shitty_shit += 1
+			
+			if patterning_shitty_shit >= 240:
+				Events.attack_currently_active = false
+				change_pattern(0)
+				print("amb=",amount_of_bullets)
+				patterning_shitty_shit = 0
+				amount_of_bullets = 0
+				print("bst=",boss_stage)
+
+
+
+
+
+
+
 
 		
 func change_pattern(pattern):

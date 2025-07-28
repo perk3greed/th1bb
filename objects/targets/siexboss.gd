@@ -1,7 +1,7 @@
 extends Node2D
 
 
-var health_points : float = 7
+var health_points : float = 32
 var modulated_timer : float = 0
 var modulated_state : bool = false
 var this_boss_patter : Vector2 
@@ -68,26 +68,23 @@ func _process(delta: float) -> void:
 		
 		modulated_timer += 1*delta
 		if modulated_timer >= 0.6:
-			modulated_state == false
+			modulated_state = false
 			$Sprite2D.modulate = Color(1,1,1)
-			$Area2D.set_deferred("monitorable", true)
-			$Area2D.set_deferred("monitoring", true)
 
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.is_in_group("ball"):
 		var ball_charge = Events.ball_charge
 		if ball_charge < 4:
-			health_points -= 1/ball_charge
-			$Sprite2D.modulate = Color(0.1,0.1,0.1)
-			modulated_state = true
-			modulated_timer = 0
-			Events.boss_hp = health_points
-			Events.emit_signal("target_hit")
-			$Area2D.set_deferred("monitorable", false)
-			$Area2D.set_deferred("monitoring", false)
-			
-			if health_points <= 0:
-				Events.emit_signal("boss1testkilled")
-				self.queue_free()
-			
+			if modulated_state == false:
+				health_points -= 4-ball_charge
+				$Sprite2D.modulate = Color(0.1,0.1,0.1)
+				modulated_state = true
+				modulated_timer = 0
+				Events.boss_hp = health_points
+				Events.emit_signal("target_hit")
+				
+				if health_points <= 0:
+					Events.emit_signal("boss1testkilled")
+					self.queue_free()
+				

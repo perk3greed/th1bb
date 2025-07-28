@@ -47,5 +47,6 @@ signal add_block
 signal player_touched_right_col
 signal player_touched_left_col
 signal clear_attack
+signal move_ball_a_little
 
 signal plot_points_on_the_graph
