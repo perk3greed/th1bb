@@ -564,6 +564,7 @@ func _process(delta: float) -> void:
 
 
 		15:
+			print("!%!!!!!!!!!!!!!!!")
 			#8th boss spinning lazer attack 
 			Events.attack_currently_active = true
 			attack_cycle += 1
@@ -715,7 +716,7 @@ func clear_the_scene():
 	for i in self.get_child_count():
 		var child_delited = self.get_child(i)
 		child_delited.queue_free()
-
+		change_pattern(0)
 
 
 func _on_attack_timer_length_timeout() -> void:

@@ -33,6 +33,11 @@ func spawn_boss_func(number):
 			boss_inst = boss_test1.instantiate()
 			inst_position = Vector2(525,275)
 			Events.current_boss = 1
+			$"SubViewportContainer/SubViewport/2dworld/world_boundary/StaticBody2D/left_collision".position.x = 175
+			$"SubViewportContainer/SubViewport/2dworld/world_boundary/StaticBody2D/right_collision".position.x = 1025
+			$"SubViewportContainer/SubViewport/2dworld/world_boundary/StaticBody2D3/top_collision".position.y = 200
+
+			
 		2:
 			boss_inst = boss_test2.instantiate()
 			inst_position = Vector2(525,250)
@@ -91,7 +96,7 @@ func spawn_boss_func(number):
 	Events.world_boundaries[1] = $"SubViewportContainer/SubViewport/2dworld/world_boundary/StaticBody2D/right_collision".position.x
 	Events.world_boundaries[2] = $"SubViewportContainer/SubViewport/2dworld/world_boundary/StaticBody2D3/top_collision".position.y
 	Events.world_boundaries[3] = $"SubViewportContainer/SubViewport/2dworld/world_boundary/StaticBody2D2/bottom_collision".position.y
-
+	Events.attack_currently_active = false
 
 
 
@@ -127,3 +132,20 @@ func _on_right_colis_area_body_entered(body: Node2D) -> void:
 func _on_left_colis_area_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):
 		Events.emit_signal("player_touched_left_col")
+
+
+func _on_button_pressed() -> void:
+	var boss_count = $"SubViewportContainer/SubViewport/2dworld/boss_holder".get_child_count()
+	for child in boss_count:
+		var children = $"SubViewportContainer/SubViewport/2dworld/boss_holder".get_child(child)
+		children.queue_free()
+	player_health = 4
+	Events.emit_signal("boss1testkilled")
+	Events.attack_currently_active = false
+	Events.emit_signal("clear_attack")
+	
+	
+	
+	
+	
+	

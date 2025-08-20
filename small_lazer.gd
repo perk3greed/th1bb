@@ -8,7 +8,7 @@ var bullet_speed : float
 var patter_real : Vector2
 var reflect : bool
 var rot_angle : float
-var max_life : int
+var max_life : int = 12
 
 signal player_hit_by_bullet 
 signal bullet_reflected 
@@ -19,7 +19,6 @@ func _ready() -> void:
 	
 	boss_snapshot = Events.current_boss
 	pattern_snapshot = Events.current_pattern
-
 
 
 
