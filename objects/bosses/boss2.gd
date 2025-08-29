@@ -12,7 +12,7 @@ var j : float
 var bullet_counter : float
 
 var bullet_timer : float = 1 
-var bullet_projectile := preload("res://objects/bullet_default.tscn")
+var bullet_projectile := preload("res://objects/attacks/bullet_default.tscn")
 var bullet_timing : float
 var rng = RandomNumberGenerator.new()
 

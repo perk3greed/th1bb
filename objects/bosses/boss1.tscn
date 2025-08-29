@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://cvtrt8c2jkkla"]
 
-[ext_resource type="Script" uid="uid://lpw3kvjcht0k" path="res://objects/target_test_1.gd" id="1_j57j7"]
+[ext_resource type="Script" uid="uid://lpw3kvjcht0k" path="res://objects/bosses/boss1.gd" id="1_xi3q2"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2d4or"]
 size = Vector2(160, 160)
@@ -12,7 +12,7 @@ size = Vector2(160, 160)
 size = Vector2(90, 90)
 
 [node name="boss1" type="Node2D"]
-script = ExtResource("1_j57j7")
+script = ExtResource("1_xi3q2")
 
 [node name="Area2D" type="Area2D" parent="."]
 

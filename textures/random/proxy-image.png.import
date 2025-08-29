@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://buec5xlb8gscl"
-path="res://.godot/imported/bulletwthite16.png-107fa9a5f51f52cff178abe7da8a8468.ctex"
+uid="uid://cko2dalhk7c6s"
+path="res://.godot/imported/proxy-image.png-424fff2ad7802dd435b96208707935a3.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://textures/bosses/bulletwthite16.png"
-dest_files=["res://.godot/imported/bulletwthite16.png-107fa9a5f51f52cff178abe7da8a8468.ctex"]
+source_file="res://textures/random/proxy-image.png"
+dest_files=["res://.godot/imported/proxy-image.png-424fff2ad7802dd435b96208707935a3.ctex"]
 
 [params]
 

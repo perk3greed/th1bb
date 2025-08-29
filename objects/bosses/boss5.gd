@@ -81,7 +81,7 @@ func _process(delta: float) -> void:
 
 		Events.pos_changing = true
 		position = position.cubic_interpolate(player_snapshot_pos, snapshot_position - Vector2(0,300) ,play_snap_mir, pos_change_timer/150)
-		pos_change_timer += 1
+		pos_change_timer +=50*delta
 		if pos_change_timer >= pos_change_max:
 			$Area2D.set_deferred("monitorable", true)
 			$Area2D.set_deferred("monitoring", true)

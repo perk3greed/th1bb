@@ -20,8 +20,8 @@ var rng = RandomNumberGenerator.new()
 var pos_change_in_que : bool
 const rot_angle_two_defolt : float = -0.01
 const rot_angle_one_defolt : float = 0.017 
-var rot_angle_one : float = 0.017
-var rot_angle_two : float = -0.01
+var rot_angle_one : float = 1.2
+var rot_angle_two : float = -0.9
 var reverse_up : bool
 var reverse_side : bool
 var direction : Vector2
@@ -89,14 +89,14 @@ func _process(delta: float) -> void:
 	
 	
 	if faze_changing == false:
-		$right.position = $right.position.rotated(rot_angle_one)
-		$Area2D/right.position = $Area2D/right.position.rotated(rot_angle_one)
+		$right.position = $right.position.rotated(rot_angle_one*delta)
+		$Area2D/right.position = $Area2D/right.position.rotated(rot_angle_one*delta)
 		
-		$left.position = $left.position.rotated(rot_angle_two)
-		$Area2D/left.position = $Area2D/left.position.rotated(rot_angle_two)
-		position += (Events.boss_left_position - Events.boss_righ_position)/90
+		$left.position = $left.position.rotated(rot_angle_two*delta)
+		$Area2D/left.position = $Area2D/left.position.rotated(rot_angle_two*delta)
+		position += (Events.boss_left_position - Events.boss_righ_position)*delta
 		if distance_from_center > 25000:
-			position += (screen_center - position)/60
+			position += (screen_center - position)*delta
 	
 	
 	Events.boss_position = position

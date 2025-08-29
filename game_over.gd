@@ -1,13 +1,14 @@
 extends Node
 
-@onready var boss_test1 = load("res://objects/target_test1.tscn")
-@onready var boss_test2 = load("res://objects/targets/second_target.tscn")
-@onready var boss_test3 = load("res://objects/targets/third_boss.tscn")
-@onready var boss_test4 = load("res://objects/targets/4_rthboss.tscn")
-@onready var boss_test5 = load("res://objects/targets/petboss.tscn")
-@onready var boss_test6 = load("res://objects/targets/siexboss.tscn")
-@onready var boss_test7 = load("res://objects/targets/seventhbosss.tscn")
-@onready var boss_test8 = load("res://objects/targets/8_th_boss.tscn")
+@onready var boss_test1 = load("res://objects/bosses/boss1.tscn")
+@onready var boss_test2 = load("res://objects/bosses/boss2.tscn")
+@onready var boss_test3 = load("res://objects/bosses/boss3.tscn")
+@onready var boss_test4 = load("res://objects/bosses/boss4.tscn")
+@onready var boss_test5 = load("res://objects/bosses/boss5.tscn")
+@onready var boss_test6 = load("res://objects/bosses/boss6.tscn")
+@onready var boss_test7 = load("res://objects/bosses/boss7.tscn")
+@onready var boss_test8 = load("res://objects/bosses/boss8.tscn")
+var defolt_boundaries : Array = [125,1120,145]
 var boss_inst
 var inst_position : Vector2
 var player_health : int 
@@ -24,7 +25,7 @@ func _ready() -> void:
 	$interfacemain/player_health.text = str(player_health)
 	player_health = Events.player_health
 	Events.attack_currently_active = false
-	
+	calculate_player_health()
 
 
 func spawn_boss_func(number):
@@ -51,6 +52,11 @@ func spawn_boss_func(number):
 			boss_inst = boss_test3.instantiate()
 			inst_position = Vector2(525,250)
 			Events.current_boss = 3
+			$"SubViewportContainer/SubViewport/2dworld/world_boundary/StaticBody2D/left_collision".position.x = defolt_boundaries[0]
+			$"SubViewportContainer/SubViewport/2dworld/world_boundary/StaticBody2D/right_collision".position.x = defolt_boundaries[1]
+			$"SubViewportContainer/SubViewport/2dworld/world_boundary/StaticBody2D3/top_collision".position.y = defolt_boundaries[2]
+
+			
 
 		4:
 			boss_inst = boss_test4.instantiate()
@@ -78,17 +84,26 @@ func spawn_boss_func(number):
 			boss_inst = boss_test6.instantiate()
 			inst_position = Vector2(625,240)
 			Events.current_boss = 6
+			$"SubViewportContainer/SubViewport/2dworld/world_boundary/StaticBody2D/left_collision".position.x = defolt_boundaries[0]
+			$"SubViewportContainer/SubViewport/2dworld/world_boundary/StaticBody2D/right_collision".position.x = defolt_boundaries[1]
+			$"SubViewportContainer/SubViewport/2dworld/world_boundary/StaticBody2D3/top_collision".position.y = defolt_boundaries[2]
+			
 
 		7: 
 			boss_inst = boss_test7.instantiate()
 			inst_position = Vector2(600,200)
 			Events.current_boss = 7 
+			$"SubViewportContainer/SubViewport/2dworld/world_boundary/StaticBody2D/left_collision".position.x = defolt_boundaries[0]
+			$"SubViewportContainer/SubViewport/2dworld/world_boundary/StaticBody2D/right_collision".position.x = defolt_boundaries[1]
+			$"SubViewportContainer/SubViewport/2dworld/world_boundary/StaticBody2D3/top_collision".position.y = defolt_boundaries[2]
 
 		8:
 			boss_inst = boss_test8.instantiate()
 			inst_position = Vector2(600,200)
 			Events.current_boss = 8
-
+			$"SubViewportContainer/SubViewport/2dworld/world_boundary/StaticBody2D/left_collision".position.x = defolt_boundaries[0]
+			$"SubViewportContainer/SubViewport/2dworld/world_boundary/StaticBody2D/right_collision".position.x = defolt_boundaries[1]
+			$"SubViewportContainer/SubViewport/2dworld/world_boundary/StaticBody2D3/top_collision".position.y = defolt_boundaries[2]
 
 	boss_inst.position = inst_position
 	$"SubViewportContainer/SubViewport/2dworld/boss_holder".add_child(boss_inst)

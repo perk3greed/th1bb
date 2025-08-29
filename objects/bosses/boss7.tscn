@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://c156lhb0i786r"]
 
-[ext_resource type="Script" uid="uid://lcxcl1vp8i4u" path="res://seventhbosss.gd" id="1_0jkl1"]
-[ext_resource type="Texture2D" uid="uid://sg0k0cjvqm1e" path="res://textures/random/robloxina.png" id="2_0st26"]
+[ext_resource type="Script" uid="uid://lcxcl1vp8i4u" path="res://seventhbosss.gd" id="1_q47bx"]
+[ext_resource type="Texture2D" uid="uid://sg0k0cjvqm1e" path="res://textures/random/robloxina.png" id="2_dplmh"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_evy2v"]
 radius = 57.0
@@ -12,20 +12,20 @@ radius = 35.0
 height = 88.0
 
 [node name="seventhbosss" type="Node2D"]
-script = ExtResource("1_0jkl1")
+script = ExtResource("1_q47bx")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("2_0st26")
+texture = ExtResource("2_dplmh")
 
 [node name="right" type="Sprite2D" parent="."]
 position = Vector2(130, 0)
 scale = Vector2(0.6, 0.6)
-texture = ExtResource("2_0st26")
+texture = ExtResource("2_dplmh")
 
 [node name="left" type="Sprite2D" parent="."]
 position = Vector2(-210, 0)
 scale = Vector2(0.6, 0.6)
-texture = ExtResource("2_0st26")
+texture = ExtResource("2_dplmh")
 
 [node name="Area2D" type="Area2D" parent="." groups=["boss"]]
 

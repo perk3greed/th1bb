@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://cuubpa1x1edrf"]
 
-[ext_resource type="Texture2D" uid="uid://buec5xlb8gscl" path="res://textures/bosses/bulletwthite16.png" id="1_8i6di"]
+[ext_resource type="Texture2D" uid="uid://buec5xlb8gscl" path="res://textures/random/bulletwthite16.png" id="1_8i6di"]
 
 [node name="plotpoint" type="Node2D"]
 

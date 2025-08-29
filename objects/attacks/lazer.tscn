@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://cakbn2sxwfgwi"]
 
-[ext_resource type="Script" uid="uid://dsxi7ku8e5q5p" path="res://objects/lazer.gd" id="1_2gxyl"]
+[ext_resource type="Script" uid="uid://dsxi7ku8e5q5p" path="res://objects/attacks/lazer.gd" id="1_2gxyl"]
 
 [sub_resource type="SegmentShape2D" id="SegmentShape2D_xkewd"]
 b = Vector2(0, 2000)

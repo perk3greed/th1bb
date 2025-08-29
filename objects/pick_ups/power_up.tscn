@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://bseb62hpj036v"]
 
 [ext_resource type="Script" uid="uid://bnpfkqyog07k1" path="res://power_up.gd" id="1_py4fo"]
-[ext_resource type="Texture2D" uid="uid://buec5xlb8gscl" path="res://textures/bosses/bulletwthite16.png" id="2_kjoji"]
+[ext_resource type="Texture2D" uid="uid://buec5xlb8gscl" path="res://textures/random/bulletwthite16.png" id="2_kjoji"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_cbkrb"]
 radius = 24.0

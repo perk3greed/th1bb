@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://cev21t67bvp38"]
 
-[ext_resource type="Script" uid="uid://b6lf4p27j17qi" path="res://objects/big_ball.gd" id="1_3lasp"]
+[ext_resource type="Script" uid="uid://b6lf4p27j17qi" path="res://objects/attacks/big_ball.gd" id="1_3lasp"]
 [ext_resource type="Texture2D" uid="uid://c6og6ukbls6h4" path="res://textures/random/circle_attack.png" id="1_t3ogy"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_3lasp"]

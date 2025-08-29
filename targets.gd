@@ -1,21 +1,21 @@
 extends Node2D
 
 var bullet_timer : float = 1 
-var bullet_projectile := preload("res://objects/bullet_default.tscn")
+var bullet_projectile := preload("res://objects/attacks/bullet_default.tscn")
 var bullet_timing : float
 var rng = RandomNumberGenerator.new()
 var bullet_counter : float
 var current_pattern : int 
 var patterning_shitty_shit : int
 var boss_position : Vector2 
-var powerup_prld := preload("res://objects/pick ups/power_up.tscn")
-var reflect_bullet := preload("res://objects/bullet_reflective.tscn")
-var tracking_bullet := preload("res://objects/targets/bullet_lookingfor.tscn")
-var circling_bullet := preload("res://objects/targets/bullet_circling.tscn")
-var bullet_spinned := preload("res://objects/bullet_spinned.tscn")
-var big_ball := preload("res://objects/big_ball.tscn")
-var lazer_atk := preload("res://objects/lazer.tscn")
-var small_lazer := preload("res://objects/small_lazer.tscn")
+var powerup_prld := preload("res://objects/pick_ups/power_up.tscn")
+var reflect_bullet := preload("res://objects/attacks/bullet_reflective.tscn")
+var tracking_bullet := preload("res://objects/attacks/bullet_lookingfor.tscn")
+var circling_bullet := preload("res://objects/attacks/bullet_circling.tscn")
+var bullet_spinned := preload("res://objects/attacks/bullet_spinned.tscn")
+var big_ball := preload("res://objects/attacks/big_ball.tscn")
+var lazer_atk := preload("res://objects/attacks/lazer.tscn")
+var small_lazer := preload("res://objects/attacks/small_lazer.tscn")
 var wrld_boundaries_x_right : int
 var wrld_boundaries_x_left : int
 var wrld_boundaries_x_top : int

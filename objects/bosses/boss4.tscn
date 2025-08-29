@@ -1,8 +1,8 @@
 [gd_scene load_steps=5 format=3 uid="uid://d058ojrsnbvpq"]
 
-[ext_resource type="Script" uid="uid://cq4qo842pamhn" path="res://objects/targets/4_rthboss.gd" id="1_5lfrc"]
+[ext_resource type="Script" uid="uid://cq4qo842pamhn" path="res://objects/bosses/boss4.gd" id="1_5lfrc"]
 [ext_resource type="Texture2D" uid="uid://bauelcl7afrak" path="res://textures/random/square_attack.png" id="2_qmrfr"]
-[ext_resource type="Texture2D" uid="uid://d1ksyft5id7ey" path="res://textures/bosses/proxy-image.jpg" id="3_kqiwx"]
+[ext_resource type="Texture2D" uid="uid://d1ksyft5id7ey" path="res://textures/random/proxy-image.jpg" id="3_kqiwx"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0637u"]
 size = Vector2(359, 153)

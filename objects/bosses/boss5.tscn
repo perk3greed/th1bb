@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://rxkvnhuoles"]
 
-[ext_resource type="Script" uid="uid://dcllu3vrfoy6u" path="res://objects/targets/petboss.gd" id="1_u5gj2"]
+[ext_resource type="Script" uid="uid://dcllu3vrfoy6u" path="res://objects/bosses/boss5.gd" id="1_u5gj2"]
 [ext_resource type="Texture2D" uid="uid://dhtd4r7f17n2q" path="res://textures/random/Th01Kikuri.png" id="1_xdbb0"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_nh7o7"]

@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://7n5hv8bu6tv6" path="res://player.tscn" id="2_xecjr"]
 [ext_resource type="Shader" uid="uid://cv8ri3rvsgxu3" path="res://textures/shader/ps1_camera_dither.gdshader" id="3_5b2c6"]
 [ext_resource type="PackedScene" uid="uid://bdkuewmky4lx" path="res://ball.tscn" id="3_5ekim"]
-[ext_resource type="Texture2D" uid="uid://fp4gtik7bicr" path="res://textures/random/skyground.png" id="3_j5wjh"]
+[ext_resource type="Texture2D" uid="uid://btr5gh2ibl8t8" path="res://textures/backgrounds/starbackground_clrhft.png" id="3_vef74"]
 [ext_resource type="Script" uid="uid://bikvdtjmypa4h" path="res://interfacemain.gd" id="4_hmkse"]
 [ext_resource type="Script" uid="uid://jo0dvgquyjd2" path="res://targets.gd" id="4_q84kf"]
 [ext_resource type="Script" uid="uid://be8cvda7lf52j" path="res://targets_dva.gd" id="6_67irx"]
@@ -60,7 +60,9 @@ render_target_update_mode = 4
 [node name="2dworld" type="Node2D" parent="SubViewportContainer/SubViewport"]
 
 [node name="Sprite2D" type="Sprite2D" parent="SubViewportContainer/SubViewport/2dworld"]
-texture = ExtResource("3_j5wjh")
+position = Vector2(-2, 3.00001)
+scale = Vector2(2.675, 1.12344)
+texture = ExtResource("3_vef74")
 centered = false
 
 [node name="Camera2D" type="Camera2D" parent="SubViewportContainer/SubViewport/2dworld"]
