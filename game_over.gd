@@ -8,7 +8,7 @@ extends Node
 @onready var boss_test6 = load("res://objects/bosses/boss6.tscn")
 @onready var boss_test7 = load("res://objects/bosses/boss7.tscn")
 @onready var boss_test8 = load("res://objects/bosses/boss8.tscn")
-var defolt_boundaries : Array = [125,1120,145]
+var defolt_boundaries : Array = [145,1135,145]
 var boss_inst
 var inst_position : Vector2
 var player_health : int 

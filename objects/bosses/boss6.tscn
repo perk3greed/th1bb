@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://bfblpnivnqugi" path="res://textures/random/58a20c6dc8dd3432c6fa8224.png" id="2_qo1yq"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yfxy4"]
-size = Vector2(130, 233)
+size = Vector2(130, 230)
 
 [node name="siexboss" type="Node2D"]
 script = ExtResource("1_0n5m0")
