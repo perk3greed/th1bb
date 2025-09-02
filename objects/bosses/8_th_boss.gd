@@ -24,6 +24,9 @@ signal clear_attack
 
 func _ready() -> void:
 	Events.boss_fight_faze = 1
+	Events.connect("attack_finished", phaze_change)
+
+
 
 func _process(delta: float) -> void:
 	
@@ -53,7 +56,7 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 				Events.emit_signal("target_hit")
 				if health_points < health_threshlod:
 					phaze_changed = false
-					phaze_change()
+					
 					
 			if health_points <= 0:
 				Events.emit_signal("boss1testkilled")
@@ -62,13 +65,11 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 
 
 func phaze_change():
-	if Events.attack_currently_active == true:
-		$phaze_await.start()
-		print("await")
-	if Events.attack_currently_active == false:
+	if phaze_changed == false:
 		$atack_start_timer.stop()
 		$"rotating attack timer".start()
 		invul_state = true
+
 
 func close_phase_change():
 	$atack_start_timer.start()
@@ -88,6 +89,7 @@ func _on_atack_start_timer_timeout() -> void:
 		Events.emit_signal("boss_attack", 17)
 	else:
 		Events.emit_signal("boss_attack", 15)
+
 
 
 func _on_rotating_attack_timer_timeout() -> void:

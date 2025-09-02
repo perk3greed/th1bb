@@ -88,7 +88,8 @@ func _process(delta: float) -> void:
 					Events.attack_currently_active = false
 					patterning_shitty_shit = 0
 					change_pattern(3)
-				
+
+
 
 		3:
 			#boss 4 rotating poles
@@ -564,7 +565,6 @@ func _process(delta: float) -> void:
 
 
 		15:
-			print("!%!!!!!!!!!!!!!!!")
 			#8th boss spinning lazer attack 
 			Events.attack_currently_active = true
 			attack_cycle += 1
@@ -586,6 +586,7 @@ func _process(delta: float) -> void:
 			Events.attack_currently_active = false
 			if Events.boss_fight_faze == 1:
 				change_pattern(0)
+				Events.emit_signal("attack_finished")
 			else:
 				change_pattern(16)
 
@@ -645,6 +646,10 @@ func _process(delta: float) -> void:
 					player_snapshot = false
 					change_pattern(0)
 					Events.attack_currently_active = false
+					Events.emit_signal("attack_finished")
+
+
+
 
 		18:
 			#8thboss_rotatuing in the middle attack

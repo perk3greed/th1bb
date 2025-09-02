@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://c156lhb0i786r"]
 
-[ext_resource type="Script" uid="uid://lcxcl1vp8i4u" path="res://seventhbosss.gd" id="1_q47bx"]
+[ext_resource type="Script" uid="uid://lcxcl1vp8i4u" path="res://objects/bosses/seventhbosss.gd" id="1_q47bx"]
 [ext_resource type="Texture2D" uid="uid://sg0k0cjvqm1e" path="res://textures/random/robloxina.png" id="2_dplmh"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_evy2v"]
