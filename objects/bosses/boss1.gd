@@ -17,7 +17,7 @@ func _process(delta: float) -> void:
 	Events.boss_position = position
 	
 	center_screen.x = 450 + (720 - Events.player_position.x)/4
-	center_screen.y = 360 + (450 - Events.ball_position.y)/10
+	center_screen.y = 200 + (450 - Events.ball_position.y)/10
 	if modulated_state == true:
 		position += impulse/80
 		impulse -= impulse/24
@@ -46,4 +46,4 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 
 
 func _on_attacktime_timeout() -> void:
-	Events.emit_signal("boss_attack",14)
+	Events.emit_signal("boss_attack","tutorial_boss_attack")

@@ -93,7 +93,6 @@ func _on_atack_start_timer_timeout() -> void:
 
 
 func _on_rotating_attack_timer_timeout() -> void:
-	print("bossemitting")
 	amount_attacks += 1
 	if amount_attacks < 7:
 		Events.emit_signal("boss_attack",18)

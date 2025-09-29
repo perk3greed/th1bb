@@ -3,7 +3,7 @@ extends Node2D
 
 var reached_left_border : bool = true
 var reached_right_border : bool = false
-var health_points : int = 28
+var health_points : int = 30
 var modulated_timer : float = 0
 var modulated_state : bool = false
 var this_boss_patter : Vector2 
@@ -16,7 +16,8 @@ var bullet_projectile := preload("res://objects/attacks/bullet_default.tscn")
 var bullet_timing : float
 var rng = RandomNumberGenerator.new()
 
-
+var health_threshold : int = 21
+var phaze_need_to_change : bool = false
 
 signal target_hit
 signal boss1testkilled
@@ -38,7 +39,7 @@ func _process(delta: float) -> void:
 	if distance_to_ex < 0:
 		distance_to_ex = -distance_to_ex
 	
-	var y_axis_displacement : float = position.y - 210
+	var y_axis_displacement : float = position.y - 150
 	position.y += distance_to_ex/60 - y_axis_displacement/60
 	
 	Events.current_pattern = (distance_to_player - Vector2(0,100)).normalized()
@@ -63,7 +64,9 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 				modulated_timer = 0
 				Events.boss_hp = health_points
 				Events.emit_signal("target_hit")
-		
+				if health_points < health_threshold: 
+					phaze_need_to_change == true
+					health_threshold =- 10
 		
 		
 		if health_points <= 0:
@@ -73,4 +76,4 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 
 
 func _on_timer_timeout() -> void:
-	Events.emit_signal("boss_attack",3)
+	Events.emit_signal("boss_attack","pattern5")

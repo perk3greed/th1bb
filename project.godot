@@ -12,13 +12,17 @@ config_version=5
 
 config/name="touhou1_but_better"
 run/main_scene="res://game.tscn"
-config/features=PackedStringArray("4.4", "GL Compatibility")
+config/features=PackedStringArray("4.5", "GL Compatibility")
 boot_splash/image="res://textures/backgrounds/starbackground_black_clrhft.png"
 config/icon="res://icon.svg"
 
 [autoload]
 
 Events="*res://Events.gd"
+
+[debug]
+
+gdscript/warnings/enable=false
 
 [display]
 
@@ -27,8 +31,8 @@ window/size/viewport_height=720
 
 [editor]
 
-movie_writer/mjpeg_quality=1.0
 movie_writer/movie_file="C:/Users/sasha/Desktop/gdvideos/thb.avi"
+movie_writer/mjpeg_quality=1.0
 
 [editor_plugins]
 

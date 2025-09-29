@@ -87,4 +87,4 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 func _on_timer_timeout() -> void:
 	if pos_changed == true:
 		if Events.attack_currently_active == false:
-			Events.emit_signal("boss_attack",2)
+			Events.emit_signal("boss_attack","pattern2")

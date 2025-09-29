@@ -44,10 +44,10 @@ func phaze_change():
 		$phaze_await.start()
 		print("await")
 		$random_attak.stop()
+		
 
 	else:
 		$phaze_await.stop()
-		print(Events.attack_currently_active,"phazechangeletsogoooooooooo")
 		$small_attak_timer.start()
 		$big_attak_timer.stop()
 		
@@ -97,10 +97,9 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 
 
 func _on_small_attak_timer_timeout() -> void:
-	print("iamgooning")
 	if amount_attacks < current_phaze+1:
 		if phaze_changed == false:
-			Events.emit_signal("boss_attack", 4)
+			Events.emit_signal("boss_attack", "boss4 attack")
 			amount_attacks += 1
 	elif amount_attacks == current_phaze +1 : 
 		amount_attacks += 1
@@ -111,12 +110,12 @@ func _on_small_attak_timer_timeout() -> void:
 
 
 func _on_big_attak_timer_timeout() -> void:
-	Events.emit_signal("boss_attack", 3)
+	Events.emit_signal("boss_attack", "boss3 rotating poles")
 
 
 func _on_random_attak_timeout() -> void:
 	if phaze_changed == true:
-		Events.emit_signal("boss_attack", 19)
+		Events.emit_signal("boss_attack", "boss4 spiral")
 
 
 func _on_phaze_await_timeout() -> void:

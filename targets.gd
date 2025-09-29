@@ -1,11 +1,11 @@
 extends Node2D
 
-var bullet_timer : float = 1 
+const bullet_timer : float = 1 
 var bullet_projectile := preload("res://objects/attacks/bullet_default.tscn")
 var bullet_timing : float
 var rng = RandomNumberGenerator.new()
 var bullet_counter : float
-var current_pattern : int 
+var current_pattern : String 
 var patterning_shitty_shit : int
 var boss_position : Vector2 
 var powerup_prld := preload("res://objects/pick_ups/power_up.tscn")
@@ -24,11 +24,15 @@ var attack_giga_cycle : int = 0
 var player_snapshot : bool = false
 var player_position = Vector2(0,0)
 var amount_of_bullets : int = 0 
+var await_timer : float
+var pause_attack : bool = false
 
 
 signal fourth_aoe_finished
 signal attack_finished
 signal big_ball_sent
+signal await_finished
+
 
 var boss3_pattern_arrey : Array = [Vector2(15,5),Vector2(10,5),Vector2(5,5),Vector2(0,5),Vector2(-5,5),Vector2(-10,5),Vector2(-15,5)]
 
@@ -49,12 +53,28 @@ func _process(delta: float) -> void:
 	
 	match current_pattern : 
 		
-		0:
+		"zero":
 			wrld_boundaries_x_right = Events.world_boundaries[1] 
 			wrld_boundaries_x_left = Events.world_boundaries[0]
 			wrld_boundaries_x_top = Events.world_boundaries[2]
+			Events.attack_currently_active = false
+
 		
-		1:
+		
+		"await":
+			if bullet_counter < await_timer:
+				bullet_counter += 1*delta
+			else:
+				await_timer = 0 
+				Events.attack_currently_active = false
+				bullet_counter = 0 
+				print("awaitedxdd")
+				Events.emit_signal("await_finished") 
+				change_pattern("zero")
+
+		
+		
+		"pattern1":
 
 			if patterning_shitty_shit < 36:
 				patterning_shitty_shit += 1
@@ -62,13 +82,14 @@ func _process(delta: float) -> void:
 					var bullet_inst = bullet_projectile.instantiate()
 					bullet_inst.position = Events.boss_position 
 					bullet_inst.bullet_speed = 4
+					bullet_inst.pattern_transfered = ( - Events.boss_position + Events.player_position).normalized()
 					add_child(bullet_inst)
 			elif patterning_shitty_shit >= 36 and patterning_shitty_shit < 180 :
 				patterning_shitty_shit += 1
 			elif patterning_shitty_shit >= 180:
 				patterning_shitty_shit = 0
 
-		2:
+		"pattern2":
 			Events.attack_currently_active = true
 			bullet_counter += 10*delta
 			if bullet_counter >= bullet_timer:
@@ -78,20 +99,20 @@ func _process(delta: float) -> void:
 				bullet_inst.bullet_speed = 4
 				bullet_inst.position = Events.boss_position
 				bullet_counter = 0
-				if patterning_shitty_shit < 6:
+				if patterning_shitty_shit < 18:
 					patterning_shitty_shit += 1
-					bullet_inst.pattern_transfered = boss3_pattern_arrey[patterning_shitty_shit].normalized()
+					bullet_inst.pattern_transfered = Vector2(1,1).rotated(patterning_shitty_shit*PI/24 - PI/4).normalized() 
 					add_child(bullet_inst)
-				elif patterning_shitty_shit >= 6 and patterning_shitty_shit < 36 :
+				elif patterning_shitty_shit >= 18 and patterning_shitty_shit < 72 :
 					patterning_shitty_shit += 1
-				elif patterning_shitty_shit >= 36:
+				elif patterning_shitty_shit >= 72:
 					Events.attack_currently_active = false
 					patterning_shitty_shit = 0
-					change_pattern(3)
+					change_pattern("boss3 rotating poles")
 
 
 
-		3:
+		"boss3 rotating poles":
 			#boss 4 rotating poles
 			Events.attack_currently_active = true
 			boss_position = Events.boss_position
@@ -107,7 +128,7 @@ func _process(delta: float) -> void:
 				bullet_inst.rot_angle = -0.4
 			add_child(bullet_inst)
 			
-			change_pattern(0)
+			change_pattern("zero")
 			attack_cycle += 1
 			patterning_shitty_shit += 1*delta
 			if patterning_shitty_shit > 2:
@@ -115,7 +136,7 @@ func _process(delta: float) -> void:
 
 
 
-		4:
+		"boss4 attack":
 			#boss 4 attack 
 			var lazer_arrays : Array = [50,100,150,5,425,370,345,250,125,350,375,400]
 			var lazer_spread : int = 75
@@ -124,7 +145,7 @@ func _process(delta: float) -> void:
 			
 			for i in range(2):
 				var lazer = lazer_atk.instantiate()
-				lazer.bullet_speed = 2.5 + Events.boss_fight_faze/2
+				lazer.bullet_speed = 4 + Events.boss_fight_faze/3
 				lazer.pattern_transfered = Vector2(0,1).normalized()
 				if attack_cycle >= lazer_arrays.size():
 					attack_cycle = 0
@@ -137,11 +158,11 @@ func _process(delta: float) -> void:
 					lazer.rotate(PI/2)
 					add_child(lazer)
 					attack_cycle += 1
-			change_pattern(0)
+			change_pattern("zero")
 
 
 
-		5:
+		"pattern5":
 			Events.attack_currently_active = true
 			bullet_counter += 12*delta
 			boss_position = Events.boss_position
@@ -165,13 +186,13 @@ func _process(delta: float) -> void:
 					patterning_shitty_shit += 1
 				elif patterning_shitty_shit >= 56:
 					patterning_shitty_shit = 0
-					change_pattern(0)
+					change_pattern("zero")
 					Events.attack_currently_active = false
 
 
 
 
-		6:
+		"reflective_attackboss5":
 #			reflective straight simple attack boss 5
 			Events.attack_currently_active = true
 			bullet_counter += 10*delta
@@ -210,7 +231,7 @@ func _process(delta: float) -> void:
 					patterning_shitty_shit += 1
 				elif patterning_shitty_shit >= 86:
 					patterning_shitty_shit = 0
-					change_pattern(0)
+					change_pattern("zero")
 					Events.attack_currently_active = false
 
 
@@ -235,13 +256,13 @@ func _process(delta: float) -> void:
 					patterning_shitty_shit += 1
 				elif patterning_shitty_shit >= 72:
 					patterning_shitty_shit = 0
-					change_pattern(0)
+					change_pattern("zero")
 					Events.attack_currently_active = false
 
 
 
-		8:
-#			sans_crcling_attack
+		"sans_circling_attack":
+			print("sans circlong")
 			Events.attack_currently_active = true
 			bullet_counter += 24*delta
 			boss_position = Events.boss_position
@@ -257,6 +278,7 @@ func _process(delta: float) -> void:
 			if bullet_counter >= bullet_timer:
 				var bullet_inst = circling_bullet.instantiate()
 				bullet_inst.bullet_speed = 2
+				bullet_inst.rotation_point = boss_position
 
 				bullet_counter = 0
 				if patterning_shitty_shit < patone:
@@ -264,13 +286,16 @@ func _process(delta: float) -> void:
 					bullet_inst.position = boss_position + Vector2(patone-patterning_shitty_shit, patterning_shitty_shit/2 + 3).normalized()*75
 					bullet_inst.pattern_transfered = (bullet_inst.position - boss_position).normalized()
 					bullet_inst.rot_angle = 0.003
+					bullet_inst.life_expectancy = 8
 					add_child(bullet_inst)
 				elif patterning_shitty_shit >= patone and patterning_shitty_shit < pattwo :
 					patterning_shitty_shit += 1
 					bullet_inst.position = boss_position + Vector2(patterning_shitty_shit - pattwo, patterning_shitty_shit/2 - patone/2 + 3).normalized()*75
 					bullet_inst.pattern_transfered = (bullet_inst.position - boss_position).normalized()
 					bullet_inst.rot_angle = 0.003
+					bullet_inst.life_expectancy = 8
 					add_child(bullet_inst)
+					
 				elif patterning_shitty_shit >= pattwo and patterning_shitty_shit < pattri :
 					patterning_shitty_shit += 1
 				elif patterning_shitty_shit >= pattri and patterning_shitty_shit <patfor:
@@ -278,12 +303,14 @@ func _process(delta: float) -> void:
 					bullet_inst.position = boss_position + Vector2(patfor-patterning_shitty_shit, patterning_shitty_shit/2 - pattri/2 + 3).normalized()*35
 					bullet_inst.pattern_transfered = (bullet_inst.position - boss_position).normalized()
 					bullet_inst.rot_angle = -0.003
+					bullet_inst.life_expectancy = 8
 					add_child(bullet_inst)
 				elif patterning_shitty_shit >= patfor and patterning_shitty_shit <patpet:
 					patterning_shitty_shit += 1
 					bullet_inst.position = boss_position + Vector2(patterning_shitty_shit  - patpet, patterning_shitty_shit/2 - patfor/2 + 3).normalized()*35
 					bullet_inst.pattern_transfered = (bullet_inst.position - boss_position).normalized()
 					bullet_inst.rot_angle = -0.003
+					bullet_inst.life_expectancy = 8
 					add_child(bullet_inst)
 				elif patterning_shitty_shit >= patpet and patterning_shitty_shit < patseh:
 					patterning_shitty_shit += 1
@@ -292,12 +319,14 @@ func _process(delta: float) -> void:
 					bullet_inst.position = boss_position + Vector2(patterning_shitty_shit - patsem, patterning_shitty_shit/2 - patseh/2 + 3).normalized()*90
 					bullet_inst.pattern_transfered = (bullet_inst.position - boss_position).normalized()
 					bullet_inst.rot_angle = 0.003
+					bullet_inst.life_expectancy = 8
 					add_child(bullet_inst)
 				elif patterning_shitty_shit >= patsem and patterning_shitty_shit < patose:
 					patterning_shitty_shit += 1
 					bullet_inst.position = boss_position + Vector2(patose - patterning_shitty_shit, patterning_shitty_shit/2 - patsem/2 + 3).normalized()*90
 					bullet_inst.pattern_transfered = (bullet_inst.position - boss_position).normalized()
 					bullet_inst.rot_angle = -0.003
+					bullet_inst.life_expectancy = 8
 					add_child(bullet_inst)
 					
 					
@@ -305,10 +334,171 @@ func _process(delta: float) -> void:
 					
 					Events.emit_signal("attack_finished")
 					patterning_shitty_shit = 0
-					change_pattern(9)
+					change_pattern("flying_pink_particles")
 					Events.attack_currently_active = false
 
-		9:
+
+		"boss6_cirles_phaze_change":
+		
+			var patcount : int 
+			Events.attack_currently_active = true
+			boss_position = Events.boss_position
+			player_position = Events.player_position
+			var rot_ation : float
+			var amount_of_repetitions : int = 0
+			
+
+			
+			for i in range(37):
+				var bullet_inst = circling_bullet.instantiate()
+				bullet_inst.bullet_speed = 2
+				rot_ation = PI/18*i 
+				bullet_inst.position = boss_position+Vector2(150,200).rotated(rot_ation)
+				bullet_inst.pattern_transfered = (bullet_inst.position - boss_position).normalized()
+				bullet_inst.rot_angle = 0.01
+				bullet_inst.life_expectancy = 4
+				bullet_inst.rotation_point = boss_position 
+				add_child(bullet_inst)
+			
+		
+				if i == 36:
+					change_pattern("await")
+					await_timer = 2
+					print("waaintgssss")
+
+
+
+		"boss6_cirles_phaze_change_lvl2":
+		
+			var patcount : int 
+			Events.attack_currently_active = true
+			boss_position = Events.boss_position
+			player_position = Events.player_position
+			var rot_ation : float
+			var amount_of_repetitions : int = 0
+			
+
+			
+			for i in range(73):
+				if i%2 == 0:
+					var bullet_inst = circling_bullet.instantiate()
+					bullet_inst.bullet_speed = 3
+					rot_ation = PI/32*i 
+					bullet_inst.position = boss_position+Vector2(300,60)+Vector2(60,40).rotated(rot_ation)
+					bullet_inst.pattern_transfered = (bullet_inst.position - (boss_position+Vector2(300,60)) ).normalized()
+					bullet_inst.rot_angle = 0
+					bullet_inst.life_expectancy = 7
+					bullet_inst.rotation_point = boss_position + Vector2(300,0)
+					add_child(bullet_inst)
+				else:
+					var bullet_inst = circling_bullet.instantiate()
+					bullet_inst.bullet_speed = 3
+					rot_ation = PI/32*i 
+					bullet_inst.position = boss_position+Vector2(-300,60)+Vector2(60,40).rotated(rot_ation)
+					bullet_inst.pattern_transfered = (bullet_inst.position - (boss_position+Vector2(-300,60))).normalized()
+					bullet_inst.rot_angle = -0
+					bullet_inst.life_expectancy = 7
+					bullet_inst.rotation_point = boss_position + Vector2(-300,0)
+					add_child(bullet_inst)
+		
+				if i == 72:
+					change_pattern("await")
+					await_timer = 2
+					print("waaintgssss")
+
+
+		"boss6_cirles_phaze_change_lvl3_part1":
+		
+			Events.attack_currently_active = true
+			boss_position = Events.boss_position
+			player_position = Events.player_position
+			var rot_ation : float
+			
+
+			
+			if patterning_shitty_shit < 32:
+				var bullet_inst = circling_bullet.instantiate()
+				bullet_inst.bullet_speed = 2
+				rot_ation = patterning_shitty_shit*PI/16
+				bullet_inst.position = boss_position+Vector2(400,100)+Vector2(20,15).rotated(rot_ation)
+				bullet_inst.pattern_transfered = (bullet_inst.position - (boss_position+Vector2(400,100)) ).normalized()
+				bullet_inst.rot_angle = 0
+				bullet_inst.life_expectancy = 7
+				bullet_inst.rotation_point = boss_position + Vector2(300,0)
+				add_child(bullet_inst)
+				patterning_shitty_shit += 1
+				
+			elif patterning_shitty_shit >= 32 and patterning_shitty_shit < 99:
+				patterning_shitty_shit += 1
+			elif patterning_shitty_shit >= 98:
+				change_pattern("boss6_cirles_phaze_change_lvl3_part2")
+				patterning_shitty_shit = 0
+
+		
+
+		"boss6_cirles_phaze_change_lvl3_part2":
+
+			Events.attack_currently_active = true
+			boss_position = Events.boss_position
+			player_position = Events.player_position
+			var rot_ation : float
+		
+			
+			if patterning_shitty_shit < 32:
+				var bullet_inst = circling_bullet.instantiate()
+				bullet_inst.bullet_speed = 2
+				rot_ation = patterning_shitty_shit*PI/16
+				bullet_inst.position = boss_position+Vector2(-400,100)+Vector2(20,15).rotated(rot_ation)
+				bullet_inst.pattern_transfered = (bullet_inst.position - (boss_position+Vector2(-400,100)) ).normalized()
+				bullet_inst.rot_angle = 0
+				bullet_inst.life_expectancy = 7
+				bullet_inst.rotation_point = boss_position + Vector2(300,0)
+				add_child(bullet_inst)
+				patterning_shitty_shit += 1
+				
+			elif patterning_shitty_shit >= 32 and patterning_shitty_shit < 99:
+				patterning_shitty_shit += 1
+			elif patterning_shitty_shit >= 98:
+				change_pattern("boss6_cirles_phaze_change_lvl3_part3")
+				patterning_shitty_shit = 0
+
+		
+
+		"boss6_cirles_phaze_change_lvl3_part3":
+
+			Events.attack_currently_active = true
+			boss_position = Events.boss_position
+			player_position = Events.player_position
+			var rot_ation : float
+		
+			
+			if patterning_shitty_shit < 32:
+				var bullet_inst = circling_bullet.instantiate()
+				bullet_inst.bullet_speed = 2
+				rot_ation = patterning_shitty_shit*PI/16
+				bullet_inst.position = boss_position+Vector2(0,125)+Vector2(20,15).rotated(rot_ation)
+				bullet_inst.pattern_transfered = (bullet_inst.position - (boss_position+Vector2(0,125)) ).normalized()
+				bullet_inst.rot_angle = 0
+				bullet_inst.life_expectancy = 7
+				bullet_inst.rotation_point = boss_position + Vector2(300,0)
+				add_child(bullet_inst)
+				patterning_shitty_shit += 1
+				
+			elif patterning_shitty_shit >= 32 and patterning_shitty_shit < 99:
+				patterning_shitty_shit += 1
+			elif patterning_shitty_shit >= 98:
+					change_pattern("await")
+					await_timer = 3
+					print("waaintgssss")
+					patterning_shitty_shit = 0
+
+
+
+
+
+
+
+		"flying_pink_particles":
 			Events.attack_currently_active = true
 			bullet_counter += 12*delta
 			boss_position = Events.boss_position
@@ -335,7 +525,7 @@ func _process(delta: float) -> void:
 					patterning_shitty_shit += 1
 				elif patterning_shitty_shit >= 72:
 					patterning_shitty_shit = 0
-					change_pattern(0)
+					change_pattern("zero")
 					Events.emit_signal("attack_finished")
 					Events.attack_currently_active = false
 
@@ -378,14 +568,14 @@ func _process(delta: float) -> void:
 				elif patterning_shitty_shit >= 45 and patterning_shitty_shit < 75 :
 					patterning_shitty_shit += 1
 				elif patterning_shitty_shit >= 75:
-					change_pattern(0)
+					change_pattern("zero")
 					patterning_shitty_shit = 0
 					Events.attack_currently_active = false
 					Events.emit_signal("attack_finished")
 
 
 
-		11:
+		"rotational_all_around_attack":
 			#boss pet rotatinal allaround attack 
 			Events.attack_currently_active = true
 			bullet_counter += 24*delta
@@ -450,7 +640,7 @@ func _process(delta: float) -> void:
 					
 					Events.emit_signal("attack_finished")
 					patterning_shitty_shit = 0
-					change_pattern(6)
+					change_pattern("reflective_attackboss5")
 					Events.attack_currently_active = false
 
 		12:
@@ -487,7 +677,7 @@ func _process(delta: float) -> void:
 						attack_giga_cycle += 1
 						change_pattern(13)
 					else :
-						change_pattern(0)
+						change_pattern("zero")
 						attack_giga_cycle = 0
 						Events.emit_signal("attack_finished")
 						Events.attack_currently_active = false
@@ -540,11 +730,11 @@ func _process(delta: float) -> void:
 									change_pattern(12)
 								else :
 									Events.emit_signal("attack_finished")
-									change_pattern(0)
+									change_pattern("zero")
 									attack_giga_cycle = 0
 									Events.attack_currently_active = false
 
-		14:
+		"tutorial_boss_attack":
 			#first boss attack 
 			Events.attack_currently_active = true
 			
@@ -560,7 +750,7 @@ func _process(delta: float) -> void:
 
 				
 			Events.attack_currently_active = false
-			change_pattern(0)
+			change_pattern("zero")
 
 
 
@@ -585,7 +775,7 @@ func _process(delta: float) -> void:
 				
 			Events.attack_currently_active = false
 			if Events.boss_fight_faze == 1:
-				change_pattern(0)
+				change_pattern("zero")
 				Events.emit_signal("attack_finished")
 			else:
 				change_pattern(16)
@@ -611,7 +801,7 @@ func _process(delta: float) -> void:
 				add_child(bullet_inst)
 				
 			Events.attack_currently_active = false
-			change_pattern(0)
+			change_pattern("zero")
 		
 
 		17:
@@ -644,7 +834,7 @@ func _process(delta: float) -> void:
 				elif patterning_shitty_shit >= 72:
 					patterning_shitty_shit = 0
 					player_snapshot = false
-					change_pattern(0)
+					change_pattern("zero")
 					Events.attack_currently_active = false
 					Events.emit_signal("attack_finished")
 
@@ -668,12 +858,12 @@ func _process(delta: float) -> void:
 			add_child(bullet_inst)
 
 			Events.attack_currently_active = false
-			change_pattern(0)
+			change_pattern("zero")
 			Events.emit_signal("attack_finished")
 			
 
 
-		19:
+		"boss4 spiral":
 			
 			#4rthboss_spiral 
 			Events.attack_currently_active = true
@@ -694,7 +884,7 @@ func _process(delta: float) -> void:
 			
 			if patterning_shitty_shit >= 240:
 				Events.attack_currently_active = false
-				change_pattern(0)
+				change_pattern("zero")
 				print("amb=",amount_of_bullets)
 				patterning_shitty_shit = 0
 				amount_of_bullets = 0
@@ -710,7 +900,7 @@ func _process(delta: float) -> void:
 		
 func change_pattern(pattern):
 	current_pattern = pattern
-
+	print(current_pattern)
 
 func react_to_boss_hit():
 	var power_up_inst = powerup_prld.instantiate()
@@ -721,7 +911,7 @@ func clear_the_scene():
 	for i in self.get_child_count():
 		var child_delited = self.get_child(i)
 		child_delited.queue_free()
-		change_pattern(0)
+		change_pattern("zero")
 
 
 func _on_attack_timer_length_timeout() -> void:

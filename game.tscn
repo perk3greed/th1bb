@@ -43,6 +43,7 @@ metadata/_edit_horizontal_guides_ = [720.0]
 one_shot = true
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+visible = false
 material = SubResource("ShaderMaterial_cxch1")
 anchors_preset = 15
 anchor_right = 1.0
@@ -55,89 +56,88 @@ handle_input_locally = false
 snap_2d_transforms_to_pixel = true
 snap_2d_vertices_to_pixel = true
 size = Vector2i(1280, 720)
-render_target_update_mode = 4
+render_target_update_mode = 0
 
-[node name="2dworld" type="Node2D" parent="SubViewportContainer/SubViewport"]
+[node name="2dworld" type="Node2D" parent="."]
 
-[node name="Sprite2D" type="Sprite2D" parent="SubViewportContainer/SubViewport/2dworld"]
+[node name="Sprite2D" type="Sprite2D" parent="2dworld"]
 position = Vector2(-2, 3.00001)
 scale = Vector2(0.665, 0.665)
 texture = ExtResource("3_vef74")
 centered = false
 
-[node name="Camera2D" type="Camera2D" parent="SubViewportContainer/SubViewport/2dworld"]
+[node name="Camera2D" type="Camera2D" parent="2dworld"]
 position = Vector2(640, 370)
 
-[node name="player" parent="SubViewportContainer/SubViewport/2dworld" instance=ExtResource("2_xecjr")]
-position = Vector2(550, 658)
+[node name="player" parent="2dworld" instance=ExtResource("2_xecjr")]
+position = Vector2(596, 489)
 
-[node name="world_boundary" type="Node2D" parent="SubViewportContainer/SubViewport/2dworld"]
+[node name="world_boundary" type="Node2D" parent="2dworld"]
 
-[node name="StaticBody2D" type="StaticBody2D" parent="SubViewportContainer/SubViewport/2dworld/world_boundary" groups=["wall"]]
+[node name="StaticBody2D" type="StaticBody2D" parent="2dworld/world_boundary" groups=["wall"]]
 
-[node name="right_collision" type="CollisionShape2D" parent="SubViewportContainer/SubViewport/2dworld/world_boundary/StaticBody2D"]
+[node name="right_collision" type="CollisionShape2D" parent="2dworld/world_boundary/StaticBody2D"]
 position = Vector2(1120, 0)
 shape = SubResource("WorldBoundaryShape2D_kxevy")
 
-[node name="Line2D" type="Line2D" parent="SubViewportContainer/SubViewport/2dworld/world_boundary/StaticBody2D/right_collision"]
+[node name="Line2D" type="Line2D" parent="2dworld/world_boundary/StaticBody2D/right_collision"]
 points = PackedVector2Array(0, -400, 0, 1200)
 width = 4.0
 
-[node name="right_colis_area" type="Area2D" parent="SubViewportContainer/SubViewport/2dworld/world_boundary/StaticBody2D/right_collision"]
+[node name="right_colis_area" type="Area2D" parent="2dworld/world_boundary/StaticBody2D/right_collision"]
 position = Vector2(0, 350)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="SubViewportContainer/SubViewport/2dworld/world_boundary/StaticBody2D/right_collision/right_colis_area"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="2dworld/world_boundary/StaticBody2D/right_collision/right_colis_area"]
 shape = SubResource("RectangleShape2D_j5wjh")
 
-[node name="left_collision" type="CollisionShape2D" parent="SubViewportContainer/SubViewport/2dworld/world_boundary/StaticBody2D"]
+[node name="left_collision" type="CollisionShape2D" parent="2dworld/world_boundary/StaticBody2D"]
 position = Vector2(125, 0)
 shape = SubResource("WorldBoundaryShape2D_jsrea")
 
-[node name="Line2D" type="Line2D" parent="SubViewportContainer/SubViewport/2dworld/world_boundary/StaticBody2D/left_collision"]
+[node name="Line2D" type="Line2D" parent="2dworld/world_boundary/StaticBody2D/left_collision"]
 points = PackedVector2Array(0, -400, 0, 1400)
 width = 4.0
 
-[node name="left_colis_area" type="Area2D" parent="SubViewportContainer/SubViewport/2dworld/world_boundary/StaticBody2D/left_collision"]
+[node name="left_colis_area" type="Area2D" parent="2dworld/world_boundary/StaticBody2D/left_collision"]
 position = Vector2(0, 350)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="SubViewportContainer/SubViewport/2dworld/world_boundary/StaticBody2D/left_collision/left_colis_area"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="2dworld/world_boundary/StaticBody2D/left_collision/left_colis_area"]
 shape = SubResource("RectangleShape2D_j5wjh")
 
-[node name="StaticBody2D2" type="StaticBody2D" parent="SubViewportContainer/SubViewport/2dworld/world_boundary" groups=["floor"]]
+[node name="StaticBody2D2" type="StaticBody2D" parent="2dworld/world_boundary" groups=["floor"]]
 
-[node name="bottom_collision" type="CollisionShape2D" parent="SubViewportContainer/SubViewport/2dworld/world_boundary/StaticBody2D2"]
-position = Vector2(0, 715)
+[node name="bottom_collision" type="CollisionShape2D" parent="2dworld/world_boundary/StaticBody2D2"]
+position = Vector2(0, 600)
 shape = SubResource("WorldBoundaryShape2D_ju2vw")
 
-[node name="Line2D" type="Line2D" parent="SubViewportContainer/SubViewport/2dworld/world_boundary/StaticBody2D2"]
-position = Vector2(0, 715)
+[node name="Line2D" type="Line2D" parent="2dworld/world_boundary/StaticBody2D2/bottom_collision"]
 points = PackedVector2Array(-400, 0, 1400, 0)
 width = 4.0
 
-[node name="StaticBody2D3" type="StaticBody2D" parent="SubViewportContainer/SubViewport/2dworld/world_boundary" groups=["wall"]]
+[node name="StaticBody2D3" type="StaticBody2D" parent="2dworld/world_boundary" groups=["wall"]]
 physics_material_override = SubResource("PhysicsMaterial_j5wjh")
 
-[node name="top_collision" type="CollisionShape2D" parent="SubViewportContainer/SubViewport/2dworld/world_boundary/StaticBody2D3"]
-position = Vector2(0, 145)
+[node name="top_collision" type="CollisionShape2D" parent="2dworld/world_boundary/StaticBody2D3"]
+position = Vector2(0, 10)
 shape = SubResource("WorldBoundaryShape2D_jyal0")
 
-[node name="Line2D" type="Line2D" parent="SubViewportContainer/SubViewport/2dworld/world_boundary/StaticBody2D3/top_collision"]
+[node name="Line2D" type="Line2D" parent="2dworld/world_boundary/StaticBody2D3/top_collision"]
 points = PackedVector2Array(-400, 0, 1600, 0)
 width = 4.0
 
-[node name="RigidBody2D" parent="SubViewportContainer/SubViewport/2dworld" instance=ExtResource("3_5ekim")]
-position = Vector2(421, 663)
+[node name="RigidBody2D" parent="2dworld" instance=ExtResource("3_5ekim")]
+position = Vector2(716, 326)
 
-[node name="targets" type="Node2D" parent="SubViewportContainer/SubViewport/2dworld"]
+[node name="targets" type="Node2D" parent="2dworld"]
 script = ExtResource("4_q84kf")
 
-[node name="attack_timerLength" type="Timer" parent="SubViewportContainer/SubViewport/2dworld/targets"]
+[node name="attack_timerLength" type="Timer" parent="2dworld/targets"]
 wait_time = 3.0
 
-[node name="targets_dva" type="Node2D" parent="SubViewportContainer/SubViewport/2dworld"]
+[node name="targets_dva" type="Node2D" parent="2dworld"]
 script = ExtResource("6_67irx")
 
-[node name="boss_holder" type="Node2D" parent="SubViewportContainer/SubViewport/2dworld"]
+[node name="boss_holder" type="Node2D" parent="2dworld"]
 
 [node name="interfacemain" type="Control" parent="."]
 layout_mode = 3
@@ -185,11 +185,11 @@ offset_left = 278.0
 offset_top = 207.0
 offset_right = 856.0
 offset_bottom = 551.0
-theme_override_colors/font_outline_color = Color(8.85606e-06, 0.780883, 0.977636, 1)
 theme_override_colors/font_color = Color(0.844032, 0.161139, 0.665315, 1)
-theme_override_constants/outline_size = 4
-theme_override_constants/v_separation = 15
+theme_override_colors/font_outline_color = Color(8.85606e-06, 0.780883, 0.977636, 1)
 theme_override_constants/h_separation = 36
+theme_override_constants/v_separation = 15
+theme_override_constants/outline_size = 4
 theme_override_font_sizes/font_size = 24
 item_count = 8
 max_columns = 6
@@ -257,9 +257,9 @@ theme_override_font_sizes/font_size = 22
 text = "exit to menu"
 
 [connection signal="timeout" from="Timer" to="interfacemain" method="_on_timer_timeout"]
-[connection signal="body_entered" from="SubViewportContainer/SubViewport/2dworld/world_boundary/StaticBody2D/right_collision/right_colis_area" to="." method="_on_right_colis_area_body_entered"]
-[connection signal="body_entered" from="SubViewportContainer/SubViewport/2dworld/world_boundary/StaticBody2D/left_collision/left_colis_area" to="." method="_on_left_colis_area_body_entered"]
-[connection signal="timeout" from="SubViewportContainer/SubViewport/2dworld/targets/attack_timerLength" to="SubViewportContainer/SubViewport/2dworld/targets" method="_on_attack_timer_length_timeout"]
+[connection signal="body_entered" from="2dworld/world_boundary/StaticBody2D/right_collision/right_colis_area" to="." method="_on_right_colis_area_body_entered"]
+[connection signal="body_entered" from="2dworld/world_boundary/StaticBody2D/left_collision/left_colis_area" to="." method="_on_left_colis_area_body_entered"]
+[connection signal="timeout" from="2dworld/targets/attack_timerLength" to="2dworld/targets" method="_on_attack_timer_length_timeout"]
 [connection signal="item_clicked" from="interfacemain/ItemList" to="interfacemain" method="_on_item_list_item_clicked"]
 [connection signal="toggled" from="interfacemain/ItemList/inf_block" to="interfacemain" method="_on_inf_block_toggled"]
 [connection signal="pressed" from="interfacemain/Button" to="." method="_on_button_pressed"]

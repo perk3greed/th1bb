@@ -56,11 +56,11 @@ func _on_timer_timeout() -> void:
 	if rng.randi()%2 == 0:
 		if Events.attack_currently_active == true:
 			return
-		Events.emit_signal("boss_attack", 11)
+		Events.emit_signal("boss_attack", "reflective_attackboss5")
 	else :
 		if Events.attack_currently_active == true:
 			return
-		Events.emit_signal("boss_attack", 11)
+		Events.emit_signal("boss_attack", "rotational_all_around_attack")
 	if amount_of_aoue_attacks < 2:
 		amount_of_aoue_attacks += 1
 		$Timer.start()

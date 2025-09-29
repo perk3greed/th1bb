@@ -8,17 +8,13 @@ var bullet_speed : float
 var patter_real : Vector2
 var reflect : bool
 var rot_angle : float
+var life_expectancy : float
+var rotation_point : Vector2
 
 signal player_hit_by_bullet 
 
 func _ready() -> void:
-	#var boss_relation : Vector2 = position - Events.boss_position 
-	#if boss_relation.x > 0:
-		#rot_angle = -0.002
-	#else:
-		#rot_angle = 0.002
-	#
-	
+
 	boss_snapshot = Events.current_boss
 	pattern_snapshot = Events.current_pattern
 	
@@ -31,14 +27,14 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	
-	var rotation_vector = position - Events.boss_position
-	position = rotation_vector.rotated(rot_angle) + Events.boss_position
+	var rotation_vector = position - rotation_point
+	position = rotation_vector.rotated(rot_angle) + rotation_point
 	self.position += pattern_transfered*bullet_speed 
 	
 
 func _process(delta: float) -> void:
 	life_long += 1*delta
-	if life_long >= 12:
+	if life_long >= life_expectancy:
 		self.queue_free()
 	
 

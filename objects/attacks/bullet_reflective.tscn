@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://dqh2slksmb8yx"]
 
-[ext_resource type="Script" uid="uid://bcaybuhu7deur" path="res://bullet_reflective.gd" id="1_1wnrc"]
+[ext_resource type="Script" uid="uid://bcaybuhu7deur" path="res://objects/attacks/bullet_reflective.gd" id="1_1wnrc"]
 [ext_resource type="Texture2D" uid="uid://buec5xlb8gscl" path="res://textures/random/bulletwthite16.png" id="2_28tsh"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_palfq"]
