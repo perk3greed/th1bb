@@ -15,7 +15,7 @@ var player_snapshot_pos : Vector2
 var play_snap_mir : Vector2
 var rng = RandomNumberGenerator.new()
 var pos_change_in_que : bool
-var health_threshold : int = 29
+var health_threshold : int = 19
 var faze_changed : bool = true
 
 signal target_hit
@@ -38,15 +38,17 @@ func _ready() -> void:
 
 
 func react_to_finished_attack():
+	$normal_attack.set_paused(false)
+
 	print("iwant to change", faze_changed)
 	$normal_attack.stop()
 	if faze_changed == false:
-		Events.emit_signal("boss_attack", "boss6_cirles_phaze_change_lvl2")
+		Events.emit_signal("boss_attack", "boss6_cirles_phaze_change_lvl3_part1")
 		modulated_state = true
-		modulated_timer = -11111
+		
 	else:
 		$normal_attack.start()
-	
+		modulated_timer = 0.2
 
 
 func _process(delta: float) -> void:
@@ -70,11 +72,13 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 		if ball_charge < 4:
 			if modulated_state == false:
 				health_points -= 4-ball_charge
-				$Sprite2D.modulate = Color(0.1,0.1,0.1)
+				$Sprite2D.modulate = Color(0.102, 0.102, 0.102, 0.494)
 				modulated_state = true
-				modulated_timer = 0
+				modulated_timer = -11111
 				Events.boss_hp = health_points
 				Events.emit_signal("target_hit")
+				Events.emit_signal("boss_attack", "sans_circling_attack")
+				$normal_attack.set_paused(true)
 				if health_points < health_threshold:
 					print("thershold passseddddddddddddddddddddddd")
 					faze_changed = false
@@ -92,7 +96,7 @@ func _on_normal_attack_timeout() -> void:
 	print("attkkk_active==" ,Events.attack_currently_active)
 	
 	#Events.emit_signal("boss_attack", "sans_circling_attack")
-	Events.emit_signal("boss_attack", "boss6_cirles_phaze_change_lvl3_part1")
+	Events.emit_signal("boss_attack", "sans_circling_attack")
 
 
 
@@ -100,7 +104,7 @@ func procede_with_faze_change():
 	Events.boss_fight_faze += 1
 	$normal_attack.start()
 	modulated_timer = 0.3
-	health_threshold -= 6
+	health_threshold -= 10
 	faze_changed = true
 
 

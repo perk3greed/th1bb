@@ -86,16 +86,16 @@ func close_phase_change():
 
 func _on_atack_start_timer_timeout() -> void:
 	if rng.randi()%2 == 0:
-		Events.emit_signal("boss_attack", 17)
+		Events.emit_signal("boss_attack", "8th boss spinning lazer attack topdown")
 	else:
-		Events.emit_signal("boss_attack", 15)
+		Events.emit_signal("boss_attack", "8th boss spinning lazer attack ")
 
 
 
 func _on_rotating_attack_timer_timeout() -> void:
 	amount_attacks += 1
 	if amount_attacks < 7:
-		Events.emit_signal("boss_attack",18)
+		Events.emit_signal("boss_attack","8thboss_rotatuing in the middle attack")
 	if amount_attacks > 7:
 		close_phase_change()
 	

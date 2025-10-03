@@ -28,6 +28,13 @@ var await_timer : float
 var pause_attack : bool = false
 
 
+const spiral_positions : Array = [Vector2(400,100), Vector2(-400,100),Vector2(0,150),
+ Vector2(300,200),Vector2(-300,200), Vector2(0,175),Vector2(200,250), Vector2(-200,275),
+Vector2(0,235),Vector2(0,0)]
+	
+	
+	
+
 signal fourth_aoe_finished
 signal attack_finished
 signal big_ball_sent
@@ -332,10 +339,8 @@ func _process(delta: float) -> void:
 					
 				elif patterning_shitty_shit >= patose:
 					
-					Events.emit_signal("attack_finished")
 					patterning_shitty_shit = 0
 					change_pattern("flying_pink_particles")
-					Events.attack_currently_active = false
 
 
 		"boss6_cirles_phaze_change":
@@ -414,85 +419,33 @@ func _process(delta: float) -> void:
 			player_position = Events.player_position
 			var rot_ation : float
 			
-
 			
-			if patterning_shitty_shit < 32:
+			if patterning_shitty_shit < 28:
+				var Vector_additive = spiral_positions[bullet_counter]
 				var bullet_inst = circling_bullet.instantiate()
-				bullet_inst.bullet_speed = 2
-				rot_ation = patterning_shitty_shit*PI/16
-				bullet_inst.position = boss_position+Vector2(400,100)+Vector2(20,15).rotated(rot_ation)
-				bullet_inst.pattern_transfered = (bullet_inst.position - (boss_position+Vector2(400,100)) ).normalized()
+				bullet_inst.bullet_speed = 1.8
+				rot_ation = patterning_shitty_shit*PI/14
+				bullet_inst.position = boss_position+Vector_additive+Vector2(20,15).rotated(rot_ation)
+				bullet_inst.pattern_transfered = (bullet_inst.position - (boss_position+Vector_additive) ).normalized()
 				bullet_inst.rot_angle = 0
 				bullet_inst.life_expectancy = 7
-				bullet_inst.rotation_point = boss_position + Vector2(300,0)
+				bullet_inst.rotation_point = boss_position + Vector_additive
 				add_child(bullet_inst)
 				patterning_shitty_shit += 1
 				
-			elif patterning_shitty_shit >= 32 and patterning_shitty_shit < 99:
+			elif patterning_shitty_shit >= 28 and patterning_shitty_shit < 144:
 				patterning_shitty_shit += 1
-			elif patterning_shitty_shit >= 98:
-				change_pattern("boss6_cirles_phaze_change_lvl3_part2")
+			elif patterning_shitty_shit >= 143:
+				bullet_counter += 1
 				patterning_shitty_shit = 0
-
-		
-
-		"boss6_cirles_phaze_change_lvl3_part2":
-
-			Events.attack_currently_active = true
-			boss_position = Events.boss_position
-			player_position = Events.player_position
-			var rot_ation : float
-		
-			
-			if patterning_shitty_shit < 32:
-				var bullet_inst = circling_bullet.instantiate()
-				bullet_inst.bullet_speed = 2
-				rot_ation = patterning_shitty_shit*PI/16
-				bullet_inst.position = boss_position+Vector2(-400,100)+Vector2(20,15).rotated(rot_ation)
-				bullet_inst.pattern_transfered = (bullet_inst.position - (boss_position+Vector2(-400,100)) ).normalized()
-				bullet_inst.rot_angle = 0
-				bullet_inst.life_expectancy = 7
-				bullet_inst.rotation_point = boss_position + Vector2(300,0)
-				add_child(bullet_inst)
-				patterning_shitty_shit += 1
-				
-			elif patterning_shitty_shit >= 32 and patterning_shitty_shit < 99:
-				patterning_shitty_shit += 1
-			elif patterning_shitty_shit >= 98:
-				change_pattern("boss6_cirles_phaze_change_lvl3_part3")
-				patterning_shitty_shit = 0
-
-		
-
-		"boss6_cirles_phaze_change_lvl3_part3":
-
-			Events.attack_currently_active = true
-			boss_position = Events.boss_position
-			player_position = Events.player_position
-			var rot_ation : float
-		
-			
-			if patterning_shitty_shit < 32:
-				var bullet_inst = circling_bullet.instantiate()
-				bullet_inst.bullet_speed = 2
-				rot_ation = patterning_shitty_shit*PI/16
-				bullet_inst.position = boss_position+Vector2(0,125)+Vector2(20,15).rotated(rot_ation)
-				bullet_inst.pattern_transfered = (bullet_inst.position - (boss_position+Vector2(0,125)) ).normalized()
-				bullet_inst.rot_angle = 0
-				bullet_inst.life_expectancy = 7
-				bullet_inst.rotation_point = boss_position + Vector2(300,0)
-				add_child(bullet_inst)
-				patterning_shitty_shit += 1
-				
-			elif patterning_shitty_shit >= 32 and patterning_shitty_shit < 99:
-				patterning_shitty_shit += 1
-			elif patterning_shitty_shit >= 98:
+				if bullet_counter < Events.boss_fight_faze*3 :
+					change_pattern("boss6_cirles_phaze_change_lvl3_part1")
+				else:
 					change_pattern("await")
-					await_timer = 3
-					print("waaintgssss")
-					patterning_shitty_shit = 0
+					await_timer = 2
+					bullet_counter = 0
 
-
+		
 
 
 
@@ -754,7 +707,7 @@ func _process(delta: float) -> void:
 
 
 
-		15:
+		"8th boss spinning lazer attack ":
 			#8th boss spinning lazer attack 
 			Events.attack_currently_active = true
 			attack_cycle += 1
@@ -778,10 +731,10 @@ func _process(delta: float) -> void:
 				change_pattern("zero")
 				Events.emit_signal("attack_finished")
 			else:
-				change_pattern(16)
+				change_pattern("8th boss spinning lazer attack additional")
 
 
-		16:
+		"8th boss spinning lazer attack additional":
 			#8th boss spinning lazer attack additional
 			
 			Events.attack_currently_active = true
@@ -804,7 +757,7 @@ func _process(delta: float) -> void:
 			change_pattern("zero")
 		
 
-		17:
+		"8th boss spinning lazer attack topdown":
 			#8th boss spinning lazer attack topdown
 			Events.attack_currently_active = true
 			bullet_counter += 12*delta
@@ -841,7 +794,7 @@ func _process(delta: float) -> void:
 
 
 
-		18:
+		"8thboss_rotatuing in the middle attack":
 			#8thboss_rotatuing in the middle attack
 			Events.attack_currently_active = true
 			
@@ -901,6 +854,8 @@ func _process(delta: float) -> void:
 func change_pattern(pattern):
 	current_pattern = pattern
 	print(current_pattern)
+	print(Events.boss_fight_faze)
+
 
 func react_to_boss_hit():
 	var power_up_inst = powerup_prld.instantiate()

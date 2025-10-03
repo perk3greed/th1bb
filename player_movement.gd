@@ -68,14 +68,14 @@ func _physics_process(delta):
 		velocity.x = 350
 		if right_slide_active == true:
 			attack_timer = 0.4
-			
-	if Input.is_action_just_pressed("w"):
+			#
+	#if Input.is_action_just_pressed("w"):
 		#print(Events.world_boundaries)
-		if jump_counter > 0:
-			return
-		else:
-			velocity -= Vector2(0, 450)
-			jump_counter += 1
+		#if jump_counter > 0:
+			#return
+		#else:
+			#velocity -= Vector2(0, 450)
+			#jump_counter += 1
 	
 	if Input.is_action_just_pressed("shift"):
 		if attack_timer == 0:
