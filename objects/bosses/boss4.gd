@@ -8,10 +8,9 @@ var this_boss_patter : Vector2
 var snapshot_position : Vector2 
 var boss_internal_timer : float = 0
 var amount_attacks : int 
-var invul_state : bool = false
 var phaze_changed : bool = true
 var current_phaze : int = 1
-var health_threshlod : int = 52
+var health_threshlod : int = 57
 
 
 var rng = RandomNumberGenerator.new()
@@ -23,36 +22,37 @@ signal boss_attack
 
 func _ready() -> void:
 	Events.boss_fight_faze = current_phaze
+	Events.connect("attack_finished",react_to_attack_finish)
+
+
 
 func _process(delta: float) -> void:
 	
 	Events.boss_position = position
 	if modulated_state == true:
-		if invul_state == true:
+		if phaze_changed == false:
 			return
 		else:
 			modulated_timer += 1*delta
-			if modulated_timer >= 2.8:
+			if modulated_timer >= 3.6:
 				modulated_state = false
 				$Sprite2D2.modulate = Color(1,1,1,1)
 
 
 
+func react_to_attack_finish():
+	if phaze_changed == false:
+		phaze_change()
+
 
 func phaze_change():
-	if Events.attack_currently_active == true:
-		$phaze_await.start()
-		print("await")
-		$random_attak.stop()
-		
+	Events.emit_signal("clear_attack")
+	$random_attak.stop()
+	$small_attak_timer.start()
+	$big_attak_timer.stop()
+	$small_attak_timer.set_wait_time(0.8)
 
-	else:
-		$phaze_await.stop()
-		$small_attak_timer.start()
-		$big_attak_timer.stop()
-		
-		invul_state = true
-		
+
 
 func close_phase_change():
 	$small_attak_timer.stop()
@@ -60,17 +60,9 @@ func close_phase_change():
 	current_phaze += 1
 	Events.boss_fight_faze = current_phaze
 	amount_attacks = 0
-	#Events.emit_signal("clear_attack")
-	invul_state = false
-	health_threshlod -= 10
-	$small_attak_timer.wait_time = (7-current_phaze)/2
+	health_threshlod -= 4
 	$random_attak.start()
-	print("crtfpaze===", current_phaze)
-
-	
-	if current_phaze > 2:
-		$big_attak_timer.start()
-
+	print("current phaze = ", current_phaze) 
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	
@@ -84,9 +76,10 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 				modulated_timer = 0
 				Events.boss_hp = health_points
 				Events.emit_signal("target_hit")
+				if Events.attack_currently_active == false:
+					Events.emit_signal("boss_attack", "boss4 spiral")
 				if health_points < health_threshlod:
 					phaze_changed = false
-					phaze_change()
 
 			
 			
@@ -115,7 +108,8 @@ func _on_big_attak_timer_timeout() -> void:
 
 func _on_random_attak_timeout() -> void:
 	if phaze_changed == true:
-		Events.emit_signal("boss_attack", "boss4 spiral")
+		if Events.attack_currently_active == false:
+			Events.emit_signal("boss_attack", "boss4 spiral")
 
 
 func _on_phaze_await_timeout() -> void:

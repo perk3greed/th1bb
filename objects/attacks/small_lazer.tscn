@@ -15,6 +15,7 @@ width = 8.0
 default_color = Color(0.565851, 0.975504, 7.70092e-07, 1)
 
 [node name="Area2D" type="Area2D" parent="."]
+collision_mask = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("RectangleShape2D_50x2s")

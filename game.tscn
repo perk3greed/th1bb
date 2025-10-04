@@ -75,6 +75,7 @@ position = Vector2(596, 489)
 [node name="world_boundary" type="Node2D" parent="2dworld"]
 
 [node name="StaticBody2D" type="StaticBody2D" parent="2dworld/world_boundary" groups=["wall"]]
+collision_layer = 3
 
 [node name="right_collision" type="CollisionShape2D" parent="2dworld/world_boundary/StaticBody2D"]
 position = Vector2(1120, 0)
@@ -86,6 +87,7 @@ width = 4.0
 
 [node name="right_colis_area" type="Area2D" parent="2dworld/world_boundary/StaticBody2D/right_collision"]
 position = Vector2(0, 350)
+collision_mask = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="2dworld/world_boundary/StaticBody2D/right_collision/right_colis_area"]
 shape = SubResource("RectangleShape2D_j5wjh")
@@ -100,11 +102,13 @@ width = 4.0
 
 [node name="left_colis_area" type="Area2D" parent="2dworld/world_boundary/StaticBody2D/left_collision"]
 position = Vector2(0, 350)
+collision_mask = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="2dworld/world_boundary/StaticBody2D/left_collision/left_colis_area"]
 shape = SubResource("RectangleShape2D_j5wjh")
 
 [node name="StaticBody2D2" type="StaticBody2D" parent="2dworld/world_boundary" groups=["floor"]]
+collision_layer = 3
 
 [node name="bottom_collision" type="CollisionShape2D" parent="2dworld/world_boundary/StaticBody2D2"]
 position = Vector2(0, 600)
@@ -115,6 +119,7 @@ points = PackedVector2Array(-400, 0, 1400, 0)
 width = 4.0
 
 [node name="StaticBody2D3" type="StaticBody2D" parent="2dworld/world_boundary" groups=["wall"]]
+collision_layer = 3
 physics_material_override = SubResource("PhysicsMaterial_j5wjh")
 
 [node name="top_collision" type="CollisionShape2D" parent="2dworld/world_boundary/StaticBody2D3"]

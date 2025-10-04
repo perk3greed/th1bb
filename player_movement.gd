@@ -15,6 +15,8 @@ var coold_down_timer : float
 var block_counter : int = 1
 var block_active : bool = false
 var reflect_happened : bool = false
+var last_moved_direction : int = 0
+
 
 signal attack
 signal left_slide_attack
@@ -61,14 +63,18 @@ func _physics_process(delta):
 		jump_counter = 0
 	
 	if Input.is_action_pressed("a"):
+		last_moved_direction = 1
 		velocity.x = -350
 		if left_slide_active == true:
 			attack_timer = 0.4
+		
+		
 	if Input.is_action_pressed("d"):
+		last_moved_direction = -1
 		velocity.x = 350
 		if right_slide_active == true:
 			attack_timer = 0.4
-			#
+	
 	#if Input.is_action_just_pressed("w"):
 		#print(Events.world_boundaries)
 		#if jump_counter > 0:
@@ -77,13 +83,18 @@ func _physics_process(delta):
 			#velocity -= Vector2(0, 450)
 			#jump_counter += 1
 	
+	
 	if Input.is_action_just_pressed("shift"):
 		if attack_timer == 0:
 			if velocity.x > 0:
 				left_slide_active = true
-			else:
+			elif velocity.x < 0:
 				right_slide_active = true
-				
+			elif velocity.x == 0:
+				if last_moved_direction == -1:
+					left_slide_active = true
+				elif last_moved_direction == 1:
+					right_slide_active = true
 	
 	if left_slide_active: 
 		velocity.x = 850
@@ -96,7 +107,9 @@ func _physics_process(delta):
 				attack_active = true
 				if block_counter > 0:
 					block_active = true
-
+	
+	
+	
 	if block_active == true:
 		$bullet_reflector.monitorable = true
 		$bullet_reflector.monitoring = true
@@ -211,5 +224,5 @@ func move_to_the_right():
 
 func _on_antiballfield_body_entered(body: Node2D) -> void:
 	if body.is_in_group("ball"):
-		Events.player_position = position
-		Events.emit_signal("move_ball_a_little")
+		if Events.ball_charge < 5:
+			emit_hit()

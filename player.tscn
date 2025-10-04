@@ -21,9 +21,11 @@ size = Vector2(85, 50)
 size = Vector2(85, 50)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_hqtel"]
-radius = 9.0
+radius = 8.944272
 
 [node name="CharacterBody2D" type="CharacterBody2D" groups=["player"]]
+collision_layer = 2
+collision_mask = 2
 script = ExtResource("1_3imes")
 
 [node name="body" type="CollisionShape2D" parent="."]
