@@ -1,11 +1,12 @@
-[gd_scene load_steps=17 format=3 uid="uid://bhh6o2g40ltts"]
+[gd_scene load_steps=18 format=3 uid="uid://bhh6o2g40ltts"]
 
 [ext_resource type="Script" uid="uid://boawe77ud03lg" path="res://game_over.gd" id="1_e0opt"]
 [ext_resource type="PackedScene" uid="uid://7n5hv8bu6tv6" path="res://player.tscn" id="2_xecjr"]
 [ext_resource type="Shader" uid="uid://cv8ri3rvsgxu3" path="res://textures/shader/ps1_camera_dither.gdshader" id="3_5b2c6"]
 [ext_resource type="PackedScene" uid="uid://bdkuewmky4lx" path="res://ball.tscn" id="3_5ekim"]
-[ext_resource type="Texture2D" uid="uid://dmpnccadxiiug" path="res://textures/backgrounds/gridround.png" id="3_vef74"]
+[ext_resource type="Texture2D" uid="uid://barvld2d6xs75" path="res://textures/backgrounds/dithering-effect(2).png" id="3_vef74"]
 [ext_resource type="Script" uid="uid://bikvdtjmypa4h" path="res://interfacemain.gd" id="4_hmkse"]
+[ext_resource type="Texture2D" uid="uid://b3kiqbcowlus1" path="res://textures/backgrounds/dithering-effect(3).png" id="4_hve3p"]
 [ext_resource type="Script" uid="uid://jo0dvgquyjd2" path="res://targets.gd" id="4_q84kf"]
 [ext_resource type="Script" uid="uid://be8cvda7lf52j" path="res://targets_dva.gd" id="6_67irx"]
 [ext_resource type="Texture2D" uid="uid://sg0k0cjvqm1e" path="res://textures/random/robloxina.png" id="9_vef74"]
@@ -60,11 +61,17 @@ render_target_update_mode = 0
 
 [node name="2dworld" type="Node2D" parent="."]
 
-[node name="Sprite2D" type="Sprite2D" parent="2dworld"]
+[node name="dither1" type="Sprite2D" parent="2dworld"]
 position = Vector2(-2, 3.00001)
-scale = Vector2(0.665, 0.665)
+scale = Vector2(1.4723928, 1.4723927)
 texture = ExtResource("3_vef74")
 centered = false
+
+[node name="dither2" type="Sprite2D" parent="2dworld"]
+visible = false
+position = Vector2(641.25, 364.75)
+scale = Vector2(2.0438597, 2.0637393)
+texture = ExtResource("4_hve3p")
 
 [node name="Camera2D" type="Camera2D" parent="2dworld"]
 position = Vector2(640, 370)
@@ -82,6 +89,7 @@ position = Vector2(1120, 0)
 shape = SubResource("WorldBoundaryShape2D_kxevy")
 
 [node name="Line2D" type="Line2D" parent="2dworld/world_boundary/StaticBody2D/right_collision"]
+visible = false
 points = PackedVector2Array(0, -400, 0, 1200)
 width = 4.0
 
@@ -97,6 +105,7 @@ position = Vector2(125, 0)
 shape = SubResource("WorldBoundaryShape2D_jsrea")
 
 [node name="Line2D" type="Line2D" parent="2dworld/world_boundary/StaticBody2D/left_collision"]
+visible = false
 points = PackedVector2Array(0, -400, 0, 1400)
 width = 4.0
 
@@ -115,6 +124,7 @@ position = Vector2(0, 600)
 shape = SubResource("WorldBoundaryShape2D_ju2vw")
 
 [node name="Line2D" type="Line2D" parent="2dworld/world_boundary/StaticBody2D2/bottom_collision"]
+visible = false
 points = PackedVector2Array(-400, 0, 1400, 0)
 width = 4.0
 
@@ -127,6 +137,7 @@ position = Vector2(0, 10)
 shape = SubResource("WorldBoundaryShape2D_jyal0")
 
 [node name="Line2D" type="Line2D" parent="2dworld/world_boundary/StaticBody2D3/top_collision"]
+visible = false
 points = PackedVector2Array(-400, 0, 1600, 0)
 width = 4.0
 

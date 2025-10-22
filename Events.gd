@@ -21,6 +21,7 @@ var boss_righ_position : Vector2
 var boss_fight_faze : int 
 var block_counter : int 
 var ball_position : Vector2
+ 
 
 #world boundaries left-right-top-bottom
 var world_boundaries : Array = [0,0,0,0]

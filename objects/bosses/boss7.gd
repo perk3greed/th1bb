@@ -75,11 +75,11 @@ func _on_timer_timeout() -> void:
 	if rng.randi()%2 == 0:
 		if Events.attack_currently_active == true:
 			return
-		Events.emit_signal("boss_attack", 12)
+		Events.emit_signal("boss_attack", "robux big ball send")
 	else :
 		if Events.attack_currently_active == true:
 			return
-		Events.emit_signal("boss_attack", 13)
+		Events.emit_signal("boss_attack", "robux_two head attack")
 
 	
 

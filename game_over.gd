@@ -64,10 +64,10 @@ func spawn_boss_func(number):
 
 		4:
 			boss_inst = boss_test4.instantiate()
-			inst_position = Vector2(600,150)
+			inst_position = Vector2(640,100)
 			Events.current_boss = 4
-			left_coll.position.x = 350
-			right_coll.position.x = 850
+			left_coll.position.x = 390
+			right_coll.position.x = 890
 			top_coll.position.y = defolt_boundaries[2]
 			
 			
@@ -77,10 +77,10 @@ func spawn_boss_func(number):
 
 		5:
 			boss_inst = boss_test5.instantiate()
-			inst_position = Vector2(625,400)
+			inst_position = Vector2(625,100)
 			Events.current_boss = 5
-			left_coll.position.x = 175
-			right_coll.position.x = 1025
+			left_coll.position.x = 50
+			right_coll.position.x = 1200
 			top_coll.position.y = defolt_boundaries[2]
 			
 

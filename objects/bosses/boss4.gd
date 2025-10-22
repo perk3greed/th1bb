@@ -60,7 +60,7 @@ func close_phase_change():
 	current_phaze += 1
 	Events.boss_fight_faze = current_phaze
 	amount_attacks = 0
-	health_threshlod -= 4
+	health_threshlod -= 10
 	$random_attak.start()
 	print("current phaze = ", current_phaze) 
 

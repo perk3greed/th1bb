@@ -1,32 +1,107 @@
-[gd_scene load_steps=4 format=3 uid="uid://rxkvnhuoles"]
+[gd_scene load_steps=5 format=3 uid="uid://rxkvnhuoles"]
 
 [ext_resource type="Script" uid="uid://dcllu3vrfoy6u" path="res://objects/bosses/boss5.gd" id="1_u5gj2"]
 [ext_resource type="Texture2D" uid="uid://dhtd4r7f17n2q" path="res://textures/random/Th01Kikuri.png" id="1_xdbb0"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_nh7o7"]
-radius = 75.0
+radius = 50.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_guckb"]
+radius = 50.0
 
 [node name="petboss" type="Node2D"]
 script = ExtResource("1_u5gj2")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="head1" type="Area2D" parent="."]
+position = Vector2(-450, 45)
+
+[node name="Sprite2D" type="Sprite2D" parent="head1"]
 position = Vector2(1, 2)
-scale = Vector2(0.792, 0.827441)
+scale = Vector2(0.55, 0.55)
 texture = ExtResource("1_xdbb0")
 
-[node name="Area2D" type="Area2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="head1"]
 position = Vector2(2, 9)
 shape = SubResource("CircleShape2D_nh7o7")
 
+[node name="Label" type="Label" parent="head1"]
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="head5" type="Area2D" parent="."]
+position = Vector2(450, 45)
+
+[node name="Sprite2D" type="Sprite2D" parent="head5"]
+position = Vector2(1, 2)
+scale = Vector2(0.55, 0.55)
+texture = ExtResource("1_xdbb0")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="head5"]
+position = Vector2(2, 9)
+shape = SubResource("CircleShape2D_nh7o7")
+
+[node name="Label" type="Label" parent="head5"]
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="head4" type="Area2D" parent="."]
+position = Vector2(200, 125)
+
+[node name="Sprite2D" type="Sprite2D" parent="head4"]
+position = Vector2(1, 2)
+scale = Vector2(0.55, 0.55)
+texture = ExtResource("1_xdbb0")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="head4"]
+position = Vector2(2, 9)
+shape = SubResource("CircleShape2D_nh7o7")
+
+[node name="Label" type="Label" parent="head4"]
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="head2" type="Area2D" parent="."]
+position = Vector2(-200, 125)
+
+[node name="Sprite2D" type="Sprite2D" parent="head2"]
+position = Vector2(1, 2)
+scale = Vector2(0.55, 0.55)
+texture = ExtResource("1_xdbb0")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="head2"]
+position = Vector2(2, 9)
+shape = SubResource("CircleShape2D_nh7o7")
+
+[node name="Label" type="Label" parent="head2"]
+offset_right = 40.0
+offset_bottom = 23.0
+
 [node name="Timer" type="Timer" parent="."]
-wait_time = 3.0
+wait_time = 9.0
 
 [node name="modulator" type="Timer" parent="."]
-wait_time = 0.3
+wait_time = 1.5
 one_shot = true
 
-[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[node name="head3" type="Area2D" parent="."]
+position = Vector2(0, 260)
+
+[node name="Sprite2D" type="Sprite2D" parent="head3"]
+position = Vector2(-1.9999999, -3)
+scale = Vector2(0.55, 0.55)
+texture = ExtResource("1_xdbb0")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="head3"]
+shape = SubResource("CircleShape2D_guckb")
+
+[node name="Label" type="Label" parent="head3"]
+offset_right = 40.0
+offset_bottom = 23.0
+
+[connection signal="body_entered" from="head1" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_entered" from="head5" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_entered" from="head4" to="." method="_on_head_4_body_entered"]
+[connection signal="body_entered" from="head2" to="." method="_on_area_2d_body_entered"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 [connection signal="timeout" from="modulator" to="." method="_on_modulator_timeout"]
+[connection signal="body_entered" from="head3" to="." method="_on_head_3_body_entered"]

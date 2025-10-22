@@ -16,6 +16,7 @@ var bullet_spinned := preload("res://objects/attacks/bullet_spinned.tscn")
 var big_ball := preload("res://objects/attacks/big_ball.tscn")
 var lazer_atk := preload("res://objects/attacks/lazer.tscn")
 var small_lazer := preload("res://objects/attacks/small_lazer.tscn")
+var arrow_projectile := preload("res://objects/attacks/arrow.tscn")
 var wrld_boundaries_x_right : int
 var wrld_boundaries_x_left : int
 var wrld_boundaries_x_top : int
@@ -269,7 +270,6 @@ func _process(delta: float) -> void:
 
 
 		"sans_circling_attack":
-			print("sans circlong")
 			Events.attack_currently_active = true
 			bullet_counter += 24*delta
 			boss_position = Events.boss_position
@@ -341,6 +341,39 @@ func _process(delta: float) -> void:
 					
 					patterning_shitty_shit = 0
 					change_pattern("flying_pink_particles")
+
+
+		"boss5_radiating_circles":
+			
+			var patcount : int 
+			Events.attack_currently_active = true
+			boss_position = Events.boss_position
+			player_position = Events.player_position
+			var rot_ation : float
+			var amount_of_repetitions : int = 0
+			
+
+			
+			for i in range(28):
+				var bullet_inst = tracking_bullet.instantiate()
+				
+				bullet_inst.bullet_speed = 2
+				rot_ation = PI/14*i
+				bullet_inst.position = boss_position+Vector2(30,35).rotated(rot_ation)
+				bullet_inst.pattern_transfered = (bullet_inst.position - boss_position).normalized()
+				add_child(bullet_inst)
+			
+		
+				if i == 18:
+					change_pattern("await")
+					await_timer = 2
+					print("waaintgssss")
+
+
+
+
+
+
 
 
 		"boss6_cirles_phaze_change":
@@ -528,75 +561,43 @@ func _process(delta: float) -> void:
 
 
 
-		"rotational_all_around_attack":
+		"boss5_rotational_all_around_attack":
 			#boss pet rotatinal allaround attack 
 			Events.attack_currently_active = true
-			bullet_counter += 24*delta
-			boss_position = Events.boss_position
-			player_position = Events.player_position
-			var patone : float = 8
-			var pattwo : float = 16
-			var pattri : float = 20
-			var patfor : float = 28
-			var patpet : float = 36
-			var patseh : float = 44
-			var patsem : float = 52
-			var patose : float = 60
+			bullet_counter += 10*delta
 			if bullet_counter >= bullet_timer:
-				var bullet_inst = reflect_bullet.instantiate()
-				bullet_inst.bullet_speed = 3
-
+				
+				
+				
 				bullet_counter = 0
-				if patterning_shitty_shit < patone:
-					patterning_shitty_shit += 1
-					bullet_inst.position = boss_position + Vector2(patone/2 - patterning_shitty_shit/2, patterning_shitty_shit).normalized()*75
-					bullet_inst.pattern_transfered = (-bullet_inst.position + boss_position).normalized()
-					bullet_inst.rot_angle = 0.003
-					add_child(bullet_inst)
-				elif patterning_shitty_shit >= patone and patterning_shitty_shit < pattwo :
-					patterning_shitty_shit += 1
-					bullet_inst.position = boss_position + Vector2(patterning_shitty_shit/2 - pattwo/2, patterning_shitty_shit - patone).normalized()*75
-					bullet_inst.pattern_transfered = (-bullet_inst.position + boss_position).normalized()
-					bullet_inst.rot_angle = 0.003
-					add_child(bullet_inst)
-				elif patterning_shitty_shit >= pattwo and patterning_shitty_shit < pattri :
-					patterning_shitty_shit += 1
-				elif patterning_shitty_shit >= pattri and patterning_shitty_shit <patfor:
-					patterning_shitty_shit += 1
-					bullet_inst.position = boss_position + Vector2(patfor/2-patterning_shitty_shit/2, patterning_shitty_shit - pattri).normalized()*35
-					bullet_inst.pattern_transfered = (-bullet_inst.position + boss_position).normalized()
-					bullet_inst.rot_angle = -0.003
-					add_child(bullet_inst)
-				elif patterning_shitty_shit >= patfor and patterning_shitty_shit <patpet:
-					patterning_shitty_shit += 1
-					bullet_inst.position = boss_position + Vector2(patterning_shitty_shit/2 - patpet/2, patterning_shitty_shit - patfor).normalized()*35
-					bullet_inst.pattern_transfered = (-bullet_inst.position + boss_position).normalized()
-					bullet_inst.rot_angle = -0.003
-					add_child(bullet_inst)
-				elif patterning_shitty_shit >= patpet and patterning_shitty_shit < patseh:
-					patterning_shitty_shit += 1
-				elif patterning_shitty_shit >= patseh and patterning_shitty_shit < patsem:
-					patterning_shitty_shit += 1
-					bullet_inst.position = boss_position + Vector2(patterning_shitty_shit - patsem, patterning_shitty_shit/2 - patseh/2 + 3).normalized()*90
-					bullet_inst.pattern_transfered = (bullet_inst.position - boss_position).normalized()
-					bullet_inst.rot_angle = 0.003
-					add_child(bullet_inst)
-				elif patterning_shitty_shit >= patsem and patterning_shitty_shit < patose:
-					patterning_shitty_shit += 1
-					bullet_inst.position = boss_position + Vector2(patose - patterning_shitty_shit, patterning_shitty_shit/2 - patsem/2 + 3).normalized()*90
-					bullet_inst.pattern_transfered = (bullet_inst.position - boss_position).normalized()
-					bullet_inst.rot_angle = -0.003
-					add_child(bullet_inst)
+				if patterning_shitty_shit < 90:
 					
+					for i in range(3):
+						var bullet_inst = arrow_projectile.instantiate()
+						patterning_shitty_shit += 1
+						bullet_inst.pattern_transfered = (Vector2(0,1)).normalized() 
+						add_child(bullet_inst)
+						bullet_inst.position = Vector2(50,100) + patterning_shitty_shit*Vector2(5,0)
+						
+				elif patterning_shitty_shit >= 90 and patterning_shitty_shit < 123 :
+					patterning_shitty_shit += 1
 					
-				elif patterning_shitty_shit >= patose:
-					
-					Events.emit_signal("attack_finished")
-					patterning_shitty_shit = 0
-					change_pattern("reflective_attackboss5")
+				elif patterning_shitty_shit >= 123:
 					Events.attack_currently_active = false
+					patterning_shitty_shit = 0
+			
+			
+			
+			
+			
+			
 
-		12:
+
+
+
+
+
+		"robux big ball send":
 #			robux big ball send
 			Events.attack_currently_active = true
 			var boss_faze = Events.boss_fight_faze
@@ -628,7 +629,7 @@ func _process(delta: float) -> void:
 					patterning_shitty_shit = 0
 					if attack_giga_cycle == 0:
 						attack_giga_cycle += 1
-						change_pattern(13)
+						change_pattern("robux_two head attack")
 					else :
 						change_pattern("zero")
 						attack_giga_cycle = 0
@@ -637,7 +638,7 @@ func _process(delta: float) -> void:
 
 
 
-		13:
+		"robux_two head attack":
 #			robux two headed circles attack
 			Events.attack_currently_active = true
 			bullet_counter += 24*delta
@@ -680,7 +681,7 @@ func _process(delta: float) -> void:
 								attack_cycle = 0
 								if attack_giga_cycle == 0:
 									attack_giga_cycle += 1
-									change_pattern(12)
+									change_pattern("robux big ball send")
 								else :
 									Events.emit_signal("attack_finished")
 									change_pattern("zero")
