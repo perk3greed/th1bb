@@ -101,6 +101,8 @@ func _physics_process(delta):
 	elif right_slide_active:
 		velocity.x = -850
 	
+	
+	
 	if Input.is_action_just_pressed("space"):
 		if attack_timer == 0:
 			if coold_down_timer <= 0 :
@@ -146,8 +148,10 @@ func _physics_process(delta):
 		attack_timer += 1*delta
 		left_slide_area.monitoring = true 
 		$left.visible = true
+		$realbodyemitter.emitting = false
 		if attack_timer >= 0.4:
 			left_slide_active = false
+			$realbodyemitter.emitting = true
 			left_slide_area.monitoring = false
 			$left.visible = false
 			attack_timer = 0
@@ -158,8 +162,10 @@ func _physics_process(delta):
 		attack_timer += 1*delta
 		right_slide_area.monitoring = true 
 		$right.visible = true
+		$realbodyemitter.emitting = false
 		if attack_timer >= 0.4:
 			right_slide_active = false
+			$realbodyemitter.emitting = true
 			right_slide_area.monitoring = false
 			$right.visible = false
 			attack_timer = 0
