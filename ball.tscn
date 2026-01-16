@@ -1,14 +1,29 @@
-[gd_scene load_steps=7 format=3 uid="uid://bdkuewmky4lx"]
+[gd_scene load_steps=12 format=3 uid="uid://bdkuewmky4lx"]
 
 [ext_resource type="Texture2D" uid="uid://og5ymchg46k1" path="res://textures/player/ball.png" id="1_2gve6"]
 [ext_resource type="Script" uid="uid://dyuwsrn38dy81" path="res://ball.gd" id="1_puh4r"]
+[ext_resource type="Shader" uid="uid://m4dmvq40b3k0" path="res://ball.gdshader" id="2_hgol0"]
 [ext_resource type="Texture2D" uid="uid://b6ct0ykr0joe2" path="res://textures/random/trail16.png" id="3_6k7pl"]
+[ext_resource type="Texture2D" uid="uid://b2eq0i3ny50a3" path="res://textures/player/ball_background_textures3.png" id="3_n5601"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_4mvef"]
 bounce = 0.95
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_um4s8"]
 radius = 16.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_01kih"]
+shader = ExtResource("2_hgol0")
+shader_parameter/texttest = ExtResource("3_n5601")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1iob0"]
+shader = ExtResource("2_hgol0")
+shader_parameter/texttest = ExtResource("3_n5601")
+
+[sub_resource type="Curve" id="Curve_0jqm0"]
+_limits = [0.0, 2.0, 0.0, 1.0]
+_data = [Vector2(0, 2), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
 
 [sub_resource type="Curve" id="Curve_c3lnv"]
 _limits = [-1.0, 1.0, 0.0, 1.0]
@@ -29,13 +44,18 @@ script = ExtResource("1_puh4r")
 shape = SubResource("CircleShape2D_um4s8")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_01kih")
 texture = ExtResource("1_2gve6")
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="."]
 show_behind_parent = true
-amount = 90
+material = SubResource("ShaderMaterial_1iob0")
+amount = 120
 texture = ExtResource("3_6k7pl")
-gravity = Vector2(0, 0)
+lifetime = 0.6
+speed_scale = 2.0
+gravity = Vector2(0, 30)
+scale_amount_curve = SubResource("Curve_0jqm0")
 
 [node name="hitparts" type="CPUParticles2D" parent="."]
 emitting = false

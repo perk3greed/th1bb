@@ -32,7 +32,8 @@ window/stretch/mode="canvas_items"
 
 [editor]
 
-movie_writer/movie_file="C:/Users/sasha/Desktop/gdvideos/thb.avi"
+movie_writer/video_quality=0.9
+movie_writer/movie_file="/home/sasha/Desktop/godotprj/th1bbvideos/thb.avi"
 movie_writer/mjpeg_quality=1.0
 
 [editor_plugins]

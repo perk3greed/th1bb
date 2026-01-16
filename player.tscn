@@ -1,10 +1,11 @@
-[gd_scene load_steps=15 format=3 uid="uid://7n5hv8bu6tv6"]
+[gd_scene load_steps=16 format=3 uid="uid://7n5hv8bu6tv6"]
 
 [ext_resource type="Script" uid="uid://23vspudwiy46" path="res://player_movement.gd" id="1_3imes"]
 [ext_resource type="Shader" uid="uid://cft3tyov33fel" path="res://player.gdshader" id="2_2hs0m"]
 [ext_resource type="Texture2D" uid="uid://b6ct0ykr0joe2" path="res://textures/random/trail16.png" id="2_eocyw"]
 [ext_resource type="Texture2D" uid="uid://bltb0roagrron" path="res://textures/player/new_player_black.png" id="3_2hs0m"]
 [ext_resource type="Texture2D" uid="uid://bauelcl7afrak" path="res://textures/random/square_attack.png" id="3_j54h2"]
+[ext_resource type="Texture2D" uid="uid://b13ywvrbniuat" path="res://textures/player/plbgs1.png" id="4_1jxqw"]
 [ext_resource type="Texture2D" uid="uid://c6og6ukbls6h4" path="res://textures/random/circle_attack.png" id="4_p6jpj"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_8reia"]
@@ -15,6 +16,7 @@ shader = ExtResource("2_2hs0m")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_2hs0m"]
 shader = ExtResource("2_2hs0m")
+shader_parameter/texttest = ExtResource("4_1jxqw")
 
 [sub_resource type="Curve" id="Curve_2hs0m"]
 _data = [Vector2(0, 0.79775286), 0.0, 0.0, 0, 0, Vector2(0.4418605, 0.50561804), 0.0, 0.0, 0, 0, Vector2(0.79069775, 0), 0.0, 0.0, 0, 0]
@@ -50,7 +52,7 @@ material = SubResource("ShaderMaterial_2hs0m")
 scale = Vector2(0.6, 0.6)
 amount = 48
 texture = ExtResource("3_2hs0m")
-lifetime = 6.0
+lifetime = 3.0
 speed_scale = 3.0
 emission_shape = 1
 emission_sphere_radius = 12.0
