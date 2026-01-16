@@ -19,7 +19,7 @@ shader = ExtResource("2_2hs0m")
 shader_parameter/texttest = ExtResource("4_1jxqw")
 
 [sub_resource type="Curve" id="Curve_2hs0m"]
-_data = [Vector2(0, 0.79775286), 0.0, 0.0, 0, 0, Vector2(0.4418605, 0.50561804), 0.0, 0.0, 0, 0, Vector2(0.79069775, 0), 0.0, 0.0, 0, 0]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.44767445, 1), 0.0, 0.0, 0, 0, Vector2(0.8662792, 1), 0.0, 0.0, 0, 0]
 point_count = 3
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_h5dpr"]
@@ -50,7 +50,6 @@ texture = ExtResource("3_2hs0m")
 [node name="realbodyemitter" type="CPUParticles2D" parent="."]
 material = SubResource("ShaderMaterial_2hs0m")
 scale = Vector2(0.6, 0.6)
-amount = 48
 texture = ExtResource("3_2hs0m")
 lifetime = 3.0
 speed_scale = 3.0
