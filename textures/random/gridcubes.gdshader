@@ -12,9 +12,9 @@ void fragment() {
 	vec4 curvect;
 	vec4 customtextr;
 	vec4 stepping;
-	vec4 ramdvectr;
-	vec4 randmstepping;
-	vec4 ran_cur_UV;
+	vec2 ramdvectr;
+	vec2 randmstepping;
+	vec2 ran_cur_UV;
 	ver_pass = clamp(sin(TIME),0.2,0.9);
 	horisontal_pass = clamp(cos(TIME*2.0),0.2,0.9);
 	testure = texture(texttest,SCREEN_UV);
@@ -22,18 +22,18 @@ void fragment() {
 	curvect = vec4((sin(TIME) + 1.0)/2.0, (sin(TIME) + 1.0)/2.0, (sin(TIME) + 1.0)/2.0, 1.0);
 	float dist = distance(testure,vec4(UV-vec2(0.4,0.4),0.0,1.0))*2.0;
 	float clamped = min(dist , 0.74);
-	customtextr = vec4(0.1,0.1,0.1,1.0);
+	customtextr = vec4(0.0,0.0,0.0,1.0);
 	cur_UV = vec4(UV.x*12.0+ 0.5*step(1.0,mod(UV.y*1.0,2.0)),0.0,UV.y*0.0 , 1.0);
 	stepping = step(fract(cur_UV),curvect);
+	randmstepping = step(fract(UV*12.0),ramdvectr);
+	ramdvectr = vec2((sin(2) + 1.0)/2.0, 1.0);
+	ran_cur_UV = vec2(UV*1.0);
 
-	ran_cur_UV = vec4(fract(sin(UV.x*3427.0252 + 0.5*step(1.0,mod(UV.y*283.993,2.0)))),0.0,UV.y*0.0 , 1.0);
-	ramdvectr = vec4(fract(sin(UV.x*mod(7564,91.521) + UV.y*mod(124.421,24.24123))),0.0,0.0,1.0);
-	randmstepping = step(mod(ran_cur_UV,1.0),ramdvectr);
 
 	//COLOR = vec4(mix(COLOR,customtextr,stepping));
-	
-	COLOR = vec4(mix(COLOR,customtextr,randmstepping));
-	
+	//currpoint = fract(sin(dot(UV,vec2(123.2127,211.53429)))*4338.3);
+	//COLOR = vec4(vec3(currpoint),1.0);
+	//COLOR = vec4()
 	//step(mod(cur_UV,1.0),curvect) )
 	//COLOR = vec4(mix(COLOR.r,testure.r,step(mod(cur_UV.y,1.0),currpoint)),mix(COLOR.g,testure.g,step(mod(cur_UV.y,1.0),currpoint)),mix(COLOR.b,testure.b,step(mod(cur_UV.y,1.0),currpoint)),COLOR.a);
 	//COLOR = vec4(smoothstep(testure.r,COLOR.r,horisontal_pass)r, smoothstep(testure.g,COLOR.g,ver_pass), smoothstep(testure.b,COLOR.b,ver_pass), COLOR.a);

@@ -19,8 +19,8 @@ shader = ExtResource("2_2hs0m")
 shader_parameter/texttest = ExtResource("4_1jxqw")
 
 [sub_resource type="Curve" id="Curve_2hs0m"]
-_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.44767445, 1), 0.0, 0.0, 0, 0, Vector2(0.8662792, 1), 0.0, 0.0, 0, 0]
-point_count = 3
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.28488374, 0.68539333), 0.0, 0.0, 0, 0, Vector2(0.3895349, 0.6292135), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 4
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_h5dpr"]
 radius = 48.0
@@ -50,14 +50,14 @@ texture = ExtResource("3_2hs0m")
 [node name="realbodyemitter" type="CPUParticles2D" parent="."]
 material = SubResource("ShaderMaterial_2hs0m")
 scale = Vector2(0.6, 0.6)
+amount = 36
 texture = ExtResource("3_2hs0m")
-lifetime = 3.0
-speed_scale = 3.0
 emission_shape = 1
 emission_sphere_radius = 12.0
 gravity = Vector2(0, 4)
 scale_amount_min = 0.6
 scale_amount_curve = SubResource("Curve_2hs0m")
+metadata/_edit_group_ = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_eocyw")
