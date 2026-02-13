@@ -9,6 +9,9 @@ float randomize(vec2 number) {
 	
 } 
 
+
+
+
 float randomize_float(float numberd) {
 	return fract((sin(numberd))*43871.312);
 	
@@ -24,19 +27,12 @@ void fragment() {
 	float pos_calced;
 	
 	float random_time = (sin(TIME) + 1.0)/2.0;
-	float time_ztoH = sin(TIME/40.0)*120.0;
+	float time_ztoH = floor(sin(TIME/40.0)*120.0);
 	customtextr = vec4(0.0,0.0,0.0,1.0);
 	randmstepping = step(fract(UV*12.0),ramdvectr);
 	ramdvectr = vec2((sin(2) + 1.0)/2.0, 1.0);
 	
-	ran_cur_UV = (vec2(UV*cos(4.0/4.0)*466.0+sin(22.0/20.0)*466.0));
 	
-	pos_calced = floor(UV.x*120.0);
-
-	//currpoint = randomize(floor(vec2(UV.x*480.0 + (mod(floor(UV.y*4.0),2.0)*2.0 - 1.0)*time_ztoH ,UV.y*2.0)));
 	
-	currpoint = randomize(floor(vec2(UV.x*96.0 + mod(floor(UV.y*160.0),48.0)*TIME*(28.0 - mod(floor(UV.y*144.0),56.0))/14.0 ,UV.y*160.0)));
-	
-	COLOR = vec4(vec3(step(0.05*mod(floor(UV.y*240.0),28.0),currpoint)),1.0);
-
+	COLOR = vec4(vec3(step(randomize_float(floor(UV.x*360.0)*time_ztoH),abs(UV.y*8.0-4.0))),1.0);
 }
