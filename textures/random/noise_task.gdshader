@@ -12,7 +12,7 @@ float randomize(vec2 number) {
 
 
 
-float randomize_float(float numberd) {
+float rndfl(float numberd) {
 	return fract((sin(numberd))*43871.312);
 	
 	
@@ -28,15 +28,23 @@ void fragment() {
 	vec2 realpoint;
 	
 	float random_time = (sin(TIME) + 1.0)/2.0;
-	float time_ztoH = floor(sin(TIME/360.0)*60.0);
+	float time_ztoH = floor(sin(TIME/120.0)*60.0);
 	customtextr = vec4(0.0,0.0,0.0,1.0);
-	randmstepping = step(randomize_float(floor(UV.x*12.0)*time_ztoH),abs(UV.y*8.0-4.0));
+	randmstepping = step(rndfl(floor(UV.x*12.0)*time_ztoH),abs(UV.y*8.0-4.0));
 	ramdvectr = vec2((sin(2) + 1.0)/2.0, 1.0);
-	currpoint = step(randomize_float(floor(1.0+UV.x*12.0)*time_ztoH),abs(UV.y*8.0-4.0));
-	ran_cur_UV = vec2((floor(UV.x*100.0)/100.0),randomize_float(floor(UV.x*100.0))/100.0);
+	currpoint = step(rndfl(floor(1.0+UV.x*12.0)*time_ztoH),abs(UV.y*8.0-4.0));
+	ran_cur_UV = vec2((floor(UV.x*100.0)/100.0),rndfl(floor(UV.x*100.0))/100.0);
 	
-	realpoint = vec2((floor(UV.x*100.0)/100.0),floor(UV.y*100.0)/100.0);
+	realpoint = vec2((floor(UV.x*10.0)/10.0),floor(UV.y*10.0)/10.0);
 	pos_calced = smoothstep(realpoint.x,realpoint.y,abs(UV.y - 0.5 - sin(UV.x*60.0)*0.4*random_time));
+	
+	COLOR = vec4(vec3(1.0), 1.0);
+	
+	
+	
 	//COLOR = vec4(vec3(smoothstep(randmstepping,currpoint,smoothstep(1.0,0.0,fract(UV.x*12.0)))),1.0);
-	COLOR = vec4(vec3(pos_calced),1.0);
-}
+	//COLOR = vec4(vec3(smoothstep(rndfl(floor(realpoint.x*60.0)+ rndfl(floor(TIME/12.0))),
+	//rndfl(floor(60.0+realpoint.x*60.0)+rndfl(floor(TIME/12.0))),fract(UV.y*10.0)*1.0)),1.0);
+	}
+	
+	
